@@ -1,0 +1,151 @@
+/* vertical separation of social network buttons */
+.moreproviderlink>a {
+     padding-top:3px;
+     padding-bottom:3px;
+     display:inline-block;
+}
+
+/* header buttons height */
+.navbar, .navbar .nav>li>a, .navbar {
+     padding: 5px;
+}
+
+/* text color of header buttons */
+.navbar .navbar-inner .nav>li.dropdown a, .navbar .navbar-inner  .nav>li>a {
+     color: #059dd1;
+}
+
+/* over color for header buttons */
+.navbar .navbar-inner  .nav>li>a:hover, .nav>li.dropdown-toggle a:hover {
+     color: #fff;
+     background-color: #059dd1;
+}
+
+/* other look and feel header buttons */
+#custom_menu .nav>li>a
+{
+     text-align:center;
+     font-size: 14px;
+     width: 120px;
+     border: 1px solid #eee;
+     border-radius: 6px;
+     background-color: #fff;
+     margin: 5px 10px 5px 10px;
+}
+
+#custom_menu_courses .nav>li>a
+{
+     text-align:center;
+     font-size: 14px;
+     width: 120px;
+     border: 1px solid #eee;
+     border-radius: 6px;
+     background-color: #fff;
+     margin: 5px 5px 5px 0px;
+}
+
+/* subheader */
+#page-header {
+     background:none;
+     height: 40px;
+     vertical-align: middle; 
+     margin-top:60px;
+}
+
+.admin #page-header {
+   margin-top:40px;
+}
+
+/* logo height */
+#page-header a.logo {
+     display:inline-block;
+     vertical-align: bottom;
+     height: 35px;
+     margin-top:0px;
+}
+
+/* masking "social network" label in subheader */
+#socialheading {
+     display: none;
+}
+
+/* user menu masking */
+.usermenu {
+     display: none;
+}
+
+/* footer changes */
+#page-footer {
+   border-top: 1px solid #ddd;
+   border-bottom: 0px;
+}
+
+/* footer height reduction by elilinating footer blocks */
+.footerblocks {
+   display:none;
+}
+
+/* enhanced my page block icons */
+.block.block_my_heatmap .header .title h2:before
+{ content: "\f080"; }
+.block.block_my_courses .header .title h2:before
+{ content: "\f02d"; }
+.block.block_my_authored_courses .header .title h2:before
+{ content: "\f040"; }
+.block.block_my_available_courses .header .title h2:before
+{ content: "\f09c"; }
+.block_jmail .header .title h2:before
+{ content: "\f003"; }
+.block_fbcomments .header .title h2:before
+{ content: "\f082"; }
+.block_html .header .title h2:before
+{ content: "\f17a"; }
+.block_onenote .header .title h2:before
+{ content: "\f0f6"; }
+
+/* social network div hoeght control */
+#socialnetworks, #mobileapps {
+   height: 20px;
+   margin-right: 10px;
+}
+
+/* profile field width correction */
+.userprofile dl.list dt, .form-horizontal .control-label {
+    width: 180px;
+}
+
+/* jmail buttons fixes */
+#contact_list_users .fullname input {
+    height: inherit !important ;
+}
+
+.block_settings.block_docked .block_tree .tree_item {
+    padding-left:0px;
+}
+
+.block_settings.block_docked .content{
+    padding-left:0px;
+}
+
+.fitemtitle label {
+    white-space:initial;
+}
+
+/* fix inlineaudio submission layout in assigns */
+
+.onlineaudio-user-files{
+    margin-left:180px;
+}
+
+.fluid-width-video-wrapper {
+    border: 1px solid #c0c0c0;
+    padding:5px;
+}
+
+.fluid-width-video-wrapper iframe, .fluid-width-video-wrapper object, .fluid-width-video-wrapper embed {
+    height: 50%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
