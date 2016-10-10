@@ -517,6 +517,28 @@ function theme_essentialbe_process_css($css, $theme) {
     $slidebuttonhcolor = theme_essentialbe_get_setting('slidebuttonhovercolor');
     $css = theme_essentialbe_set_color($css, $slidebuttonhcolor, '[[setting:slidebuttonhovercolor]]', '#217a94');
 
+    if ((get_config('theme_essentialbe', 'enablealternativethemecolors1')) ||
+            (get_config('theme_essentialbe', 'enablealternativethemecolors2')) ||
+            (get_config('theme_essentialbe', 'enablealternativethemecolors3'))
+    ) {
+        // Set theme alternative colours.
+        $defaultcolors = array('#a430d1', '#d15430', '#5dd130');
+        $defaulthovercolors = array('#9929c4', '#c44c29', '#53c429');
+
+        foreach (range(1, 3) as $alternative) {
+            $default = $defaultcolors[$alternative - 1];
+            $defaulthover = $defaulthovercolors[$alternative - 1];
+            $css = theme_essentialbe_set_alternativecolor($css, 'color' . $alternative,
+                    theme_essentialbe_get_setting('alternativethemehovercolor' . $alternative), $default);
+            $css = theme_essentialbe_set_alternativecolor($css, 'textcolor' . $alternative,
+                    theme_essentialbe_get_setting('alternativethemetextcolor' . $alternative), $default);
+            $css = theme_essentialbe_set_alternativecolor($css, 'urlcolor' . $alternative,
+                    theme_essentialbe_get_setting('alternativethemeurlcolor' . $alternative), $default);
+            $css = theme_essentialbe_set_alternativecolor($css, 'hovercolor' . $alternative,
+                    theme_essentialbe_get_setting('alternativethemehovercolor' . $alternative), $defaulthover);
+        }
+    }
+
     // Set custom CSS.
     $customcss = theme_essentialbe_get_setting('customcss');
     $css = theme_essentialbe_set_customcss($css, $customcss);
@@ -536,9 +558,6 @@ function theme_essentialbe_process_css($css, $theme) {
     // Set Marketing Image Height.
     $marketingheight = theme_essentialbe_get_setting('marketingheight');
     $css = theme_essentialbe_set_marketingheight($css, $marketingheight);
-
-    // Set the background attribs for the header.
-    $css = theme_essentialbe_set_headerbackground($css, $theme);
 
     // Set Marketing Images.
     $setting = 'marketing1image';
@@ -567,8 +586,6 @@ function theme_essentialbe_process_css($css, $theme) {
 
     // Set FontAwesome font loading path
     $css = theme_essentialbe_set_fontwww($css);
-
-    $css = theme_essentialbe_clean_placeholders($css);
 
     // Finally return processed CSS
     return $css;
@@ -686,6 +703,17 @@ function theme_essentialbe_set_color($css, $themecolor, $tag, $default) {
     return $css;
 }
 
+function theme_essentialbe_set_alternativecolor($css, $type, $customcolor, $defaultcolor) {
+    $tag = '[[setting:alternativetheme' . $type . ']]';
+    if (!($customcolor)) {
+        $replacement = $defaultcolor;
+    } else {
+        $replacement = $customcolor;
+    }
+    $css = str_replace($tag, $replacement, $css);
+    return $css;
+}
+
 function theme_essentialbe_set_pagebackground($css, $pagebackground) {
     $tag = '[[setting:pagebackground]]';
     if (!($pagebackground)) {
@@ -717,26 +745,6 @@ function theme_essentialbe_set_pagebackgroundstyle($css, $style) {
     return $css;
 }
 
-function theme_essentialbe_set_headerbackground($css, &$theme) {
-    global $DB;
-
-    $headersettings = $DB->get_records_select('config_plugins', ' plugin = ? AND name LIKE ? ', array('theme_essentialbe', 'header%'));
-    foreach ($headersettings as $settingid => $hs) {
-        $tag = '[[setting:'.$hs->name.']]';
-        if (preg_match('/url$/', $hs->name)) {
-            if (empty($hs->value)) {
-                $replacement = 'none';
-            } else {
-                $replacement = $theme->setting_file_url($hs->name, $hs->name);
-            }
-        } else {
-            $replacement = $hs->value;
-        }
-        $css = str_replace($tag, $replacement, $css);
-    }
-    return $css;
-}
-
 function theme_essentialbe_set_marketingheight($css, $marketingheight) {
     $tag = '[[setting:marketingheight]]';
     $replacement = $marketingheight;
@@ -755,15 +763,6 @@ function theme_essentialbe_set_marketingimage($css, $marketingimage, $setting) {
         $replacement = 'url(\'' . $marketingimage . '\')';
     }
     $css = str_replace($tag, $replacement, $css);
-    return $css;
-}
-
-/**
- * Clean all unsolved placeholders
- */
-function theme_essentialbe_clean_placeholders($css) {
-    $tagpattern = '/\\[\\[setting\\:(.*?)\\]\\]/';
-    $css = preg_replace($tagpattern, '', $css);
     return $css;
 }
 

@@ -1,6 +1,0 @@
-/** Overide for RTL layout **/
-.dir-rtl #chooseqtype .instruction,
-.dir-rtl #chooseqtype .qtypesummary {
-  border-left: 0;
-  border-right: 1px solid grey;
-}

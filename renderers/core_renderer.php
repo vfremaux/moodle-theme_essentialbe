@@ -26,12 +26,17 @@
 class theme_essentialbe_core_renderer extends core_renderer {
     public $language = null;
 
+    // banalise 
+    protected __setting($setting) {
+        return theme_essentialbe_get_setting($setting);
+    }
+
     /**
      * This renders the breadcrumbs
      * @return string $breadcrumbs
      */
     public function navbar() {
-        $breadcrumbstyle = theme_essentialbe_get_setting('breadcrumbstyle');
+        $breadcrumbstyle = $this->__setting('breadcrumbstyle');
         if ($breadcrumbstyle) {
             if ($breadcrumbstyle == '4') {
                 $breadcrumbstyle = '1'; // Fancy style with no collapse.
@@ -93,7 +98,7 @@ class theme_essentialbe_core_renderer extends core_renderer {
                 error_log("PERF: " . $perf['txt']);
             }
             if (defined('MDL_PERFTOFOOT') || debugging() || $CFG->perfdebug > 7) {
-                $performanceinfo = theme_essentialbe_performance_output($perf, theme_essentialbe_get_setting('perfinfo'));
+                $performanceinfo = theme_essentialbe_performance_output($perf, $this->__setting('perfinfo'));
             }
         }
 
@@ -283,7 +288,7 @@ class theme_essentialbe_core_renderer extends core_renderer {
      * @return custom_menu object
      */
     public function custom_menu_language() {
-        global $CFG, $OUTPUT;
+        global $CFG;
 
         $langmenu = new custom_menu();
 
@@ -296,7 +301,6 @@ class theme_essentialbe_core_renderer extends core_renderer {
             $addlangmenu = false;
         }
 
-        /*
         if ($addlangmenu) {
             $strlang = get_string('language');
             $currentlang = current_language();
@@ -310,26 +314,7 @@ class theme_essentialbe_core_renderer extends core_renderer {
                 $this->language->add('<i class="fa fa-language"></i>' . $langname, new moodle_url($this->page->url, array('lang' => $langtype)), $langname);
             }
         }
-        */
-        $str = '';
-        if ($addlangmenu) {
-            $str = '<div id="langmenu">';
-            $currentlang = current_language();
-            foreach ($langs as $langtype => $langname) {
-                $url = new moodle_url($this->page->url, array('lang' => $langtype));
-                if ($langtype == $currentlang) {
-                    $imgtag = html_writer::tag('img', '', array('src' => $OUTPUT->pix_url('lang/32/'.$langtype, 'theme'), 'class' => 'langbutton current'));
-                } else {
-                    $imgtag = html_writer::tag('img', '', array('src' => $OUTPUT->pix_url('lang/32/'.$langtype, 'theme'), 'class' => 'langbutton available'));
-                }
-                $str .= ' '.html_writer::tag('a', $imgtag, array('href' => $url, 'title' => $langname));
-            }
-            $str .= ' </div>';
-        }
-
-        return $str;
-
-        // return $this->render_custom_menu($langmenu);
+        return $this->render_custom_menu($langmenu);
     }
 
     /**
@@ -339,9 +324,9 @@ class theme_essentialbe_core_renderer extends core_renderer {
     public function custom_menu_courses() {
         $coursemenu = new custom_menu();
 
-        $hasdisplaymycourses = theme_essentialbe_get_setting('displaymycourses');
+        $hasdisplaymycourses = $this->__setting('displaymycourses');
         if (isloggedin() && !isguestuser() && $hasdisplaymycourses) {
-            $mycoursetitle = theme_essentialbe_get_setting('mycoursetitle');
+            $mycoursetitle = $this->__setting('mycoursetitle');
             if ($mycoursetitle == 'module') {
                 $branchtitle = get_string('mymodules', 'theme_essentialbe');
             } else if ($mycoursetitle == 'unit') {
@@ -396,7 +381,7 @@ class theme_essentialbe_core_renderer extends core_renderer {
         if (!isguestuser()) {
             $alternativethemes = array();
             foreach (range(1, 3) as $alternativethemenumber) {
-                if (theme_essentialbe_get_setting('enablealternativethemecolors' . $alternativethemenumber)) {
+                if ($this->__setting('enablealternativethemecolors' . $alternativethemenumber)) {
                     $alternativethemes[] = $alternativethemenumber;
                 }
             }
@@ -411,8 +396,8 @@ class theme_essentialbe_core_renderer extends core_renderer {
                 $branch->add('<i class="fa fa-square colours-default"></i>' . $defaultthemecolorslabel,
                     new moodle_url($this->page->url, array('essentialbecolours' => 'default')), $defaultthemecolorslabel);
                 foreach ($alternativethemes as $alternativethemenumber) {
-                    if (theme_essentialbe_get_setting('alternativethemename' . $alternativethemenumber)) {
-                        $alternativethemeslabel = theme_essentialbe_get_setting('alternativethemename' . $alternativethemenumber);
+                    if ($this->__setting('alternativethemename' . $alternativethemenumber)) {
+                        $alternativethemeslabel = $this->__setting('alternativethemename' . $alternativethemenumber);
                     } else {
                         $alternativethemeslabel = get_string('alternativecolors', 'theme_essentialbe', $alternativethemenumber);
                     }
@@ -818,16 +803,16 @@ class theme_essentialbe_core_renderer extends core_renderer {
     private function theme_essentialbe_render_helplink()
     {
         global $USER, $CFG;
-        if (!theme_essentialbe_get_setting('helplinktype')) {
+        if (!$this->__setting('helplinktype')) {
             return false;
         }
         $branchlabel = '<em><i class="fa fa-question-circle"></i>' . get_string('help') . '</em>';
         $branchurl = '';
         $target = '';
 
-        if (theme_essentialbe_get_setting('helplinktype') === '1') {
-            if (theme_essentialbe_get_setting('helplink') && filter_var(theme_essentialbe_get_setting('helplink'), FILTER_VALIDATE_EMAIL)) {
-                $branchurl = 'mailto:' . theme_essentialbe_get_setting('helplink') . '?cc=' . $USER->email;
+        if ($this->__setting('helplinktype') === '1') {
+            if ($this->__setting('helplink') && filter_var($this->__setting('helplink'), FILTER_VALIDATE_EMAIL)) {
+                $branchurl = 'mailto:' . $this->__setting('helplink') . '?cc=' . $USER->email;
             } else if ($CFG->supportemail && filter_var($CFG->supportemail, FILTER_VALIDATE_EMAIL)) {
                 $branchurl = 'mailto:' . $CFG->supportemail . '?cc=' . $USER->email;
             } else {
@@ -838,11 +823,11 @@ class theme_essentialbe_core_renderer extends core_renderer {
             }
         }
 
-        if (theme_essentialbe_get_setting('helplinktype') === '2') {
-            if (theme_essentialbe_get_setting('helplink') && filter_var(theme_essentialbe_get_setting('helplink'), FILTER_VALIDATE_URL, FILTER_FLAG_SCHEME_REQUIRED)) {
-                $branchurl = theme_essentialbe_get_setting('helplink');
+        if ($this->__setting('helplinktype') === '2') {
+            if ($this->__setting('helplink') && filter_var($this->__setting('helplink'), FILTER_VALIDATE_URL, FILTER_FLAG_SCHEME_REQUIRED)) {
+                $branchurl = $this->__setting('helplink');
                 $target = '_blank';
-            } else if ((!theme_essentialbe_get_setting('helplink')) && (filter_var($CFG->supportpage, FILTER_VALIDATE_URL, FILTER_FLAG_SCHEME_REQUIRED))) {
+            } else if ((!$this->__setting('helplink')) && (filter_var($CFG->supportpage, FILTER_VALIDATE_URL, FILTER_FLAG_SCHEME_REQUIRED))) {
                 $branchurl = $CFG->supportpage;
                 $target = '_blank';
             } else {
@@ -896,6 +881,16 @@ class theme_essentialbe_core_renderer extends core_renderer {
             $branchurl = new moodle_url('/badges/preferences.php');
             $preferences .= html_writer::tag('li', html_writer::link($branchurl, $branchlabel));
         }
+
+        if (is_dir($CFG->dirroot.'/local/userequipment')) {
+            $config = get_config('local_userequipment');
+            if ($config->enabled && local_has_capability_somewhere('local/userequipment:selfequip', false, false, true)) {
+                $branchlabel = '<em><i class="fa fa-plug"></i>' . get_string('equipme', 'local_userequipment') . '</em>';
+                $branchurl = new moodle_url('/local/userequipment/index.php');
+                $preferences .= html_writer::tag('li', html_writer::link($branchurl, $branchlabel));
+            }
+        }
+
         $preferences .= html_writer::end_tag('ul');
         $preferences .= html_writer::end_tag('li');
         return $preferences;
@@ -972,6 +967,7 @@ class theme_essentialbe_core_renderer extends core_renderer {
             'book' => 'book',
             'chapter' => 'file',
             'docs' => 'question-circle',
+            'chooseview' => 'copy',
             'generate' => 'gift',
             'i/marker' => 'lightbulb-o',
             'i/dragdrop' => 'arrows',
@@ -1062,7 +1058,7 @@ class theme_essentialbe_core_renderer extends core_renderer {
 
     public function render_social_network($socialnetwork)
     {
-        if (theme_essentialbe_get_setting($socialnetwork)) {
+        if ($this->__setting($socialnetwork)) {
             $icon = $socialnetwork;
             if ($socialnetwork === 'googleplus') {
                 $icon = 'google-plus';
@@ -1076,7 +1072,7 @@ class theme_essentialbe_core_renderer extends core_renderer {
             $socialhtml = html_writer::start_tag('li');
             $socialhtml .= html_writer::start_tag('button', array('type' => "button",
                 'class' => 'socialicon ' . $socialnetwork,
-                'onclick' => "window.open('" . theme_essentialbe_get_setting($socialnetwork) . "')",
+                'onclick' => "window.open('" . $this->__setting($socialnetwork) . "')",
                 'title' => get_string($socialnetwork, 'theme_essentialbe'),
             ));
             $socialhtml .= html_writer::start_tag('i', array('class' => 'fa fa-' . $icon . ' fa-inverse'));
@@ -1318,6 +1314,20 @@ class theme_essentialbe_core_renderer extends core_renderer {
 
         $this->init_block_hider_js($bc);
         return $output;
+    }
+
+    function standard_top_of_body_html() {
+        global $CFG, $PAGE;
+
+        $str = '';
+        $allowedarray = array('columns1', 'columns2', 'columns3', 'frontpage', 'login', 'admin');
+        if (in_array($PAGE->pagelayout, $allowedarray)) {
+            if (is_dir($CFG->dirroot.'/local/technicalsignals')) {
+                $str .= local_print_administrator_message(true);
+            }
+        }
+        $str .= parent::standard_top_of_body_html();
+        return $str;
     }
 
     function standard_end_of_body_html() {

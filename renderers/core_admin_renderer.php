@@ -4,9 +4,8 @@ require_once($CFG->dirroot.'/admin/renderer.php');
 
 class theme_essentialbe_core_admin_renderer extends core_admin_renderer {
 
-    function admin_notifications_page($maturity, $insecuredataroot, $errorsdisplayed,
-        $cronoverdue, $dbproblems, $maintenancemode, $availableupdates, $availableupdatesfetch, $buggyiconvnomb,
-        $registered, array $cachewarnings = array()) {
+    function admin_notifications_page($maturity, $insecuredataroot, $errorsdisplayed, $cronoverdue, $dbproblems, $maintenancemode,
+        $availableupdates, $availableupdatesfetch, $buggyiconvnomb, $registered, array $cachewarnings = array(), $eventshandlers = 0) {
         global $OUTPUT, $CFG;
 
         $str = '';
