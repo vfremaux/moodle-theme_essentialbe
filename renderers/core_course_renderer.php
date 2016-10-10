@@ -48,7 +48,7 @@ class theme_essentialbe_core_course_renderer extends core_course_renderer {
             $classes[] = 'dimmed_category';
         }
         if ($chelper->get_subcat_depth() > 0 && $depth >= $chelper->get_subcat_depth()) {
-            // do not load content
+            // Do not load content.
             $categorycontent = '';
             $classes[] = 'notloaded';
             if ($coursecat->get_children_count() ||
