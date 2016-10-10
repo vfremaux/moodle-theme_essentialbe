@@ -34,4 +34,4 @@ $plugin->component = 'theme_essentialbe';
 $plugin->dependencies = array('local_technicalsignals' => ANY_VERSION);
 
 // Non moodle attributes.
-$CFG->codeincrement = '3.1.0001';
+$plugin->codeincrement = '3.1.0001';
