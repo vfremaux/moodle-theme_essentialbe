@@ -77,6 +77,16 @@ $string['logodesc'] = 'Please upload your custom logo here if you want to add it
 $string['favicon'] = 'Favicon';
 $string['favicondesc'] = 'Please upload your custom favicon here if you want to add it to the header.
                        <br>The image should be 16px x 16px high and be produced in the favicon format.';
+$string['headerbackgroundurl'] = 'Header background image';
+$string['headerbackgroundurldesc'] = 'Please upload your custom background here for header section.
+                       <br>The image should be tall enough to cover the header space. You can adjust the header height and ask the image to cover the header.';
+$string['headerbgsize'] = 'Header background resizing';
+$string['headerbgsizedesc'] = 'Use cover to adjust your image to the header size. Some parts of your image may be cropped.';
+$string['headerheight'] = 'Header height';
+$string['headerheightdesc'] = 'Fix the header height.';
+$string['default'] = 'Auto';
+$string['cover'] = 'Cover';
+
 
 // Font settings.
 $string['fontsettings'] = 'Font';
@@ -290,27 +300,6 @@ $string['pagebackgroundstyledesc'] = 'Select the style for the uploaded image.';
 $string['backgroundstylefixed'] = 'Fixed';
 $string['backgroundstyletiled'] = 'Tiled';
 $string['backgroundstylestretch'] = 'Stretch';
-
-// Alternate Colour Switcher.
-$string['themecolors'] = 'Theme colours';
-$string['defaultcolors'] = 'Default colours';
-$string['alternativecolors'] = 'Alternative colours {$a}';
-$string['alternativethemecolor'] = 'Alternative theme colour {$a}';
-$string['alternativethemecolordesc'] = 'What colour should your theme be for the alternative theme colours {$a}.';
-$string['alternativethemename'] = 'Colour scheme name';
-$string['alternativethemenamedesc'] = 'Provide a name for your alternative theme colours';
-$string['alternativethemecolors'] = 'Alternative theme colours';
-$string['alternativethemecolorsdesc'] = 'Defines theme colours alternative that the user may select.';
-$string['alternativethemecolorname'] = 'Name of alternative colour set {$a}';
-$string['alternativethemecolornamedesc'] = 'Provide a recognisable name for this set of alternative theme colours';
-$string['alternativethemetextcolor'] = 'Alternative text colour  {$a}';
-$string['alternativethemetextcolordesc'] = 'Set the colour for your alternative text {$a}.';
-$string['alternativethemeurlcolor'] = 'Alternative link colour {$a}';
-$string['alternativethemeurlcolordesc'] = 'Set the colour for your alternative linked text {$a}.';
-$string['alternativethemehovercolor'] = 'Alternative theme hover colour {$a}';
-$string['alternativethemehovercolordesc'] = 'What colour should your theme hovers be for the alternative theme colours {$a}.';
-$string['enablealternativethemecolors'] = 'Enable alternative theme colours {$a}';
-$string['enablealternativethemecolorsdesc'] = 'If enabled, the user will be able to choose the alternative theme colours {$a}.';
 
 // Frontpage Settings.
 $string['frontpageheading'] = 'Front page';
@@ -597,16 +586,3 @@ $string['messagepreferences'] = 'Message preferences';
 $string['adduser'] = 'Add a user account';
 $string['uploadusers'] = 'Upload users';
 $string['technical'] = 'Technical';
-
-// Custommenu labels
-$string['allcourses'] = 'All courses';
-$string['messaging'] = 'Messaging';
-$string['calendar'] = 'Calendar';
-$string['admin'] = 'Administration';
-$string['profile'] = 'Profile';
-$string['myprofile'] = 'My profile';
-$string['editmyprofile'] = 'Editer mon profil';
-$string['changemypassword'] = 'Change my password';
-$string['mymessagingprefs'] = 'My messaging preferences';
-$string['myfiles'] = 'My files';
-$string['library'] = 'Library';

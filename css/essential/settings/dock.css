@@ -1,0 +1,16 @@
+/* @group Dock */
+body.has_dock #dock {
+  background-color: [[setting:themecolor]];
+}
+body.has_dock #dock .dockedtitle h2 {
+  color: [[setting:themetextcolor]];
+}
+body.has_dock #dock .dockedtitle:hover,
+body.has_dock #dock .dockedtitle:focus,
+body.has_dock #dock .dockedtitle:active,
+body.has_dock #dock .dockedtitle.active,
+body.has_dock #dock .dockedtitle.disabled,
+body.has_dock #dock .dockedtitle[disabled] {
+  background-color: [[setting:themehovercolor]];
+}
+/* @end */

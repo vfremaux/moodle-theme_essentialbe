@@ -283,7 +283,7 @@ class theme_essentialbe_core_renderer extends core_renderer {
      * @return custom_menu object
      */
     public function custom_menu_language() {
-        global $CFG;
+        global $CFG, $OUTPUT;
 
         $langmenu = new custom_menu();
 
@@ -296,6 +296,7 @@ class theme_essentialbe_core_renderer extends core_renderer {
             $addlangmenu = false;
         }
 
+        /*
         if ($addlangmenu) {
             $strlang = get_string('language');
             $currentlang = current_language();
@@ -309,7 +310,26 @@ class theme_essentialbe_core_renderer extends core_renderer {
                 $this->language->add('<i class="fa fa-language"></i>' . $langname, new moodle_url($this->page->url, array('lang' => $langtype)), $langname);
             }
         }
-        return $this->render_custom_menu($langmenu);
+        */
+        $str = '';
+        if ($addlangmenu) {
+            $str = '<div id="langmenu">';
+            $currentlang = current_language();
+            foreach ($langs as $langtype => $langname) {
+                $url = new moodle_url($this->page->url, array('lang' => $langtype));
+                if ($langtype == $currentlang) {
+                    $imgtag = html_writer::tag('img', '', array('src' => $OUTPUT->pix_url('lang/32/'.$langtype, 'theme'), 'class' => 'langbutton current'));
+                } else {
+                    $imgtag = html_writer::tag('img', '', array('src' => $OUTPUT->pix_url('lang/32/'.$langtype, 'theme'), 'class' => 'langbutton available'));
+                }
+                $str .= ' '.html_writer::tag('a', $imgtag, array('href' => $url, 'title' => $langname));
+            }
+            $str .= ' </div>';
+        }
+
+        return $str;
+
+        // return $this->render_custom_menu($langmenu);
     }
 
     /**
@@ -938,7 +958,7 @@ class theme_essentialbe_core_renderer extends core_renderer {
     public function render_pix_icon(pix_icon $icon)
     {
         if (self::replace_moodle_icon($icon->pix)) {
-            $newicon = self::replace_moodle_icon($icon->pix, $icon->attributes['alt']) . parent::render_pix_icon($icon) . "</i>";
+            $newicon = self::replace_moodle_icon($icon->pix, @$icon->attributes['alt']) . parent::render_pix_icon($icon) . "</i>";
             return $newicon;
         } else {
             return parent::render_pix_icon($icon);
@@ -952,7 +972,6 @@ class theme_essentialbe_core_renderer extends core_renderer {
             'book' => 'book',
             'chapter' => 'file',
             'docs' => 'question-circle',
-            'chooseview' => 'copy',
             'generate' => 'gift',
             'i/marker' => 'lightbulb-o',
             'i/dragdrop' => 'arrows',
@@ -1299,20 +1318,6 @@ class theme_essentialbe_core_renderer extends core_renderer {
 
         $this->init_block_hider_js($bc);
         return $output;
-    }
-
-    function standard_top_of_body_html() {
-        global $CFG, $PAGE;
-
-        $str = '';
-        $allowedarray = array('columns1', 'columns2', 'columns3', 'frontpage', 'login', 'admin');
-        if (in_array($PAGE->pagelayout, $allowedarray)) {
-            if (is_dir($CFG->dirroot.'/local/technicalsignals')) {
-                $str .= local_print_administrator_message(true);
-            }
-        }
-        $str .= parent::standard_top_of_body_html();
-        return $str;
     }
 
     function standard_end_of_body_html() {

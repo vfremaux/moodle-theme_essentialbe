@@ -1,7 +1,6 @@
 <?php
 
 require_once($CFG->dirroot.'/admin/renderer.php');
-require_once($CFG->dirroot.'/lib/pluginlib.php');
 
 class theme_essentialbe_core_admin_renderer extends core_admin_renderer {
 

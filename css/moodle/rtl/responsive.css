@@ -1,0 +1,74 @@
+@media (max-width: 873px) {
+  .dir-rtl .userprofile dl.list dt,
+  .dir-rtl .userprofile dl.list dd {
+    float: none;
+    text-align: right;
+    margin-right: 0;
+  }
+}
+@media (min-width: 980px) {
+  .dir-rtl .navbar .nav.pull-right,
+  .dir-rtl .navbar .logininfo {
+    float: left;
+  }
+  .dir-rtl .navbar .nav {
+    float: right;
+  }
+  .dir-rtl .navbar .nav > li {
+    float: right;
+  }
+}
+@media (min-width: 1200px) {
+  .dir-rtl .form-item .form-setting,
+  .dir-rtl .form-item .form-description,
+  .dir-rtl .mform .fitem .felement,
+  .dir-rtl .mform .fdescription.required,
+  .dir-rtl .userprofile dl.list dd,
+  .dir-rtl .form-horizontal .controls {
+    margin-right: 165px;
+  }
+  .dir-rtl .form-item .form-label,
+  .dir-rtl .mform .fitem div.fitemtitle,
+  .dir-rtl .userprofile dl.list dt,
+  .dir-rtl .form-horizontal .control-label {
+    width: 145px;
+  }
+}
+.dir-rtl .dropdown-menu {
+  right: 0;
+  left: auto;
+  margin-right: 0px;
+}
+.dir-rtl .navbar .nav > li > .dropdown-menu:before {
+  right: 9px;
+  left: auto;
+}
+.dir-rtl .navbar .nav > li > .dropdown-menu:after {
+  right: 10px;
+  left: auto;
+}
+.dir-rtl .dropdown-submenu > a:after {
+  margin-right: 0;
+  margin-left: -10px;
+  float: left;
+  border-right-color: #ccc;
+  border-left-color: transparent;
+  border-width: 5px 5px 5px 0px;
+}
+.dir-rtl .dropdown-submenu > .dropdown-menu {
+  right: 100%;
+  left: auto;
+}
+@media (max-width: 768px) {
+  .dir-rtl .fp-formset .control-group label.control-label {
+    text-align: right;
+    float: none;
+  }
+  .dir-rtl .fp-forminset .control-group label.control-label {
+    text-align: right;
+    float: none;
+  }
+  .dir-rtl .fp-forminset .control-group .controls {
+    margin-right: 0;
+  }
+}

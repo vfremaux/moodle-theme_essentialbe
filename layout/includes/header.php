@@ -34,7 +34,7 @@ echo $OUTPUT->doctype() ?>
     <title><?php echo $OUTPUT->page_title(); ?></title>
     <link rel="shortcut icon" href="<?php echo $OUTPUT->favicon(); ?>"/>
     <?php echo '<link rel="stylesheet" href="'.theme_essentialbe_get_csswww().'">'; ?>
-    <?php echo $OUTPUT->standard_head_html() ?>
+    <?php echo $OUTPUT->standard_head_html(); ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Google web fonts -->
     <?php require_once(dirname(__FILE__) . '/fonts.php'); ?>
@@ -48,11 +48,13 @@ echo $OUTPUT->doctype() ?>
 <body <?php echo $OUTPUT->body_attributes($bodyclasses); ?>>
 
 <?php
+local_print_administrator_message();
 echo $OUTPUT->standard_top_of_body_html();
 ?>
 
 <header role="banner">
     <div id="page-header" class="clearfix<?php echo ($oldnavbar) ? ' oldnavbar' : ''; ?>">
+        <?php local_print_administrator_message(); ?>
         <div class="container-fluid">
             <div class="row-fluid">
                 <!-- HEADER: LOGO AREA -->
@@ -125,7 +127,6 @@ echo $OUTPUT->standard_top_of_body_html();
     </div>
     <nav role="navigation">
         <div id='essentialbenavbar' class="navbar<?php echo ($oldnavbar) ? ' oldnavbar' : ''; ?> moodle-has-zindex">
-        <?php local_print_administrator_message(); ?>
             <div class="container-fluid navbar-inner">
                 <div class="row-fluid">
                     <div class="custommenus pull-<?php echo ($left) ? 'left' : 'right'; ?>">
@@ -142,11 +143,6 @@ echo $OUTPUT->standard_top_of_body_html();
                             <div id="custom_menu_courses">
                                 <?php echo $OUTPUT->custom_menu_courses(); ?>
                             </div>
-                            <?php if ($colourswitcher) { ?>
-                                <div id="custom_menu_themecolours">
-                                    <?php echo $OUTPUT->custom_menu_themecolours(); ?>
-                                </div>
-                            <?php } ?>
                             <div id="custom_menu">
                                 <?php echo $OUTPUT->custom_menu(); ?>
                             </div>

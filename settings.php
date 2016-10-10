@@ -33,18 +33,8 @@ $systemcontext = context_system::instance();
 
 defined('MOODLE_INTERNAL') || die;
 
-if (is_dir($CFG->dirroot.'/local/adminsettings')) {
-    // Integration driven code 
-    require_once($CFG->dirroot.'/local/adminsettings/lib.php');
-    list($hasconfig, $hassiteconfig, $capability) = local_adminsettings_access();
-} else {
-    // Standard Moodle code
-    $capability = 'moodle/site:config';
-    $hasconfig = $hassiteconfig = has_capability($capability, context_system::instance());
-}
-
 $canconfigure = false;
-if ($hassiteconfig) {
+if (is_siteadmin()) {
     $ADMIN->add('themes', new admin_category('theme_essentialbe', 'Essential Pro Edunao'));
     $canconfigure = true;
 } elseif (has_capability('theme/essentialbe:configure', $systemcontext))  {
@@ -324,6 +314,31 @@ if ($canconfigure) {
     $title = get_string('favicon', 'theme_essentialbe');
     $description = get_string('favicondesc', 'theme_essentialbe');
     $setting = new admin_setting_configstoredfile($name, $title, $description, 'favicon');
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $temp->add($setting);
+
+    // Header background file setting.
+    $name = 'theme_essentialbe/headerbackgroundurl';
+    $title = get_string('headerbackgroundurl', 'theme_essentialbe');
+    $description = get_string('headerbackgroundurldesc', 'theme_essentialbe');
+    $setting = new admin_setting_configstoredfile($name, $title, $description, 'headerbackgroundurl');
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $temp->add($setting);
+
+    // header image size setting.
+    $name = 'theme_essentialbe/headerbgsize';
+    $title = get_string('headerbgsize', 'theme_essentialbe');
+    $description = get_string('headerbgsizedesc', 'theme_essentialbe');
+    $sizeopts = array('cover' => get_string('cover', 'theme_essentialbe'), 'auto' => get_string('default', 'theme_essentialbe'));
+    $setting = new admin_setting_configselect($name, $title, $description, 'headerbgsize', $sizeopts);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $temp->add($setting);
+
+    // header height setting.
+    $name = 'theme_essentialbe/headerheight';
+    $title = get_string('headerheight', 'theme_essentialbe');
+    $description = get_string('headerheightdesc', 'theme_essentialbe');
+    $setting = new admin_setting_configtext($name, $title, $description, 80, PARAM_INT);
     $setting->set_updatedcallback('theme_reset_all_caches');
     $temp->add($setting);
 

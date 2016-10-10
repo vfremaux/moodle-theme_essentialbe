@@ -1,0 +1,20 @@
+/* @group Header */
+#page-header h1#title {
+  color: [[setting:themetextcolor]];
+}
+#page-header h1#smalltitle {
+  color: [[setting:themetextcolor]];
+}
+#page-header h2#subtitle {
+  color: [[setting:themetextcolor]];
+}
+#page-header #headerlogo {
+  color: [[setting:themecolor]];
+}
+.socials {
+  margin: 0px;
+}
+.socials p {
+  color: [[setting:themetextcolor]];
+}
+/* @end */
