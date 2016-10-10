@@ -264,8 +264,10 @@ class theme_essentialbe_core_admin_renderer extends core_admin_renderer {
         $cohorturl = new moodle_url('/cohort/index.php');
         $str .= '<a href="'.$cohorturl.'" class="admin-flat-button" title="'.get_string('cohorts', 'cohort').'"><img src="'.$OUTPUT->pix_url('a/cohorts', 'theme').'"></a>';
 
-        $cohorturl = new moodle_url('/enrol/delayedcohort/planner.php', array('view' => 'bycohort'));
-        $str .= '<a href="'.$cohorturl.'" class="admin-flat-button" title="'.get_string('planner', 'enrol_delayedcohort').'"><img src="'.$OUTPUT->pix_url('a/cohortplanning', 'theme').'"></a>';
+        if (is_dir($CFG->dirroot.'/enrol/delayedcohort')) {
+            $cohorturl = new moodle_url('/enrol/delayedcohort/planner.php', array('view' => 'bycohort'));
+            $str .= '<a href="'.$cohorturl.'" class="admin-flat-button" title="'.get_string('planner', 'enrol_delayedcohort').'"><img src="'.$OUTPUT->pix_url('a/cohortplanning', 'theme').'"></a>';
+        }
 
         $str .= '</div>';
 
