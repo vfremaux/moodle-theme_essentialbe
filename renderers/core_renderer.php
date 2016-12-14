@@ -878,7 +878,7 @@ class theme_essentialbe_core_renderer extends core_renderer {
         }
         if (is_dir($CFG->dirroot.'/local/userequipment')) {
             $config = get_config('local_userequipement');
-            if ($config->enabled && local_has_capability_somewhere('local/userequipment:selfequip')) {
+            if (@$config->enabled && local_has_capability_somewhere('local/userequipment:selfequip')) {
                 $branchlabel = '<em><i class="fa fa-plug"></i>' . get_string('equipme', 'local_userequipment') . '</em>';
                 $branchurl = new moodle_url('/local/userequipment/index.php');
                 $preferences .= html_writer::tag('li', html_writer::link($branchurl, $branchlabel));
