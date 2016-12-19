@@ -15,177 +15,244 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This is built using the bootstrapbase template to allow for new theme's using
- * Moodle's new Bootstrap theme engine
+ * Essential is a clean and customizable theme.
  *
  * @package     theme_essentialbe
- * @copyright   2013 Julian Ridden
+ * @copyright   2016 Gareth J Barnard
  * @copyright   2014 Gareth J Barnard, David Bezemer
+ * @copyright   2013 Julian Ridden
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(dirname(__FILE__) . '/includes/header.php');
+require_once(\theme_essentialbe\toolbox::get_tile_file('additionaljs'));
+require_once(\theme_essentialbe\toolbox::get_tile_file('header'));
 
-$enable1alert = theme_essentialbe_get_setting('enable1alert');
-$enable2alert = theme_essentialbe_get_setting('enable2alert');
-$enable3alert = theme_essentialbe_get_setting('enable3alert');
+$enable1alert = \theme_essentialbe\toolbox::get_setting('enable1alert');
+$enable2alert = \theme_essentialbe\toolbox::get_setting('enable2alert');
+$enable3alert = \theme_essentialbe\toolbox::get_setting('enable3alert');
 
 if ($enable1alert || $enable2alert || $enable3alert) {
-    $alertinfo = '<span class="fa-stack "><i class="fa fa-square fa-stack-2x"></i><i class="fa fa-info fa-stack-1x fa-inverse"></i></span>';
-    $alerterror = '<span class="fa-stack"><i class="fa fa-square fa-stack-2x"></i><i class="fa fa-warning fa-stack-1x fa-inverse"></i></span>';
-    $alertsuccess = '<span class="fa-stack"><i class="fa fa-square fa-stack-2x"></i><i class="fa fa-bullhorn fa-stack-1x fa-inverse"></i></span>';
+    $alertinfo = '<span class="fa-stack"><span aria-hidden="true" class="fa fa-info fa-stack-1x fa-inverse"></span></span>';
+    $alerterror = '<span class="fa-stack"><span aria-hidden="true" class="fa fa-warning fa-stack-1x fa-inverse"></span></span>';
+    $alertsuccess = '<span class="fa-stack"><span aria-hidden="true" class="fa fa-bullhorn fa-stack-1x fa-inverse"></span></span>';
 }
-
 ?>
-
 <div id="page" class="container-fluid">
+    <?php
+    echo $OUTPUT->essentialbe_blocks('header', 'row-fluid', 'aside', 'headerblocksperrow');
+?>
     <section class="slideshow">
         <!-- Start Slideshow -->
         <?php
-        if (theme_essentialbe_get_setting('toggleslideshow') == 1) {
-            require_once(dirname(__FILE__) . '/includes/slideshow.php');
-        } else if (theme_essentialbe_get_setting('toggleslideshow') == 2 && !isloggedin()) {
-            require_once(dirname(__FILE__) . '/includes/slideshow.php');
-        } else if (theme_essentialbe_get_setting('toggleslideshow') == 3 && isloggedin()) {
-            require_once(dirname(__FILE__) . '/includes/slideshow.php');
+        $toggleslideshow = \theme_essentialbe\toolbox::get_setting('toggleslideshow');
+        if ($PAGE->user_is_editing() && ($toggleslideshow)) {
+            require_once(\theme_essentialbe\toolbox::get_tile_file('slideshow'));
+        } else {
+            if ($toggleslideshow == 1) {
+                require_once(\theme_essentialbe\toolbox::get_tile_file('slideshow'));
+            } else if ($toggleslideshow == 2 && !isloggedin()) {
+                require_once(\theme_essentialbe\toolbox::get_tile_file('slideshow'));
+            } else if ($toggleslideshow == 3 && isloggedin()) {
+                require_once(\theme_essentialbe\toolbox::get_tile_file('slideshow'));
+            }
         }
-        ?>
+?>
         <!-- End Slideshow -->
     </section>
 
-    <section role="main-content">
+    <section>
         <!-- Start Main Regions -->
 
         <!-- Start Alerts -->
 
         <!-- Alert #1 -->
         <?php if ($enable1alert) { ?>
-            <div class="useralerts alert alert-<?php echo theme_essentialbe_get_setting('alert1type') ?>">
-                <a class="close" data-dismiss="alert" href="#"><i class="fa fa-times-circle"></i></a>
+            <div class="useralerts alert alert-<?php echo \theme_essentialbe\toolbox::get_setting('alert1type'); ?>">
+                <button type="button" class="close" data-dismiss="alert"><span class="fa fa-times-circle" aria-hidden="true"></span></button>
                 <?php
-                $alert1icon = 'alert' . theme_essentialbe_get_setting('alert1type');
-                echo $$alert1icon . '<span class="title">' . theme_essentialbe_get_setting('alert1title', true) . '</span>' . theme_essentialbe_get_setting('alert1text', true); ?>
+                $alert1icon = 'alert' . \theme_essentialbe\toolbox::get_setting('alert1type');
+                echo $$alert1icon.'<span class="title">'.\theme_essentialbe\toolbox::get_setting('alert1title', true);
+                echo '</span>'.\theme_essentialbe\toolbox::get_setting('alert1text', true); ?>
             </div>
-        <?php } ?>
+<?php
+}
+?>
 
         <!-- Alert #2 -->
         <?php if ($enable2alert) { ?>
-            <div class="useralerts alert alert-<?php echo theme_essentialbe_get_setting('alert2type') ?>">
-                <a class="close" data-dismiss="alert" href="#"><i class="fa fa-times-circle"></i></a>
+            <div class="useralerts alert alert-<?php echo \theme_essentialbe\toolbox::get_setting('alert2type'); ?>">
+                <button type="button" class="close" data-dismiss="alert"><span class="fa fa-times-circle" aria-hidden="true"></span></button>
                 <?php
-                $alert2icon = 'alert' . theme_essentialbe_get_setting('alert2type');
-                echo $$alert2icon . '<span class="title">' . theme_essentialbe_get_setting('alert2title', true) . '</span>' . theme_essentialbe_get_setting('alert2text', true); ?>
+                $alert2icon = 'alert' . \theme_essentialbe\toolbox::get_setting('alert2type');
+                echo $$alert2icon.'<span class="title">'.\theme_essentialbe\toolbox::get_setting('alert2title', true);
+                echo '</span>'.\theme_essentialbe\toolbox::get_setting('alert2text', true); ?>
             </div>
-        <?php } ?>
+<?php
+}
+?>
 
         <!-- Alert #3 -->
         <?php if ($enable3alert) { ?>
-            <div class="useralerts alert alert-<?php echo theme_essentialbe_get_setting('alert3type') ?>">
-                <a class="close" data-dismiss="alert" href="#"><i class="fa fa-times-circle"></i></a>
+            <div class="useralerts alert alert-<?php echo \theme_essentialbe\toolbox::get_setting('alert3type'); ?>">
+                <button type="button" class="close" data-dismiss="alert"><span class="fa fa-times-circle" aria-hidden="true"></span></button>
                 <?php
-                $alert3icon = 'alert' . theme_essentialbe_get_setting('alert3type');
-                echo $$alert3icon . '<span class="title">' . theme_essentialbe_get_setting('alert3title', true) . '</span>' . theme_essentialbe_get_setting('alert3text', true); ?>
+                $alert3icon = 'alert' . \theme_essentialbe\toolbox::get_setting('alert3type');
+                echo $$alert3icon.'<span class="title">'.\theme_essentialbe\toolbox::get_setting('alert3title', true);
+                echo '</span>' . \theme_essentialbe\toolbox::get_setting('alert3text', true); ?>
             </div>
-        <?php } ?>
+<?php
+}
+
+if ($PAGE->user_is_editing()) {
+    echo '<div class="alerteditbutton">';
+    echo $OUTPUT->essentialbe_edit_button('frontpage', get_string('alert_edit', 'theme_essentialbe'));
+    echo '</div>';
+}
+?>
         <!-- End Alerts -->
 
         <!-- Start Frontpage Content -->
-        <?php if (theme_essentialbe_get_setting('togglefrontcontent')) { ?>
+        <?php
+        $showfrontcontentsetting = \theme_essentialbe\toolbox::get_setting('togglefrontcontent');
+        if ($PAGE->user_is_editing() && ($showfrontcontentsetting)) {
+            $showfrontcontent = true;
+        } else {
+            $showfrontcontent = false;
+            switch ($showfrontcontentsetting) {
+                case 1:
+                    $showfrontcontent = true;
+                    break;
+                case 2:
+                    if (!isloggedin()) {
+                        $showfrontcontent = true;
+                    }
+                    break;
+                case 3:
+                    if (isloggedin()) {
+                        $showfrontcontent = true;
+                    }
+                    break;
+            }
+        }
+        if ($showfrontcontent) { ?>
             <div class="frontpagecontent">
                 <div class="bor"></div>
-                <?php if (theme_essentialbe_get_setting('togglefrontcontent') == 1) {
-                    echo theme_essentialbe_get_setting('frontcontentarea', 'format_text');
-                } else if (theme_essentialbe_get_setting('togglefrontcontent') == 2 && !isloggedin()) {
-                    echo theme_essentialbe_get_setting('frontcontentarea', 'format_text');
-                } else if (theme_essentialbe_get_setting('togglefrontcontent') == 3 && isloggedin()) {
-                    echo theme_essentialbe_get_setting('frontcontentarea', 'format_text');
-                } ?>
-                <?php echo theme_essentialbe_edit_button('theme_essentialbe_frontpage'); ?>
+                <?php
+                echo \theme_essentialbe\toolbox::get_setting('frontcontentarea', 'format_html');
+                echo $OUTPUT->essentialbe_edit_button('frontpage');
+                ?>
                 <div class="bor"></div>
             </div>
-        <?php } ?>
-
+<?php
+        }
+?>
         <!-- End Frontpage Content -->
 
         <!-- Start Marketing Spots -->
         <?php
-        if (theme_essentialbe_get_setting('togglemarketing') == 1) {
-            require_once(dirname(__FILE__) . '/includes/marketingspots.php');
-        } else if (theme_essentialbe_get_setting('togglemarketing') == 2 && !isloggedin()) {
-            require_once(dirname(__FILE__) . '/includes/marketingspots.php');
-        } else if (theme_essentialbe_get_setting('togglemarketing') == 3 && isloggedin()) {
-            require_once(dirname(__FILE__) . '/includes/marketingspots.php');
-        }
+        $togglemarketing = \theme_essentialbe\toolbox::get_setting('togglemarketing');
+        $secondrow = \theme_essentialbe\toolbox::get_setting('marketingsecondrowenable');
 
-        if (theme_essentialbe_get_setting('marketingsecondrowenable') == 1) {
-            require_once(dirname(__FILE__) . '/includes/marketingspots2.php');
-        } else if (theme_essentialbe_get_setting('marketingsecondrowenable') == 2 && !isloggedin()) {
-            require_once(dirname(__FILE__) . '/includes/marketingspots2.php');
-        } else if (theme_essentialbe_get_setting('marketingsecondrowenable') == 3 && isloggedin()) {
-            require_once(dirname(__FILE__) . '/includes/marketingspots2.php');
-        }
-        ?>
-        <!-- End Marketing Spots -->
+        if ($PAGE->user_is_editing() && ($togglemarketing)) {
 
-        <!-- Start Middle Blocks -->
-        <?php
-        if (theme_essentialbe_get_setting('frontpagemiddleblocks') == 1) {
-            require_once(dirname(__FILE__) . '/includes/middleblocks.php');
-        } else if (theme_essentialbe_get_setting('frontpagemiddleblocks') == 2 && !isloggedin()) {
-            require_once(dirname(__FILE__) . '/includes/middleblocks.php');
-        } else if (theme_essentialbe_get_setting('frontpagemiddleblocks') == 3 && isloggedin()) {
-            require_once(dirname(__FILE__) . '/includes/middleblocks.php');
+            require_once(\theme_essentialbe\toolbox::get_tile_file('marketingspots'));
+            if ($secondrow) {
+                require_once(\theme_essentialbe\toolbox::get_tile_file('marketingspots2'));
+            }
+        } else {
+            if ($togglemarketing == 1) {
+                require_once(\theme_essentialbe\toolbox::get_tile_file('marketingspots'));
+                if ($secondrow) {
+                    require_once(\theme_essentialbe\toolbox::get_tile_file('marketingspots2'));
+                }
+            } else if ($togglemarketing == 2 && !isloggedin()) {
+                require_once(\theme_essentialbe\toolbox::get_tile_file('marketingspots'));
+                if ($secondrow) {
+                    require_once(\theme_essentialbe\toolbox::get_tile_file('marketingspots2'));
+                }
+            } else if ($togglemarketing == 3 && isloggedin()) {
+                require_once(\theme_essentialbe\toolbox::get_tile_file('marketingspots'));
+                if ($secondrow) {
+                    require_once(\theme_essentialbe\toolbox::get_tile_file('marketingspots2'));
+                }
+            }
         }
-        ?>
-        <!-- End Middle Blocks -->
+?>
+<!-- End Marketing Spots -->
+
+<!-- Start Page Top was Middle Blocks -->
+<?php
+$frontpagehomeblocks = \theme_essentialbe\toolbox::get_setting('frontpagemiddleblocks');
+if ($PAGE->user_is_editing() && ($frontpagehomeblocks)) {
+    require_once(\theme_essentialbe\toolbox::get_tile_file('fphomeblocks'));
+} else {
+    if ($frontpagehomeblocks == 1) {
+        require_once(\theme_essentialbe\toolbox::get_tile_file('fphomeblocks'));
+    } else if ($frontpagehomeblocks == 2 && !isloggedin()) {
+        require_once(\theme_essentialbe\toolbox::get_tile_file('fphomeblocks'));
+    } else if ($frontpagehomeblocks == 3 && isloggedin()) {
+        require_once(\theme_essentialbe\toolbox::get_tile_file('fphomeblocks'));
+    }
+}
+?>
+<!-- End Page Top was Middle Blocks -->
 
         <div id="page-content" class="row-fluid">
             <section id="<?php echo $regionbsid; ?>">
-                <?php if (theme_essentialbe_get_setting('frontpageblocks')) { ?>
-                <section id="region-main" class="span9 pull-right">
-                    <?php } else { ?>
-                    <section id="region-main" class="span9 desktop-first-column">
-                        <?php } ?>
-                        <?php
-                        echo $OUTPUT->course_content_header();
-                        echo $OUTPUT->main_content();
-                        echo $OUTPUT->course_content_footer();
-                        ?>
-                    </section>
-                    <?php
-                    if (theme_essentialbe_get_setting('frontpageblocks')) {
-                        echo $OUTPUT->blocks('side-pre', 'span3 desktop-first-column');
-                    } else {
-                        echo $OUTPUT->blocks('side-pre', 'span3 pull-right');
-                    }
-                    ?>
-                </section>
+<?php
+$frontpageblocks = \theme_essentialbe\toolbox::get_setting('frontpageblocks');
+if (!$left) {
+    $frontpageblocks = !$frontpageblocks;
+}
+if ($frontpageblocks) {
+    echo '<div id="content" class="span9 pull-right">';
+} else {
+    echo '<div id="content" class="span9 desktop-first-column">';
+}
+$fppagetopblocks = \theme_essentialbe\toolbox::get_setting('fppagetopblocks');
+if ($PAGE->user_is_editing() && ($fppagetopblocks)) {
+    require_once(\theme_essentialbe\toolbox::get_tile_file('fppagetopblocks'));
+} else {
+    if ($fppagetopblocks == 1) {
+        require_once(\theme_essentialbe\toolbox::get_tile_file('fppagetopblocks'));
+    } else if ($fppagetopblocks == 2 && !isloggedin()) {
+        require_once(\theme_essentialbe\toolbox::get_tile_file('fppagetopblocks'));
+    } else if ($fppagetopblocks == 3 && isloggedin()) {
+        require_once(\theme_essentialbe\toolbox::get_tile_file('fppagetopblocks'));
+    }
+}
+echo '<section id="region-main">';
+echo $OUTPUT->course_content_header();
+echo $OUTPUT->main_content();
+echo $OUTPUT->course_content_footer();
+echo '</section>';
+echo '</div>';
+if ($frontpageblocks) {
+    echo $OUTPUT->essentialbe_blocks('side-pre', 'span3 desktop-first-column');
+} else {
+    echo $OUTPUT->essentialbe_blocks('side-pre', 'span3 pull-right');
+}
+?>
+            </section>
         </div>
 
         <!-- End Main Regions -->
 
-        <?php // if (is_siteadmin()) { ?>
-        <?php if (has_capability('moodle/site:config', context_system::instance())) { ?>
+        <?php if (is_siteadmin()) { ?>
             <div class="hidden-blocks">
                 <div class="row-fluid">
-                    <h4><?php echo get_string('visibleadminonly', 'theme_essentialbe') ?></h4>
-                    <?php
-                    echo $OUTPUT->blocks('hidden-dock');
-                    ?>
+                    <h4><?php echo get_string('visibleadminonly', 'theme_essentialbe'); ?></h4>
+                    <?php echo $OUTPUT->essentialbe_blocks('hidden-dock'); ?>
                 </div>
             </div>
-        <?php } ?>
+<?php
+}
+?>
 
     </section>
 </div>
 
-<?php require_once(dirname(__FILE__) . '/includes/footer.php'); ?>
+<?php require_once(\theme_essentialbe\toolbox::get_tile_file('footer')); ?>
 
-<!-- Initialize slideshow -->
-<script type="text/javascript">
-    jQuery(document).ready(function () {
-        $('.carousel').carousel();
-    });
-</script>
 </body>
 </html>
