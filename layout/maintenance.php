@@ -15,12 +15,13 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This is built using the bootstrapbase template to allow for new theme's using
- * Moodle's new Bootstrap theme engine
+ * Essential is a clean and customizable theme.
  *
  * @package     theme_essentialbe
- * @copyright   2013 Julian Ridden
+ * @copyright   2016 Gareth J Barnard
+ * @copyright   2015 Gareth J Barnard
  * @copyright   2014 Gareth J Barnard, David Bezemer
+ * @copyright   2013 Julian Ridden
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -34,21 +35,21 @@
  * breaking installation or upgrade unwittingly.
  */
 
-require_once(dirname(__FILE__) . '/includes/pagesettings.php');
-
-echo $OUTPUT->doctype() ?>
+echo $OUTPUT->doctype();
+?>
 <html <?php echo $OUTPUT->htmlattributes(); ?>>
 <head>
     <title><?php echo $OUTPUT->page_title(); ?></title>
     <link rel="shortcut icon" href="<?php echo $OUTPUT->favicon(); ?>"/>
-    <?php echo '<link rel="stylesheet" href="'.theme_essentialbe_get_csswww().'">'; ?>
-    <?php echo $OUTPUT->standard_head_html() ?>
+    <?php
+    echo $OUTPUT->standard_head_html();
+    ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
-<body <?php echo $OUTPUT->body_attributes($bodyclasses); ?>>
+<body <?php echo $OUTPUT->body_attributes(); ?>>
 
-<?php echo $OUTPUT->standard_top_of_body_html() ?>
+<?php echo $OUTPUT->standard_top_of_body_html(); ?>
 
 <header id="page-header" class="clearfix">
     <div class="container-fluid maintenance">
@@ -58,17 +59,13 @@ echo $OUTPUT->doctype() ?>
     </div>
 </header>
 
-<section role="main-content">
-    <div id="page" class="container-fluid maintenance">
-
-        <div id="page-content" class="row-fluid">
-            <section id="region-main" class="span12">
-                <?php echo $OUTPUT->main_content(); ?>
-            </section>
-        </div>
-
+<div id="page" class="container-fluid maintenance">
+    <div id="page-content" class="row-fluid">
+        <section id="region-main" class="span12">
+            <?php echo $OUTPUT->main_content(); ?>
+        </section>
     </div>
-</section>
+</div>
 
 <footer id="page-footer">
     <div class="container-fluid maintenance">
@@ -78,6 +75,6 @@ echo $OUTPUT->doctype() ?>
     </div>
 </footer>
 
-<?php echo $OUTPUT->standard_end_of_body_html() ?>
+<?php echo $OUTPUT->standard_end_of_body_html(); ?>
 </body>
 </html>

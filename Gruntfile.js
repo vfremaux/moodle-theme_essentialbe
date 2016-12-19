@@ -1,5 +1,5 @@
 /**
- * Gruntfile for compiling theme_essentialbe .less files.
+ * Gruntfile for compiling theme_essential .less files.
  *
  * This file configures tasks to be run by Grunt
  * http://gruntjs.com/ for the current theme.
@@ -61,6 +61,20 @@
  *                                  URL, i.e. /moodle27 being:
  *                                  --urlprefix=/moodle27
  *
+ * grunt amd     Create the Asynchronous Module Definition JavaScript files.  See: MDL-49046.
+ *               Done here as core Gruntfile.js currently *nix only.
+ *
+ * grunt svg                 Change the colour of the SVGs in pix_core by
+ *                           text replacing #999 with a new hex colour.
+ *                           Note this requires the SVGs to be #999 to
+ *                           start with or the replace will do nothing
+ *                           so should usually be preceded by copying
+ *                           a fresh set of the original SVGs.
+ *
+ *                           Options:
+ *
+ *                           --svgcolour=<hexcolour> Hex colour to use for SVGs
+ *
  * Plumbing tasks & targets:
  * -------------------------
  * Lower level tasks encapsulating a specific piece of functionality
@@ -79,37 +93,34 @@
  *
  * grunt replace             Run all text replace tasks.
  *
- * grunt svg                 Change the colour of the SVGs in pix_core by
- *                           text replacing #999999 with a new hex colour.
- *                           Note this requires the SVGs to be #999999 to
- *                           start with or the replace will do nothing
- *                           so should usually be preceded by copying
- *                           a fresh set of the original SVGs.
- *
- *                           Options:
- *
- *                           --svgcolour=<hexcolour> Hex colour to use for SVGs
- *
- * grunt cssflip    Create essentialbe-rtl.css by flipping the direction styles
- *                  in essentialbe.css.  Ref: https://www.npmjs.org/package/css-flip
+ * grunt cssflip    Create essential-rtl.css by flipping the direction styles
+ *                  in essential.css.  Ref: https://www.npmjs.org/package/css-flip
  *
  *
  * @package theme
- * @subpackage essentialbe
+ * @subpackage essential
  * @author G J Barnard - gjbarnard at gmail dot com and {@link http://moodle.org/user/profile.php?id=442195}
- * @author Based on code originally written by Joby Harding, Bas Brands, David Scotson and many other contributors. 
+ * @author Based on code originally written by Joby Harding, Bas Brands, David Scotson and many other contributors.
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-module.exports = function(grunt) {
+module.exports = function(grunt) { // jshint ignore:line
 
     // Import modules.
-    var path = require('path');
+    var path = require('path'); // jshint ignore:line
 
     // Theme Bootstrap constants.
-    var LESSDIR         = 'less',
-        MOODLEURLPREFIX = grunt.option('urlprefix') || '',
+    var MOODLEURLPREFIX = grunt.option('urlprefix') || '',
         THEMEDIR        = path.basename(path.resolve('.'));
+
+    // PHP strings for exec task.
+    var moodleroot = path.dirname(path.dirname(__dirname)), // jshint ignore:line
+        dirrootopt = grunt.option('dirroot') || process.env.MOODLE_DIR || ''; // jshint ignore:line
+
+    // Allow user to explicitly define Moodle root dir.
+    if ('' !== dirrootopt) {
+        moodleroot = path.resolve(dirrootopt);
+    }
 
     // Production / development.
     var build = grunt.option('build') || 'd'; // Development for 'watch' task.
@@ -120,26 +131,28 @@ module.exports = function(grunt) {
         console.log('e.g. -build=p or -build=d.  Defaulting to development.');
     }
 
-    decachephp = '../../admin/cli/purge_caches.php';
+    var PWD = process.cwd(); // jshint ignore:line
 
-    var svgcolour = grunt.option('svgcolour') || '#999999';
+    var decachephp = '../../admin/cli/purge_caches.php';
+
+    var svgcolour = grunt.option('svgcolour') || '#999';
 
     grunt.initConfig({
         less: {
-            essentialbe_p: {
+            essential_p: {
                 options: {
-                    compress: true,
+                    compress: false,
                     cleancss: false,
                     paths: "./less",
                     report: 'min',
                     sourceMap: false,
                 },
-                src: 'less/essentialbe.less',
-                dest: 'style/essentialbe.css'
+                src: 'less/essential.less',
+                dest: 'style/essential.css'
             },
             editor_p: {
                 options: {
-                    compress: true,
+                    compress: false,
                     cleancss: false,
                     paths: "./less",
                     report: 'min',
@@ -148,31 +161,20 @@ module.exports = function(grunt) {
                 src: 'less/editor.less',
                 dest: 'style/editor.css'
             },
-            moodle_rtl_p: {
+            bootstrap_pix_p: {
                 options: {
-                    compress: true,
+                    compress: false,
                     cleancss: false,
                     paths: "./less",
                     report: 'min',
                     sourceMap: false,
                 },
-                src: 'less/moodle-rtl.less',
-                dest: 'style/moodle-rtl.css'
-            },
-            essentialbe_pix_p: {
-                options: {
-                    compress: true,
-                    cleancss: false,
-                    paths: "./less",
-                    report: 'min',
-                    sourceMap: false,
-                },
-                src: 'less/essentialbe-pix.less',
-                dest: 'style/essentialbe-pix.css'
+                src: 'less/bootstrap-pix.less',
+                dest: 'style/bootstrap-pix.css'
             },
             fontawesome_p: {
                 options: {
-                    compress: true,
+                    compress: false,
                     cleancss: false,
                     paths: "./less",
                     report: 'min',
@@ -181,29 +183,40 @@ module.exports = function(grunt) {
                 src: 'less/fontawesome.less',
                 dest: 'style/fontawesome.css'
             },
-            settings_p: {
+            scrollbars_p: {
                 options: {
-                    compress: true,
+                    compress: false,
                     cleancss: false,
                     paths: "./less",
                     report: 'min',
                     sourceMap: false,
                 },
-                src: 'less/settings.less',
-                dest: 'style/settings.css'
+                src: 'less/essential-scrollbars.less',
+                dest: 'style/essential-scrollbars.css'
+            },
+            settings_p: {
+                options: {
+                    compress: false,
+                    cleancss: false,
+                    paths: "./less",
+                    report: 'min',
+                    sourceMap: false,
+                },
+                src: 'less/essential-settings.less',
+                dest: 'style/essential-settings.css'
             },
             alternative_p: {
                 options: {
-                    compress: true,
+                    compress: false,
                     cleancss: false,
                     paths: "./less",
                     report: 'min',
                     sourceMap: false,
                 },
-                src: 'less/alternative.less',
-                dest: 'style/alternative.css'
+                src: 'less/essential-alternative.less',
+                dest: 'style/essential-alternative.css'
             },
-            essentialbe_d: { // Flipped.
+            essential_d: {
                 options: {
                     compress: false,
                     cleancss: false,
@@ -211,10 +224,10 @@ module.exports = function(grunt) {
                     report: 'min',
                     sourceMap: true,
                     sourceMapRootpath: MOODLEURLPREFIX + '/theme/' + THEMEDIR,
-                    sourceMapFilename: 'style/essentialbe.treasure.map'
+                    sourceMapFilename: 'style/essential.treasure.map'
                 },
-                src: 'less/essentialbe.less',
-                dest: 'style/essentialbe.css'
+                src: 'less/essential.less',
+                dest: 'style/essential.css'
             },
             editor_d: {
                 options: {
@@ -229,7 +242,7 @@ module.exports = function(grunt) {
                 src: 'less/editor.less',
                 dest: 'style/editor.css'
             },
-            moodle_rtl_d: {
+            bootstrap_pix_d: {
                 options: {
                     compress: false,
                     cleancss: false,
@@ -237,23 +250,10 @@ module.exports = function(grunt) {
                     report: 'min',
                     sourceMap: true,
                     sourceMapRootpath: MOODLEURLPREFIX + '/theme/' + THEMEDIR,
-                    sourceMapFilename: 'style/moodle-rtl.treasure.map'
+                    sourceMapFilename: 'style/bootstrap-pix.treasure.map'
                 },
-                src: 'less/moodle-rtl.less',
-                dest: 'style/moodle-rtl.css'
-            },
-            essentialbe_pix_d: {
-                options: {
-                    compress: false,
-                    cleancss: false,
-                    paths: "./less",
-                    report: 'min',
-                    sourceMap: true,
-                    sourceMapRootpath: MOODLEURLPREFIX + '/theme/' + THEMEDIR,
-                    sourceMapFilename: 'style/essentialbe-pix.treasure.map'
-                },
-                src: 'less/essentialbe-pix.less',
-                dest: 'style/essentialbe-pix.css'
+                src: 'less/bootstrap-pix.less',
+                dest: 'style/bootstrap-pix.css'
             },
             fontawesome_d: {
                 options: {
@@ -268,6 +268,19 @@ module.exports = function(grunt) {
                 src: 'less/fontawesome.less',
                 dest: 'style/fontawesome.css'
             },
+            scrollbars_d: {
+                options: {
+                    compress: false,
+                    cleancss: false,
+                    paths: "./less",
+                    report: 'min',
+                    sourceMap: true,
+                    sourceMapRootpath: MOODLEURLPREFIX + '/theme/' + THEMEDIR,
+                    sourceMapFilename: 'style/essential-scrollbars.treasure.map'
+                },
+                src: 'less/essential-scrollbars.less',
+                dest: 'style/essential-scrollbars.css'
+            },
             settings_d: {
                 options: {
                     compress: false,
@@ -276,10 +289,10 @@ module.exports = function(grunt) {
                     report: 'min',
                     sourceMap: true,
                     sourceMapRootpath: MOODLEURLPREFIX + '/theme/' + THEMEDIR,
-                    sourceMapFilename: 'style/settings.treasure.map'
+                    sourceMapFilename: 'style/essential-settings.treasure.map'
                 },
-                src: 'less/settings.less',
-                dest: 'style/settings.css'
+                src: 'less/essential-settings.less',
+                dest: 'style/essential-settings.css'
             },
             alternative_d: {
                 options: {
@@ -289,18 +302,18 @@ module.exports = function(grunt) {
                     report: 'min',
                     sourceMap: true,
                     sourceMapRootpath: MOODLEURLPREFIX + '/theme/' + THEMEDIR,
-                    sourceMapFilename: 'style/alternative.treasure.map'
+                    sourceMapFilename: 'style/essential-alternative.treasure.map'
                 },
-                src: 'less/alternative.less',
-                dest: 'style/alternative.css'
+                src: 'less/essential-alternative.less',
+                dest: 'style/essential-alternative.css'
             }
         },
         exec: {
             decache: {
                 cmd: 'php "' + decachephp + '"',
-                callback: function(error, stdout, stderror) {
-                    // exec will output error messages
-                    // just add one to confirm success.
+                callback: function(error) {
+                    // The exec process will output error messages.
+                    // Just add one to confirm success.
                     if (!error) {
                         grunt.log.writeln("Moodle theme cache reset.");
                     }
@@ -315,52 +328,62 @@ module.exports = function(grunt) {
                 spawn: false
             }
         },
-        cssflip: {
-            rtl_p: {
-                options: {
-                    compress: true
-                },
-                src:  'style/essentialbe.css',
-                dest: 'style/essentialbe-rtl.css'
-            },
-            rtl_d: {
-                options: {
-                    compress: false
-                },
-                src:  'style/essentialbe.css',
-                dest: 'style/essentialbe-rtl.css'
+        cssmin: {
+            essential_p: {
+                files: [{
+                    expand: true,
+                    cwd: 'style',
+                    src: ['essential.css', 'bootstrap-pix.css', 'essential-alternative.css', 'editor.css', 'fontawesome.css'], // jshint ignore:line
+                    dest: 'style',
+                    ext: '.css'
+                }]
+            }
+        },
+        cssmetrics: {
+            dist: {
+                src: [
+                    'style/*.css'
+                ]
             }
         },
         copy: {
             svg_core: {
-                 expand: true,
-                 cwd:  'pix_core_originals/',
-                 src:  '**',
-                 dest: 'pix_core/',
+                expand: true,
+                cwd:  'pix_core_originals/',
+                src:  '**',
+                dest: 'pix_core/',
             },
             svg_plugins: {
-                 expand: true,
-                 cwd:  'pix_plugins_originals/',
-                 src:  '**',
-                 dest: 'pix_plugins/',
+                expand: true,
+                cwd:  'pix_plugins_originals/',
+                src:  '**',
+                dest: 'pix_plugins/',
             }
         },
         replace: {
             svg_colours_core: {
                 src: 'pix_core/**/*.svg',
-                    overwrite: true,
-                    replacements: [{
-                        from: '#999999',
-                        to: svgcolour
-                    }]
+                overwrite: true,
+                replacements: [{
+                    from: '#999',
+                    to: svgcolour
+                }]
             },
             svg_colours_plugins: {
                 src: 'pix_plugins/**/*.svg',
-                    overwrite: true,
-                    replacements: [{
-                        from: '#999999',
-                        to: svgcolour
-                    }]
+                overwrite: true,
+                replacements: [{
+                    from: '#999',
+                    to: svgcolour
+                }]
+            },
+            placeholder: {
+                src: 'style/essential.css',
+                overwrite: true,
+                replacements: [{
+                    from: '/* Essential placeholder */',
+                    to: 'div#page::before { content: "Development version - recomplile LESS with \'grunt compile -build=p\' for production CSS."; font-size: 2em; margin-top: 24px; margin-bottom: 24px; line-height: 42px; text-align: center; }' // jshint ignore:line
+                }]
             }
         },
         svgmin: {
@@ -370,9 +393,9 @@ module.exports = function(grunt) {
                 }, {
                     removeUselessStrokeAndFill: false
                 }, {
-                    convertPathData: { 
+                    convertPathData: {
                         straightCurves: false
-                   }
+                    }
                 }]
             },
             dist: {
@@ -390,6 +413,30 @@ module.exports = function(grunt) {
                     ext: '.svg'
                 }]
             }
+        },
+        jshint: {
+            options: {jshintrc: moodleroot + '/.jshintrc'},
+            files: ['**/amd/src/*.js']
+        },
+        uglify: {
+            options: {
+                preserveComments: 'some'
+            },
+            dynamic_mappings: {
+                files: grunt.file.expandMapping(
+                    ['**/src/*.js', '!**/node_modules/**'],
+                    '',
+                    {
+                        cwd: PWD,
+                        rename: function(destBase, destPath) {
+                            destPath = destPath.replace('src', 'build');
+                            destPath = destPath.replace('.js', '.min.js');
+                            destPath = path.resolve(PWD, destPath);
+                            return destPath;
+                        }
+                    }
+                )
+            }
         }
     });
 
@@ -398,17 +445,34 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-contrib-watch");
     grunt.loadNpmTasks("grunt-exec");
     grunt.loadNpmTasks("grunt-text-replace");
-    grunt.loadNpmTasks("grunt-css-flip");
+    grunt.loadNpmTasks("grunt-css-metrics");
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-svgmin');
+
+    // Load core tasks.
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
 
     // Register tasks.
     grunt.registerTask("default", ["watch"]);
     grunt.registerTask("decache", ["exec:decache"]);
 
-    grunt.registerTask("css", ["less:essentialbe_"+build, "less:editor_"+build, "less:moodle_rtl_"+build, "less:settings_"+build, "less:essentialbe_pix_"+build, "less:fontawesome_"+build, "less:alternative_"+build]);
-    grunt.registerTask("compile", ["css", "cssflip:rtl_"+build, "decache"]);
+    grunt.registerTask("css", [
+        "less:essential_" + build,
+        "less:editor_" + build,
+        "less:scrollbars_" + build,
+        "less:settings_" + build,
+        "less:bootstrap_pix_" + build,
+        "less:fontawesome_" + build,
+        "less:alternative_" + build]);
+    if (build == 'd') {
+        grunt.registerTask("compile", ["css", "replace:placeholder", 'cssmetrics', "decache"]);
+    } else {
+        grunt.loadNpmTasks('grunt-contrib-cssmin');
+        grunt.registerTask("compile", ["css", "cssmin:essential_p", 'cssmetrics', "decache"]);
+    }
     grunt.registerTask("copy:svg", ["copy:svg_core", "copy:svg_plugins"]);
     grunt.registerTask("replace:svg_colours", ["replace:svg_colours_core", "replace:svg_colours_plugins"]);
     grunt.registerTask("svg", ["copy:svg", "replace:svg_colours", "svgmin"]);
+    grunt.registerTask("amd", ["jshint", "uglify", "decache"]);
 };
