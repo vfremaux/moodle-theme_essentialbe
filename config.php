@@ -35,6 +35,7 @@ $THEME->sheets[] = 'essentialbe';
 $THEME->sheets[] = 'bootstrap-pix';
 $THEME->sheets[] = 'essentialbe-settings';
 $THEME->sheets[] = 'fontawesome';
+$THEME->sheets[] = 'edunaobe';
 $THEME->sheets[] = 'customlabels';
 
 if ((get_config('theme_essentialbe', 'enablealternativethemecolors1')) ||

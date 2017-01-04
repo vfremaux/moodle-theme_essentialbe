@@ -1,5 +1,5 @@
 /*
- * @package     theme_essential
+ * @package     theme_essentialbe
  * @copyright   2014 Gareth J Barnard, David Bezemer
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -390,49 +390,49 @@ a.marketing-button:hover {
 }
 /* @end */
 /* @group Carousel */
-#essentialCarousel.carousel .carousel-inner .carousel-caption {
+#essentialbeCarousel.carousel .carousel-inner .carousel-caption {
   background-color: [[setting:slidecaptionbackgroundcolor]];
 }
-#essentialCarousel.carousel .carousel-inner .carousel-caption .carousel-caption-inner {
+#essentialbeCarousel.carousel .carousel-inner .carousel-caption .carousel-caption-inner {
   max-width: [[setting:pagewidth]];
 }
-#essentialCarousel.carousel .carousel-inner .carousel-caption h4,
-#essentialCarousel.carousel .carousel-inner .carousel-caption div {
+#essentialbeCarousel.carousel .carousel-inner .carousel-caption h4,
+#essentialbeCarousel.carousel .carousel-inner .carousel-caption div {
   color: [[setting:slidecaptiontextcolor]];
 }
-#essentialCarousel.carousel .carousel-inner.pagebackground .the-side-caption-content {
+#essentialbeCarousel.carousel .carousel-inner.pagebackground .the-side-caption-content {
   background-color: [[setting:slidecaptionbackgroundcolor]];
 }
-#essentialCarousel.carousel .carousel-inner.pagebackground .the-side-caption-content h4,
-#essentialCarousel.carousel .carousel-inner.pagebackground .the-side-caption-content div {
+#essentialbeCarousel.carousel .carousel-inner.pagebackground .the-side-caption-content h4,
+#essentialbeCarousel.carousel .carousel-inner.pagebackground .the-side-caption-content div {
   color: [[setting:slidecaptiontextcolor]];
 }
-#essentialCarousel.carousel .carousel-control {
+#essentialbeCarousel.carousel .carousel-control {
   color: [[setting:slidebuttoncolor]];
 }
-#essentialCarousel.carousel .carousel-control .fa {
+#essentialbeCarousel.carousel .carousel-control .fa {
   color: inherit;
 }
-#essentialCarousel.carousel .carousel-control:hover,
-#essentialCarousel.carousel .carousel-control:focus {
+#essentialbeCarousel.carousel .carousel-control:hover,
+#essentialbeCarousel.carousel .carousel-control:focus {
   color: [[setting:slidebuttonhovercolor]];
 }
-#essentialCarousel.carousel .carousel-control:hover .fa,
-#essentialCarousel.carousel .carousel-control:focus .fa {
+#essentialbeCarousel.carousel .carousel-control:hover .fa,
+#essentialbeCarousel.carousel .carousel-control:focus .fa {
   color: inherit;
 }
-#essentialCarousel.carousel .carousel-indicators {
+#essentialbeCarousel.carousel .carousel-indicators {
   box-shadow: 0px 0px 8px [[setting:slidebuttoncolor]];
 }
-#essentialCarousel.carousel .carousel-indicators li {
+#essentialbeCarousel.carousel .carousel-indicators li {
   background-color: [[setting:slidebuttoncolor]];
 }
-#essentialCarousel.carousel .carousel-indicators .active {
+#essentialbeCarousel.carousel .carousel-indicators .active {
   background-color: [[setting:slidebuttonhovercolor]];
 }
 /* @end */
 /*
- * @package   theme_essential
+ * @package   theme_essentialbe
  * @author    Franc Pombal
  * @modified  Julian Ridden
  * @modified  Gareth J Barnard, David Bezemer
@@ -498,80 +498,80 @@ body.has_dock #dock .dockedtitle.disabled,
 body.has_dock #dock .dockedtitle[disabled] {
   background-color: [[setting:themehovercolor]];
 }
-body.has_dock.essential-colours-alternative1 #dock {
+body.has_dock.essentialbe-colours-alternative1 #dock {
   background-color: [[setting:alternativethemecolor1]];
 }
-body.has_dock.essential-colours-alternative1 #dock .dockedtitle h2,
-body.has_dock.essential-colours-alternative1 #dock .dockeditempanel_hd h2 {
+body.has_dock.essentialbe-colours-alternative1 #dock .dockedtitle h2,
+body.has_dock.essentialbe-colours-alternative1 #dock .dockeditempanel_hd h2 {
   color: [[setting:alternativethemetextcolor1]];
 }
-body.has_dock.essential-colours-alternative1 #dock .dockedtitle h2:before,
-body.has_dock.essential-colours-alternative1 #dock .dockeditempanel_hd h2:before {
+body.has_dock.essentialbe-colours-alternative1 #dock .dockedtitle h2:before,
+body.has_dock.essentialbe-colours-alternative1 #dock .dockeditempanel_hd h2:before {
   color: [[setting:alternativethemecolor1]];
 }
-body.has_dock.essential-colours-alternative1 #dock .dockedtitle:hover,
-body.has_dock.essential-colours-alternative1 #dock .dockedtitle:focus,
-body.has_dock.essential-colours-alternative1 #dock .dockedtitle:active,
-body.has_dock.essential-colours-alternative1 #dock .dockedtitle.active,
-body.has_dock.essential-colours-alternative1 #dock .dockedtitle.disabled,
-body.has_dock.essential-colours-alternative1 #dock .dockedtitle[disabled] {
+body.has_dock.essentialbe-colours-alternative1 #dock .dockedtitle:hover,
+body.has_dock.essentialbe-colours-alternative1 #dock .dockedtitle:focus,
+body.has_dock.essentialbe-colours-alternative1 #dock .dockedtitle:active,
+body.has_dock.essentialbe-colours-alternative1 #dock .dockedtitle.active,
+body.has_dock.essentialbe-colours-alternative1 #dock .dockedtitle.disabled,
+body.has_dock.essentialbe-colours-alternative1 #dock .dockedtitle[disabled] {
   background-color: [[setting:alternativethemehovercolor1]];
 }
-body.has_dock.essential-colours-alternative2 #dock {
+body.has_dock.essentialbe-colours-alternative2 #dock {
   background-color: [[setting:alternativethemecolor2]];
 }
-body.has_dock.essential-colours-alternative2 #dock .dockedtitle h2,
-body.has_dock.essential-colours-alternative2 #dock .dockeditempanel_hd h2 {
+body.has_dock.essentialbe-colours-alternative2 #dock .dockedtitle h2,
+body.has_dock.essentialbe-colours-alternative2 #dock .dockeditempanel_hd h2 {
   color: [[setting:alternativethemetextcolor2]];
 }
-body.has_dock.essential-colours-alternative2 #dock .dockedtitle h2:before,
-body.has_dock.essential-colours-alternative2 #dock .dockeditempanel_hd h2:before {
+body.has_dock.essentialbe-colours-alternative2 #dock .dockedtitle h2:before,
+body.has_dock.essentialbe-colours-alternative2 #dock .dockeditempanel_hd h2:before {
   color: [[setting:alternativethemecolor2]];
 }
-body.has_dock.essential-colours-alternative2 #dock .dockedtitle:hover,
-body.has_dock.essential-colours-alternative2 #dock .dockedtitle:focus,
-body.has_dock.essential-colours-alternative2 #dock .dockedtitle:active,
-body.has_dock.essential-colours-alternative2 #dock .dockedtitle.active,
-body.has_dock.essential-colours-alternative2 #dock .dockedtitle.disabled,
-body.has_dock.essential-colours-alternative2 #dock .dockedtitle[disabled] {
+body.has_dock.essentialbe-colours-alternative2 #dock .dockedtitle:hover,
+body.has_dock.essentialbe-colours-alternative2 #dock .dockedtitle:focus,
+body.has_dock.essentialbe-colours-alternative2 #dock .dockedtitle:active,
+body.has_dock.essentialbe-colours-alternative2 #dock .dockedtitle.active,
+body.has_dock.essentialbe-colours-alternative2 #dock .dockedtitle.disabled,
+body.has_dock.essentialbe-colours-alternative2 #dock .dockedtitle[disabled] {
   background-color: [[setting:alternativethemehovercolor2]];
 }
-body.has_dock.essential-colours-alternative3 #dock {
+body.has_dock.essentialbe-colours-alternative3 #dock {
   background-color: [[setting:alternativethemecolor3]];
 }
-body.has_dock.essential-colours-alternative3 #dock .dockedtitle h2,
-body.has_dock.essential-colours-alternative3 #dock .dockeditempanel_hd h2 {
+body.has_dock.essentialbe-colours-alternative3 #dock .dockedtitle h2,
+body.has_dock.essentialbe-colours-alternative3 #dock .dockeditempanel_hd h2 {
   color: [[setting:alternativethemetextcolor3]];
 }
-body.has_dock.essential-colours-alternative3 #dock .dockedtitle h2:before,
-body.has_dock.essential-colours-alternative3 #dock .dockeditempanel_hd h2:before {
+body.has_dock.essentialbe-colours-alternative3 #dock .dockedtitle h2:before,
+body.has_dock.essentialbe-colours-alternative3 #dock .dockeditempanel_hd h2:before {
   color: [[setting:alternativethemecolor3]];
 }
-body.has_dock.essential-colours-alternative3 #dock .dockedtitle:hover,
-body.has_dock.essential-colours-alternative3 #dock .dockedtitle:focus,
-body.has_dock.essential-colours-alternative3 #dock .dockedtitle:active,
-body.has_dock.essential-colours-alternative3 #dock .dockedtitle.active,
-body.has_dock.essential-colours-alternative3 #dock .dockedtitle.disabled,
-body.has_dock.essential-colours-alternative3 #dock .dockedtitle[disabled] {
+body.has_dock.essentialbe-colours-alternative3 #dock .dockedtitle:hover,
+body.has_dock.essentialbe-colours-alternative3 #dock .dockedtitle:focus,
+body.has_dock.essentialbe-colours-alternative3 #dock .dockedtitle:active,
+body.has_dock.essentialbe-colours-alternative3 #dock .dockedtitle.active,
+body.has_dock.essentialbe-colours-alternative3 #dock .dockedtitle.disabled,
+body.has_dock.essentialbe-colours-alternative3 #dock .dockedtitle[disabled] {
   background-color: [[setting:alternativethemehovercolor3]];
 }
-body.has_dock.essential-colours-alternative4 #dock {
+body.has_dock.essentialbe-colours-alternative4 #dock {
   background-color: [[setting:alternativethemecolor4]];
 }
-body.has_dock.essential-colours-alternative4 #dock .dockedtitle h2,
-body.has_dock.essential-colours-alternative4 #dock .dockeditempanel_hd h2 {
+body.has_dock.essentialbe-colours-alternative4 #dock .dockedtitle h2,
+body.has_dock.essentialbe-colours-alternative4 #dock .dockeditempanel_hd h2 {
   color: [[setting:alternativethemetextcolor4]];
 }
-body.has_dock.essential-colours-alternative4 #dock .dockedtitle h2:before,
-body.has_dock.essential-colours-alternative4 #dock .dockeditempanel_hd h2:before {
+body.has_dock.essentialbe-colours-alternative4 #dock .dockedtitle h2:before,
+body.has_dock.essentialbe-colours-alternative4 #dock .dockeditempanel_hd h2:before {
   color: [[setting:alternativethemecolor4]];
 }
-body.has_dock.essential-colours-alternative4 #dock .dockedtitle:hover,
-body.has_dock.essential-colours-alternative4 #dock .dockedtitle:focus,
-body.has_dock.essential-colours-alternative4 #dock .dockedtitle:active,
-body.has_dock.essential-colours-alternative4 #dock .dockedtitle.active,
-body.has_dock.essential-colours-alternative4 #dock .dockedtitle.disabled,
-body.has_dock.essential-colours-alternative4 #dock .dockedtitle[disabled] {
+body.has_dock.essentialbe-colours-alternative4 #dock .dockedtitle:hover,
+body.has_dock.essentialbe-colours-alternative4 #dock .dockedtitle:focus,
+body.has_dock.essentialbe-colours-alternative4 #dock .dockedtitle:active,
+body.has_dock.essentialbe-colours-alternative4 #dock .dockedtitle.active,
+body.has_dock.essentialbe-colours-alternative4 #dock .dockedtitle.disabled,
+body.has_dock.essentialbe-colours-alternative4 #dock .dockedtitle[disabled] {
   background-color: [[setting:alternativethemehovercolor4]];
 }
 /* @end */
@@ -962,18 +962,18 @@ button.website:focus {
 }
 /* @end */
 /* @group Navbar */
-#essentialnavbar.oldnavbar.logo {
+#essentialbenavbar.oldnavbar.logo {
   top: [[setting:logoheight]];
 }
-#essentialnavbar.oldnavbar.nologo {
+#essentialbenavbar.oldnavbar.nologo {
   top: 52px;
 }
 @media (min-width: 980px) {
-  #essentialnavbar.oldnavbar.nologo {
+  #essentialbenavbar.oldnavbar.nologo {
     top: 64px;
   }
 }
-#essentialnavbar.affix.oldnavbar {
+#essentialbenavbar.affix.oldnavbar {
   top: 0;
 }
 .navbar .navbar-inner .brand {

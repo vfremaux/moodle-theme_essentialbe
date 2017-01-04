@@ -4111,17 +4111,17 @@ p.tree_item.leaf a.action-delete>.fa{color:red}
 .dir-rtl .block_navigation.block .block_tree .tree_item.branch{padding-right:0}
 .dir-ltr.jsenabled .block_settings .block_tree .tree_item{padding-left:0!important}
 .dir-rtl.jsenabled .block_settings .block_tree .tree_item{padding-right:0!important}
-.jsenabled .block_settings .block_tree .tree_item.branch.loadingbranch:before{font-family:FontAwesome;content:"\f110";-moz-animation:essential-block-spin .8s infinite ease-in-out;-webkit-animation:essential-block-spin .8s infinite ease-in-out;-o-animation:essential-block-spin .8s infinite ease-in-out;animation:essential-block-spin .8s infinite ease-in-out}
-@-moz-keyframes essential-block-spin{0%{-moz-transform:rotate(0deg);transform:rotate(0deg)}
+.jsenabled .block_settings .block_tree .tree_item.branch.loadingbranch:before{font-family:FontAwesome;content:"\f110";-moz-animation:essentialbe-block-spin .8s infinite ease-in-out;-webkit-animation:essentialbe-block-spin .8s infinite ease-in-out;-o-animation:essentialbe-block-spin .8s infinite ease-in-out;animation:essentialbe-block-spin .8s infinite ease-in-out}
+@-moz-keyframes essentialbe-block-spin{0%{-moz-transform:rotate(0deg);transform:rotate(0deg)}
 100%{-moz-transform:rotate(359deg);transform:rotate(359deg)}
 }
-@-webkit-keyframes essential-block-spin{0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}
+@-webkit-keyframes essentialbe-block-spin{0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}
 100%{-webkit-transform:rotate(359deg);transform:rotate(359deg)}
 }
-@-o-keyframes essential-block-spin{0%{-o-transform:rotate(0deg);-webkit-transform:rotate(0deg);transform:rotate(0deg)}
+@-o-keyframes essentialbe-block-spin{0%{-o-transform:rotate(0deg);-webkit-transform:rotate(0deg);transform:rotate(0deg)}
 100%{-o-transform:rotate(359deg);-webkit-transform:rotate(359deg);transform:rotate(359deg)}
 }
-@keyframes essential-block-spin{0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}
+@keyframes essentialbe-block-spin{0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}
 100%{-webkit-transform:rotate(359deg);transform:rotate(359deg)}
 }
 .hidden-blocks{background:#ffe1e1;padding:10px;border:1px solid #EEE;border-radius:5px;margin:10px 0}
@@ -4304,89 +4304,93 @@ a.btn.btn-primary .caret{border-top-color:#fff;border-bottom-color:#fff}
 h2.eventtitle{font-size:1.25em;border-bottom:1px solid #e1e1e1;line-height:20px;padding-bottom:10px}
 .block .minicalendar td,.minicalendar th{padding:5px 0;border:1px dotted #e1e1e1}
 table.calendarmonth.calendartable{background:#fff;box-shadow:inset 0 1px 1px rgba(0,0,0,.05)}
-#essentialCarousel.carousel{margin-bottom:10px}
-#essentialCarousel.carousel .carousel-inner>.item .carousel-image-container{text-align:center;width:90%;padding-left:5%;padding-right:5%}
-#essentialCarousel.carousel .carousel-inner>.item .carousel-image{width:auto;margin:8px auto 0;height:auto;max-height:300px;vertical-align:middle;max-width:100%}
-#essentialCarousel.carousel .carousel-inner>.item.side-caption .carousel-image{box-shadow:0 0 8px #222;padding:8px;background-color:#fff}
-#essentialCarousel.carousel .carousel-inner a,#essentialCarousel.carousel .carousel-inner a:active,#essentialCarousel.carousel .carousel-inner a:hover{text-decoration:none;height:100%}
-#essentialCarousel.carousel .carousel-inner .carousel-caption{border-radius:6px}
-#essentialCarousel.carousel .carousel-inner .carousel-caption .carousel-caption-inner{margin:0 auto}
-#essentialCarousel.carousel .carousel-inner .carousel-caption div,#essentialCarousel.carousel .carousel-inner .carousel-caption h4{padding:0 20px}
-#essentialCarousel.carousel .carousel-inner .carousel-caption div{line-height:1}
-#essentialCarousel.carousel .carousel-inner.centred .carousel-caption,#essentialCarousel.carousel .carousel-inner.centred div.the-side-caption{text-align:center}
-#essentialCarousel.carousel .carousel-inner.ontop .carousel-caption{opacity:.75;filter:alpha(opacity=75)}
-#essentialCarousel.carousel .carousel-inner.pagebackground .the-side-caption-content{border-radius:6px}
-#essentialCarousel.carousel .carousel-inner.pagebackground .the-side-caption-content div,#essentialCarousel.carousel .carousel-inner.pagebackground .the-side-caption-content h4{padding:0 20px}
-#essentialCarousel.carousel .carousel-inner.pagebackground .the-side-caption-content div{line-height:1}
-#essentialCarousel.carousel .carousel-control{display:none;background-color:transparent;border:0;font-size:30px}
-#essentialCarousel.carousel .carousel-control:focus,#essentialCarousel.carousel .carousel-control:hover{background-color:transparent;border:0}
-#essentialCarousel.carousel:hover .carousel-control{display:block}
-#essentialCarousel.carousel .carousel-indicators{border-radius:4px;padding-top:2px;padding-bottom:2px;background-color:#fff;background-color:rgba(255,255,255,.5)}
-#essentialCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption h4{font-size:14px;line-height:1}
-#essentialCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption div{font-size:10px;line-height:1}
-@media (min-width:480px){#essentialCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption h4{font-size:16px}
-#essentialCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption div{font-size:12px}
-#essentialCarousel.carousel .carousel-control{font-size:36px;width:36px;height:36px}
+#essentialbeCarousel.carousel{margin-bottom:10px}
+#essentialbeCarousel.carousel .carousel-inner>.item .carousel-image-container{text-align:center;width:90%;padding-left:5%;padding-right:5%}
+#essentialbeCarousel.carousel .carousel-inner>.item .carousel-image{width:auto;margin:8px auto 0;height:auto;max-height:300px;vertical-align:middle;max-width:100%}
+#essentialbeCarousel.carousel .carousel-inner>.item.side-caption .carousel-image{box-shadow:0 0 8px #222;padding:8px;background-color:#fff}
+#essentialbeCarousel.carousel .carousel-inner a,#essentialbeCarousel.carousel .carousel-inner a:active,#essentialbeCarousel.carousel .carousel-inner a:hover{text-decoration:none;height:100%}
+#essentialbeCarousel.carousel .carousel-inner .carousel-caption{border-radius:6px}
+#essentialbeCarousel.carousel .carousel-inner .carousel-caption .carousel-caption-inner{margin:0 auto}
+#essentialbeCarousel.carousel .carousel-inner .carousel-caption div,#essentialbeCarousel.carousel .carousel-inner .carousel-caption h4{padding:0 20px}
+#essentialbeCarousel.carousel .carousel-inner .carousel-caption div{line-height:1}
+#essentialbeCarousel.carousel .carousel-inner.centred .carousel-caption,#essentialbeCarousel.carousel .carousel-inner.centred div.the-side-caption{text-align:center}
+#essentialbeCarousel.carousel .carousel-inner.ontop .carousel-caption{opacity:.75;filter:alpha(opacity=75)}
+#essentialbeCarousel.carousel .carousel-inner.pagebackground .the-side-caption-content{border-radius:6px}
+#essentialbeCarousel.carousel .carousel-inner.pagebackground .the-side-caption-content div,#essentialbeCarousel.carousel .carousel-inner.pagebackground .the-side-caption-content h4{padding:0 20px}
+#essentialbeCarousel.carousel .carousel-inner.pagebackground .the-side-caption-content div{line-height:1}
+#essentialbeCarousel.carousel .carousel-control{display:none;background-color:transparent;border:0;font-size:30px}
+#essentialbeCarousel.carousel .carousel-control:focus,#essentialbeCarousel.carousel .carousel-control:hover{background-color:transparent;border:0}
+#essentialbeCarousel.carousel:hover .carousel-control{display:block}
+#essentialbeCarousel.carousel .carousel-indicators{border-radius:4px;padding-top:2px;padding-bottom:2px;background-color:#fff;background-color:rgba(255,255,255,.5)}
+#essentialbeCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption h4{font-size:14px;line-height:1}
+#essentialbeCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption div{font-size:10px;line-height:1}
+@media (min-width:480px){#essentialbeCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption h4{font-size:16px}
+#essentialbeCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption div{font-size:12px}
+#essentialbeCarousel.carousel .carousel-control{font-size:36px;width:36px;height:36px}
 }
-@media (max-width:767px){#essentialCarousel.carousel .carousel-inner>.item{height:200px}
-#essentialCarousel.carousel .carousel-inner>.item .carousel-image-container{line-height:200px}
-#essentialCarousel.carousel .carousel-inner>.item .carousel-image{max-height:165px}
-#essentialCarousel.carousel .carousel-inner>.item .carousel-caption{position:absolute}
-#essentialCarousel.carousel .carousel-inner>.item .carousel-caption h4{font-size:1.2em}
-#essentialCarousel.carousel .carousel-inner>.item.side-caption div.nocaption{margin-top:6.5%}
-#essentialCarousel.carousel .carousel-inner.below>.item,#essentialCarousel.carousel .carousel-inner>.item.side-caption{height:280px}
-#essentialCarousel.carousel .carousel-inner.below>.item .carousel-caption,#essentialCarousel.carousel .carousel-inner>.item.side-caption .carousel-caption{height:45px}
-#essentialCarousel.carousel .carousel-inner.below>.item .carousel-image-container.nocaption,#essentialCarousel.carousel .carousel-inner>.item.side-caption .carousel-image-container.nocaption{line-height:280px}
+@media (max-width:767px){#essentialbeCarousel.carousel .carousel-inner>.item{height:200px}
+#essentialbeCarousel.carousel .carousel-inner>.item .carousel-image-container{line-height:200px}
+#essentialbeCarousel.carousel .carousel-inner>.item .carousel-image{max-height:165px}
+#essentialbeCarousel.carousel .carousel-inner>.item .carousel-caption{position:absolute}
+#essentialbeCarousel.carousel .carousel-inner>.item .carousel-caption h4{font-size:1.2em}
+#essentialbeCarousel.carousel .carousel-inner>.item.side-caption div.nocaption{margin-top:6.5%}
+#essentialbeCarousel.carousel .carousel-inner.below>.item,#essentialbeCarousel.carousel .carousel-inner>.item.side-caption{height:280px}
+#essentialbeCarousel.carousel .carousel-inner.below>.item .carousel-caption,#essentialbeCarousel.carousel .carousel-inner>.item.side-caption .carousel-caption{height:45px}
+#essentialbeCarousel.carousel .carousel-inner.below>.item .carousel-image-container.nocaption,#essentialbeCarousel.carousel .carousel-inner>.item.side-caption .carousel-image-container.nocaption{line-height:280px}
 }
-@media (min-width:768px){#essentialCarousel.carousel .carousel-inner>.item{height:260px}
-#essentialCarousel.carousel .carousel-inner>.item .carousel-image-container{line-height:260px}
-#essentialCarousel.carousel .carousel-inner>.item .carousel-image{max-height:225px}
-#essentialCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption{height:260px}
-#essentialCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption:before{content:'';display:inline-block;height:100%;vertical-align:middle}
-#essentialCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption .the-side-caption-content{display:inline-block;vertical-align:middle;width:100%}
-#essentialCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption h4{font-size:20px}
-#essentialCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption div{font-size:14px}
-#essentialCarousel.carousel .carousel-inner.below>.item{height:345px}
-#essentialCarousel.carousel .carousel-inner.below>.item .carousel-caption{height:55px}
-#essentialCarousel.carousel .carousel-inner.below>.item .carousel-image-container.nocaption{line-height:345px}
-#essentialCarousel.carousel .carousel-control{font-size:40px;width:40px;height:40px}
+@media (min-width:768px){
+    #essentialbeCarousel.carousel .carousel-inner>.item{height:260px}
+    #essentialbeCarousel.carousel .carousel-inner>.item .carousel-image-container{line-height:260px}
+    #essentialbeCarousel.carousel .carousel-inner>.item .carousel-image{max-height:225px}
+    #essentialbeCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption{height:260px}
+    #essentialbeCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption:before{content:'';display:inline-block;height:100%;vertical-align:middle}
+    #essentialbeCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption .the-side-caption-content{display:inline-block;vertical-align:middle;width:100%}
+    #essentialbeCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption h4{font-size:20px}
+    #essentialbeCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption div{font-size:14px}
+    #essentialbeCarousel.carousel .carousel-inner.below>.item{height:345px}
+    #essentialbeCarousel.carousel .carousel-inner.below>.item .carousel-caption{height:55px}
+    #essentialbeCarousel.carousel .carousel-inner.below>.item .carousel-image-container.nocaption{line-height:345px}
+    #essentialbeCarousel.carousel .carousel-control{font-size:40px;width:40px;height:40px}
 }
-@media (min-width:768px) and (max-width:979px){#essentialCarousel.carousel .carousel-inner>.item .carousel-caption h4{font-size:1.2em}
+@media (min-width:768px) and (max-width:979px){
+    #essentialbeCarousel.carousel .carousel-inner>.item .carousel-caption h4{font-size:1.2em}
 }
-@media (min-width:992px){#essentialCarousel.carousel .carousel-inner>.item{height:328px}
-#essentialCarousel.carousel .carousel-inner>.item .carousel-image-container{line-height:328px}
-#essentialCarousel.carousel .carousel-inner>.item .carousel-image{max-height:293px}
-#essentialCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption{height:328px}
-#essentialCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption h4{font-size:26px}
-#essentialCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption div{font-size:18px}
-#essentialCarousel.carousel .carousel-inner.below>.item{height:428px}
-#essentialCarousel.carousel .carousel-inner.below>.item .carousel-caption{height:65px}
-#essentialCarousel.carousel .carousel-inner.below>.item .carousel-image-container.nocaption{line-height:428px}
-#essentialCarousel.carousel .carousel-control{font-size:50px;width:50px;height:50px}
+@media (min-width:992px){
+    #essentialbeCarousel.carousel .carousel-inner>.item{height:328px}
+    #essentialbeCarousel.carousel .carousel-inner>.item .carousel-image-container{line-height:328px}
+    #essentialbeCarousel.carousel .carousel-inner>.item .carousel-image{max-height:293px}
+    #essentialbeCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption{height:328px}
+    #essentialbeCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption h4{font-size:26px}
+    #essentialbeCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption div{font-size:18px}
+    #essentialbeCarousel.carousel .carousel-inner.below>.item{height:428px}
+    #essentialbeCarousel.carousel .carousel-inner.below>.item .carousel-caption{height:65px}
+    #essentialbeCarousel.carousel .carousel-inner.below>.item .carousel-image-container.nocaption{line-height:428px}
+    #essentialbeCarousel.carousel .carousel-control{font-size:50px;width:50px;height:50px}
 }
-@media (min-width:1200px){#essentialCarousel.carousel .carousel-inner>.item{height:368px}
-#essentialCarousel.carousel .carousel-inner>.item .carousel-image-container{line-height:368px}
-#essentialCarousel.carousel .carousel-inner>.item .carousel-image{max-height:333px}
-#essentialCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption{height:368px}
-#essentialCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption h4{font-size:32px}
-#essentialCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption div{font-size:20px}
-#essentialCarousel.carousel .carousel-inner.below>.item{height:468px}
-#essentialCarousel.carousel .carousel-inner.below>.item .carousel-image-container.nocaption{line-height:468px}
-#essentialCarousel.carousel .carousel-control{font-size:60px;width:60px;height:60px}
+@media (min-width:1200px){
+#essentialbeCarousel.carousel .carousel-inner>.item{height:368px}
+#essentialbeCarousel.carousel .carousel-inner>.item .carousel-image-container{line-height:368px}
+#essentialbeCarousel.carousel .carousel-inner>.item .carousel-image{max-height:333px}
+#essentialbeCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption{height:368px}
+#essentialbeCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption h4{font-size:32px}
+#essentialbeCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption div{font-size:20px}
+#essentialbeCarousel.carousel .carousel-inner.below>.item{height:468px}
+#essentialbeCarousel.carousel .carousel-inner.below>.item .carousel-image-container.nocaption{line-height:468px}
+#essentialbeCarousel.carousel .carousel-control{font-size:60px;width:60px;height:60px}
 }
-.dir-ltr #essentialCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption{padding-left:7%}
-.dir-ltr #essentialCarousel.carousel .carousel-inner>.item.side-caption .carousel-image{margin-left:-8px}
-.dir-ltr #essentialCarousel.carousel .carousel-indicators{padding-right:5px;right:5px}
-@media (max-width:767px){.dir-ltr #essentialCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption{padding-left:0}
+.dir-ltr #essentialbeCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption{padding-left:7%}
+.dir-ltr #essentialbeCarousel.carousel .carousel-inner>.item.side-caption .carousel-image{margin-left:-8px}
+.dir-ltr #essentialbeCarousel.carousel .carousel-indicators{padding-right:5px;right:5px}
+@media (max-width:767px){.dir-ltr #essentialbeCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption{padding-left:0}
 }
-@media (min-width:768px){.dir-ltr #essentialCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption:before{margin-right:-.25em}
+@media (min-width:768px){.dir-ltr #essentialbeCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption:before{margin-right:-.25em}
 }
-.dir-rtl #essentialCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption{padding-right:7%}
-.dir-rtl #essentialCarousel.carousel .carousel-inner>.item.side-caption .carousel-image{margin-right:-8px}
-.dir-rtl #essentialCarousel.carousel .carousel-indicators{padding-right:5px;left:5px;right:auto}
-@media (max-width:767px){.dir-rtl #essentialCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption{padding-right:0}
+.dir-rtl #essentialbeCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption{padding-right:7%}
+.dir-rtl #essentialbeCarousel.carousel .carousel-inner>.item.side-caption .carousel-image{margin-right:-8px}
+.dir-rtl #essentialbeCarousel.carousel .carousel-indicators{padding-right:5px;left:5px;right:auto}
+@media (max-width:767px){.dir-rtl #essentialbeCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption{padding-right:0}
 }
-@media (min-width:768px){.dir-rtl #essentialCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption:before{margin-left:-.25em}
+@media (min-width:768px){.dir-rtl #essentialbeCarousel.carousel .carousel-inner>.item.side-caption div.the-side-caption:before{margin-left:-.25em}
 }
 .categoryicons .course_category_tree .subcategories{display:flex;flex-wrap:wrap}
 .categoryicons #frontpage-category-combo .collapsible-actions,.categoryicons .course_category_tree .collapsible-actions,.categoryicons .frontpage-category-names .collapsible-actions{display:none}
@@ -4793,7 +4797,7 @@ table#greyboxleft h2,table#greyboxright h2{border-bottom:1px solid #EEE;padding-
 #page-header .btn-icon:hover{background-color:#e5e5e5}
 #page-header .btn-icon .icon-bar+.icon-bar{margin-top:3px}
 #page-header.oldnavbar .btn-icon{top:10px}
-#page-header #essentialicons{overflow:visible;background-image:none}
+#page-header #essentialbeicons{overflow:visible;background-image:none}
 #page-header #pageheading,#page-header h2.main{font-size:1.4em;line-height:35px;color:#777;border-bottom:1px solid #e1e1e1}
 #page-header a.logo{display:block;background-size:contain;background-repeat:no-repeat}
 #page-header div.titlearea{height:52px;width:100%}
@@ -4805,13 +4809,13 @@ table#greyboxleft h2,table#greyboxright h2{border-bottom:1px solid #EEE;padding-
 #page-header #headerlogo{font-size:4.5em}
 .dir-ltr #page-header .row-fluid [class*=span]{padding-right:5px}
 .dir-ltr #page-header .btn-icon{float:right;right:10px}
-.dir-ltr #page-header #essentialicons button{margin:0 0 0 5px}
+.dir-ltr #page-header #essentialbeicons button{margin:0 0 0 5px}
 .dir-ltr #page-header a.logo{float:left;background-position:left center}
 .dir-ltr #page-header div.titlearea{margin-left:80px;padding-left:10px}
 .dir-ltr #page-header #headerlogo{float:left;padding-right:10px;margin-right:10px}
 .dir-rtl #page-header .row-fluid [class*=span]{padding-left:5px}
 .dir-rtl #page-header .btn-icon{float:left;left:10px}
-.dir-rtl #page-header #essentialicons button{margin:0 5px 0 0}
+.dir-rtl #page-header #essentialbeicons button{margin:0 5px 0 0}
 .dir-rtl #page-header a.logo{float:right;background-position:right center}
 .dir-rtl #page-header div.titlearea{margin-right:80px;padding-right:10px}
 .dir-rtl #page-header #headerlogo{float:right;padding-left:10px;margin-left:10px}
@@ -4851,8 +4855,8 @@ body button.linkedin:focus,body button.linkedin:hover{background-color:#4A9CC9}
 ul.socials{text-align:right}
 ul.socials li{text-align:right;display:inline-block}
 #socialheading{text-align:right;letter-spacing:.2em;padding:0;margin:2px 0 0}
-@media (min-width:768px){.dir-ltr.loggedin #page-header.oldnavbar #essentialicons{right:132px}
-.dir-rtl.loggedin #page-header.oldnavbar #essentialicons{left:132px}
+@media (min-width:768px){.dir-ltr.loggedin #page-header.oldnavbar #essentialbeicons{right:132px}
+.dir-rtl.loggedin #page-header.oldnavbar #essentialbeicons{left:132px}
 }
 .message{word-wrap:break-word}
 .messagearea{padding-bottom:60px}
@@ -4865,8 +4869,8 @@ ul.socials li{text-align:right;display:inline-block}
 .message .contactselector .singleselect{width:100%}
 #page-header{margin-top:40px}
 #page-header.oldnavbar{margin-top:0;margin-bottom:40px}
-#essentialnavbar{position:fixed;top:0;left:0;width:100%;z-index:200}
-#essentialnavbar .navbar{position:fixed}
+#essentialbenavbar{position:fixed;top:0;left:0;width:100%;z-index:200}
+#essentialbenavbar .navbar{position:fixed}
 @media (min-width:980px){.pagewidthnarrow #page-header{margin-top:80px}
 .pagewidthnarrow #page-header.oldnavbar{margin-top:0;margin-bottom:80px}
 }
@@ -4958,10 +4962,10 @@ div.dropdown-menu>ul li a{display:block}
 @media (max-width:979px){.navbar .navbar-inner #custom_menu,.navbar .navbar-inner #custom_menu_activitystream,.navbar .navbar-inner #custom_menu_courses,.navbar .navbar-inner #custom_menu_language,.navbar .navbar-inner #custom_menu_themecolours{display:inline}
 }
 .pagelayout-popup .navbar,.pagelayout-secure .navbar{position:relative}
-@media (min-width:768px){.loggedin #essentialnavbar.oldnavbar.affix-top .navbar .navbar-inner .custommenus .usermenu ul.nav .dropdown>.dropdown-toggle{font-size:12px;margin:0;padding-top:20px;padding-bottom:0;text-align:center;width:100px;max-width:100px}
-.loggedin #essentialnavbar.oldnavbar.affix-top .navbar .navbar-inner .custommenus .usermenu ul.nav .dropdown>.dropdown-toggle img.userpicture{position:absolute;top:-50px;width:64px;height:64px;max-width:64px;max-height:64px}
-.dir-ltr.loggedin #essentialnavbar.oldnavbar.affix-top .navbar .navbar-inner .custommenus .usermenu ul.nav .dropdown>.dropdown-toggle img.userpicture{right:32px}
-.dir-rtl.loggedin #essentialnavbar.oldnavbar.affix-top .navbar .navbar-inner .custommenus .usermenu ul.nav .dropdown>.dropdown-toggle img.userpicture{left:32px}
+@media (min-width:768px){.loggedin #essentialbenavbar.oldnavbar.affix-top .navbar .navbar-inner .custommenus .usermenu ul.nav .dropdown>.dropdown-toggle{font-size:12px;margin:0;padding-top:20px;padding-bottom:0;text-align:center;width:100px;max-width:100px}
+.loggedin #essentialbenavbar.oldnavbar.affix-top .navbar .navbar-inner .custommenus .usermenu ul.nav .dropdown>.dropdown-toggle img.userpicture{position:absolute;top:-50px;width:64px;height:64px;max-width:64px;max-height:64px}
+.dir-ltr.loggedin #essentialbenavbar.oldnavbar.affix-top .navbar .navbar-inner .custommenus .usermenu ul.nav .dropdown>.dropdown-toggle img.userpicture{right:32px}
+.dir-rtl.loggedin #essentialbenavbar.oldnavbar.affix-top .navbar .navbar-inner .custommenus .usermenu ul.nav .dropdown>.dropdown-toggle img.userpicture{left:32px}
 }
 a .colours-alternative1,a .colours-alternative2,a .colours-alternative3,a .colours-alternative4,a .colours-default{box-shadow:rgba(255,255,255,.8) 0 0 2px 3px;border-radius:2px}
 body.format-topcoll .course-content ul.ctopics li.section.main{padding-bottom:20px}
@@ -5066,10 +5070,10 @@ body,html{margin:0;padding:0;background-color:transparent;color:#000;text-shadow
 #page-header{height:auto}
 #page-header h1#smalltitle{font-size:1.2em;line-height:14px;padding-top:8px}
 #page-header h2#subtitle{line-height:14px;padding-top:2px}
-#page-header #essentialicons{overflow:hidden;position:relative;top:0}
+#page-header #essentialbeicons{overflow:hidden;position:relative;top:0}
 #page-header .btn-icon{display:block}
-.dir-ltr #page-header #essentialicons{float:right;right:50px}
-.dir-rtl #page-header #essentialicons{float:left;left:50px}
+.dir-ltr #page-header #essentialbeicons{float:right;right:50px}
+.dir-rtl #page-header #essentialbeicons{float:left;left:50px}
 #marketing-spots .marketing-spot{margin-bottom:10px;padding-bottom:10px}
 #marketing-spots .marketing-spot .button{text-align:right}
 #marketing-spots .marketing-spot .button .marketing-button.responsive{display:inline!important}
