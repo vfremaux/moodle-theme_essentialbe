@@ -109,6 +109,10 @@ function theme_essentialbe_serve_css($filename) {
     theme_essentialbe_send_cached_css($thestylepath, $filename, $lastmodified, $etagfile);
 }
 
+function theme_essentialbe_page_init(moodle_page $page) {
+    $page->requires-jquery();
+}
+
 function theme_essentialbe_send_unmodified($lastmodified, $etag) {
     $lifetime = 60 * 60 * 24 * 60;
     header('HTTP/1.1 304 Not Modified');
