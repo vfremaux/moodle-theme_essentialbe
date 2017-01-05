@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -15,26 +16,147 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Essential is a clean and customizable theme.
+ * This is built using the bootstrapbase template to allow for new theme's using
+ * Moodle's new Bootstrap theme engine
  *
  * @package     theme_essentialbe
- * @copyright   2016 Gareth J Barnard
- * @copyright   2014 Gareth J Barnard, David Bezemer
  * @copyright   2013 Julian Ridden
+ * @copyright   2014 Gareth J Barnard, David Bezemer
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+function theme_essentialbe_set_fontwww($css) {
+    global $CFG;
+    $fontwww = preg_replace("(https?:)", "", $CFG->wwwroot . '/theme/essentialbe/fonts/');
+
+    $tag = '[[setting:fontwww]]';
+
+    if (theme_essentialbe_get_setting('bootstrapcdn')) {
+        $css = str_replace($tag, '//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/fonts/', $css);
+    } else {
+        $css = str_replace($tag, $fontwww, $css);
+    }
+    return $css;
+}
+
+function theme_essentialbe_get_setting($setting, $format = false) {
+    static $theme;
+    if (empty($theme)) {
+        $theme = theme_config::load('essentialbe');
+    }
+    if (empty($theme->settings->$setting)) {
+        return false;
+    } else if (!$format) {
+        return $theme->settings->$setting;
+    } else if ($format === 'format_text') {
+        return format_text($theme->settings->$setting, $format = FORMAT_HTML, $options = array('trusted' => true));
+    } else {
+        return format_string($theme->settings->$setting);
+    }
+}
+
+function theme_essentialbe_set_logo($css, $logo) {
+    $tag = '[[setting:logo]]';
+    if (!($logo)) {
+        $replacement = 'none';
+    } else {
+        $replacement = 'url(\'' . $logo . '\')';
+    }
+    $css = str_replace($tag, $replacement, $css);
+    return $css;
+}
+
+function theme_essentialbe_get_title($location) {
+    global $CFG, $SITE;
+    $title = '';
+    if ($location === 'navbar') {
+        $url = preg_replace("(https?:)", "", $CFG->wwwroot);
+        switch (theme_essentialbe_get_setting('navbartitle')) {
+            case 0:
+                return false;
+                break;
+            case 1:
+                $title = '<a class="brand" href="' . $url . '">' . format_string($SITE->fullname, true,
+                                array('context' => context_course::instance(SITEID))) . '</a>';
+                break;
+            case 2:
+                $title = '<a class="brand" href="' . $url . '">' . format_string($SITE->shortname, true,
+                                array('context' => context_course::instance(SITEID))) . '</a>';
+                break;
+            default:
+                $title = '<a class="brand" href="' . $url . '">' . format_string($SITE->shortname, true,
+                                array('context' => context_course::instance(SITEID))) . '</a>';
+                break;
+        }
+    } else if ($location === 'header') {
+        switch (theme_essentialbe_get_setting('headertitle')) {
+            case 0:
+                return false;
+                break;
+            case 1:
+                $title = '<h1 id="title">' . format_string($SITE->fullname, true,
+                                array('context' => context_course::instance(SITEID))) . '</h1>';
+                break;
+            case 2:
+                $title = '<h1 id="title">' . format_string($SITE->shortname, true,
+                                array('context' => context_course::instance(SITEID))) . '</h1>';
+                break;
+            case 3:
+                $title = '<h1 id="smalltitle">' . format_string($SITE->fullname, true,
+                                array('context' => context_course::instance(SITEID))) . '</h2>';
+                $title .= '<h2 id="subtitle">' . strip_tags($SITE->summary) . '</h3>';
+                break;
+            case 4:
+                $title = '<h1 id="smalltitle">' . format_string($SITE->shortname, true,
+                                array('context' => context_course::instance(SITEID))) . '</h2>';
+                $title .= '<h2 id="subtitle">' . strip_tags($SITE->summary) . '</h3>';
+                break;
+            default:
+                break;
+        }
+    }
+    return $title;
+}
+
+function theme_essentialbe_edit_button($section) {
+    global $PAGE, $CFG;
+    if ($PAGE->user_is_editing() && is_siteadmin()) {
+        $url = preg_replace("(https?:)", "", $CFG->wwwroot . '/admin/settings.php?section=');
+        return '<a class="btn btn-success" href="' . $url . $section . '">' . get_string('edit') . '</a>';
+    }
+}
+
+// Moodle CSS file serving.
+function theme_essentialbe_get_csswww() {
+    global $CFG;
+
+    if (right_to_left()) {
+        $moodlecss = 'essentialbe-rtl.css';
+    } else {
+        $moodlecss = 'essentialbe.css';
+    }
+
+    $syscontext = context_system::instance();
+    $itemid = theme_get_revision();
+    $url = moodle_url::make_file_url("$CFG->wwwroot/pluginfile.php", "/$syscontext->id/theme_essentialbe/style/$itemid/$moodlecss");
+    $url = preg_replace('|^https?://|i', '//', $url->out(false));
+    return $url;
+}
+
+function theme_essentialbe_page_init(moodle_page $page) {
+    $page->requires-jquery();
+}
 
 /**
  * Serves any files associated with the theme settings.
  *
- * @param stdClass $course.
- * @param stdClass $cm.
- * @param context $context.
- * @param string $filearea.
- * @param array $args.
- * @param bool $forcedownload.
- * @param array $options.
- * @return bool.
+ * @param stdClass $course
+ * @param stdClass $cm
+ * @param context $context
+ * @param string $filearea
+ * @param array $args
+ * @param bool $forcedownload
+ * @param array $options
+ * @return bool
  */
 function theme_essentialbe_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = array()) {
     static $theme;
@@ -42,24 +164,15 @@ function theme_essentialbe_pluginfile($course, $cm, $context, $filearea, $args, 
         $theme = theme_config::load('essentialbe');
     }
     if ($context->contextlevel == CONTEXT_SYSTEM) {
-        // By default, theme files must be cache-able by both browsers and proxies.  From 'More' theme.
-        if (!array_key_exists('cacheability', $options)) {
-            $options['cacheability'] = 'public';
-        }
         if ($filearea === 'logo') {
             return $theme->setting_file_serve('logo', $args, $forcedownload, $options);
         } else if ($filearea === 'style') {
             theme_essentialbe_serve_css($args[1]);
-        } else if ($filearea === 'headerbackground') {
-            return $theme->setting_file_serve('headerbackground', $args, $forcedownload, $options);
         } else if ($filearea === 'pagebackground') {
             return $theme->setting_file_serve('pagebackground', $args, $forcedownload, $options);
-        } else if ($filearea === 'favicon') {
-            return $theme->setting_file_serve('favicon', $args, $forcedownload, $options);
-        } else if (preg_match("/^fontfile(eot|otf|svg|ttf|woff|woff2)(heading|body)$/", $filearea)) {
-            // Ref: http://www.regexr.com/.
+        } else if (preg_match("/slide[1-9][0-9]*image/", $filearea) !== false) {
             return $theme->setting_file_serve($filearea, $args, $forcedownload, $options);
-        } else if (preg_match("/^(marketing|slide|categoryct)[1-9][0-9]*image$/", $filearea)) {
+        } else if ((substr($filearea, 0, 9) === 'marketing') && (substr($filearea, 10, 5) === 'image')) {
             return $theme->setting_file_serve($filearea, $args, $forcedownload, $options);
         } else if ($filearea === 'iphoneicon') {
             return $theme->setting_file_serve('iphoneicon', $args, $forcedownload, $options);
@@ -69,8 +182,10 @@ function theme_essentialbe_pluginfile($course, $cm, $context, $filearea, $args, 
             return $theme->setting_file_serve('ipadicon', $args, $forcedownload, $options);
         } else if ($filearea === 'ipadretinaicon') {
             return $theme->setting_file_serve('ipadretinaicon', $args, $forcedownload, $options);
-        } else if ($filearea === 'loginbackground') {
-            return $theme->setting_file_serve('loginbackground', $args, $forcedownload, $options);
+        } else if ($filearea === 'fontfilettfheading') {
+            return $theme->setting_file_serve('fontfilettfheading', $args, $forcedownload, $options);
+        } else if ($filearea === 'fontfilettfbody') {
+            return $theme->setting_file_serve('fontfilettfbody', $args, $forcedownload, $options);
         } else {
             send_file_not_found();
         }
@@ -81,14 +196,10 @@ function theme_essentialbe_pluginfile($course, $cm, $context, $filearea, $args, 
 
 function theme_essentialbe_serve_css($filename) {
     global $CFG;
-
-    if (file_exists("{$CFG->dirroot}/theme/essentialbe/style/")) {
-        $thestylepath = $CFG->dirroot . '/theme/essentialbe/style/';
-    } else if (!empty($CFG->themedir) && file_exists("{$CFG->themedir}/essentialbe/style/")) {
+    if (!empty($CFG->themedir)) {
         $thestylepath = $CFG->themedir . '/essentialbe/style/';
     } else {
-        header('HTTP/1.0 404 Not Found');
-        die('Essential style folder not found, check $CFG->themedir is correct.');
+        $thestylepath = $CFG->dirroot . '/theme/essentialbe/style/';
     }
     $thesheet = $thestylepath . $filename;
 
@@ -107,10 +218,6 @@ function theme_essentialbe_serve_css($filename) {
         theme_essentialbe_send_unmodified($lastmodified, $etagfile);
     }
     theme_essentialbe_send_cached_css($thestylepath, $filename, $lastmodified, $etagfile);
-}
-
-function theme_essentialbe_page_init(moodle_page $page) {
-    $page->requires-jquery();
 }
 
 function theme_essentialbe_send_unmodified($lastmodified, $etag) {
@@ -133,10 +240,8 @@ function theme_essentialbe_send_cached_css($path, $filename, $lastmodified, $eta
     $lifetime = 60 * 60 * 24 * 60;
 
     header('Etag: "' . $etag . '"');
-    header('Content-Disposition: inline; filename="' . $filename . '"');
-    if ($lastmodified) {
-        header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $lastmodified) . ' GMT');
-    }
+    header('Content-Disposition: inline; filename="'.$filename.'"');
+    header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $lastmodified) . ' GMT');
     header('Expires: ' . gmdate('D, d M Y H:i:s', time() + $lifetime) . ' GMT');
     header('Pragma: ');
     header('Cache-Control: public, max-age=' . $lifetime);
@@ -150,351 +255,797 @@ function theme_essentialbe_send_cached_css($path, $filename, $lastmodified, $eta
     die;
 }
 
+/**
+ * Set the width on the container-fluid div
+ *
+ * @param string $css
+ * @param mixed $pagewidth
+ * @return string
+ */
+function theme_essentialbe_set_pagewidth($css, $pagewidth) {
+    $tag = '[[setting:pagewidth]]';
+    $imagetag = '[[setting:pagewidthimage]]';
+    $replacement = $pagewidth;
+    if (!($replacement)) {
+        $replacement = '1200';
+    }
+    if ($replacement == "100") {
+        $css = str_replace($tag, $replacement . '%', $css);
+        $css = str_replace($imagetag, '90' . '%', $css);
+    } else {
+        $css = str_replace($tag, $replacement . 'px', $css);
+        $css = str_replace($imagetag, $replacement . 'px', $css);
+    }
+    return $css;
+}
+
+/**
+ * get_performance_output() override get_peformance_info()
+ *  in moodlelib.php. Returns a string
+ * values ready for use.
+ * @param array $param
+ * @param string $perfinfo
+ * @return string $html
+ */
+function theme_essentialbe_performance_output($param, $perfinfo) {
+    $html = html_writer::start_tag('div', array('class' => 'container-fluid performanceinfo'));
+    $html .= html_writer::start_tag('div', array('class' => 'row-fluid'));
+    $html .= html_writer::start_tag('div', array('class' => 'span12'));
+    $html .= html_writer::tag('h2', get_string('perfinfoheading', 'theme_essentialbe'));
+    $html .= html_writer::end_tag('div');
+    $html .= html_writer::end_tag('div');
+    $html .= html_writer::start_tag('div', array('class' => 'row-fluid'));
+    $colcount = 0;
+    if (isset($param['realtime'])) {
+        $colcount++;
+    }
+    if (isset($param['memory_total'])) {
+        $colcount++;
+    }
+    if (isset($param['includecount'])) {
+        $colcount++;
+    }
+    if (isset($param['dbqueries'])) {
+        $colcount++;
+    }
+    if ($colcount != 0) {
+        $thespan = 12 / $colcount;
+        if (isset($param['realtime'])) {
+            $html .= html_writer::start_tag('div', array('class' => 'span' . $thespan));
+            $html .= html_writer::tag('var', round($param['realtime'], 2) . ' ' . get_string('seconds'), array('id' => 'load'));
+            $html .= html_writer::span(get_string('loadtime', 'theme_essentialbe'));
+            $html .= html_writer::end_tag('div');
+        }
+        if (isset($param['memory_total'])) {
+            $html .= html_writer::start_tag('div', array('class' => 'span' . $thespan));
+            $html .= html_writer::tag('var', display_size($param['memory_total']), array('id' => 'memory'));
+            $html .= html_writer::span(get_string('memused', 'theme_essentialbe'));
+            $html .= html_writer::end_tag('div');
+        }
+        if (isset($param['includecount'])) {
+            $html .= html_writer::start_tag('div', array('class' => 'span' . $thespan));
+            $html .= html_writer::tag('var', $param['includecount'], array('id' => 'included'));
+            $html .= html_writer::span(get_string('included', 'theme_essentialbe'));
+            $html .= html_writer::end_tag('div');
+        }
+        if (isset($param['dbqueries'])) {
+            $html .= html_writer::start_tag('div', array('class' => 'span' . $thespan));
+            $html .= html_writer::tag('var', $param['dbqueries'], array('id' => 'dbqueries'));
+            $html .= html_writer::span(get_string('dbqueries', 'theme_essentialbe'));
+            $html .= html_writer::end_tag('div');
+        }
+    }
+    $html .= html_writer::end_tag('div');
+    if ($perfinfo === "max") {
+        $html .= html_writer::empty_tag('hr');
+        $html .= html_writer::start_tag('div', array('class' => 'row-fluid'));
+        $html .= html_writer::start_tag('div', array('class' => 'span12'));
+        $html .= html_writer::tag('h2', get_string('extperfinfoheading', 'theme_essentialbe'));
+        $html .= html_writer::end_tag('div');
+        $html .= html_writer::end_tag('div');
+        $html .= html_writer::start_tag('div', array('class' => 'row-fluid'));
+        $colcountmax = 0;
+        if (isset($param['serverload'])) {
+            $colcountmax++;
+        }
+        if (isset($param['memory_peak'])) {
+            $colcountmax++;
+        }
+        if (isset($param['cachesused'])) {
+            $colcountmax++;
+        }
+        if (isset($param['sessionsize'])) {
+            $colcountmax++;
+        }
+        if (isset($param['dbtime'])) {
+            $colcountmax++;
+        }
+        if ($colcountmax != 0) {
+            $thespanmax = 12 / $colcountmax;
+            if (isset($param['serverload'])) {
+                $html .= html_writer::start_tag('div', array('class' => 'span' . $thespanmax));
+                $html .= html_writer::tag('var', $param['serverload'], array('id' => 'load'));
+                $html .= html_writer::span(get_string('serverload', 'theme_essentialbe'));
+                $html .= html_writer::end_tag('div');
+            }
+            if (isset($param['memory_peak'])) {
+                $html .= html_writer::start_tag('div', array('class' => 'span' . $thespanmax));
+                $html .= html_writer::tag('var', display_size($param['memory_peak']), array('id' => 'peakmemory'));
+                $html .= html_writer::span(get_string('peakmem', 'theme_essentialbe'));
+                $html .= html_writer::end_tag('div');
+            }
+            if (isset($param['cachesused'])) {
+                $html .= html_writer::start_tag('div', array('class' => 'span' . $thespanmax));
+                $html .= html_writer::tag('var', $param['cachesused'], array('id' => 'cache'));
+                $html .= html_writer::span(get_string('cachesused', 'theme_essentialbe'));
+                $html .= html_writer::end_tag('div');
+            }
+            if (isset($param['sessionsize'])) {
+                $html .= html_writer::start_tag('div', array('class' => 'span' . $thespanmax));
+                $html .= html_writer::tag('var', $param['sessionsize'], array('id' => 'session'));
+                $html .= html_writer::span(get_string('sessionsize', 'theme_essentialbe'));
+                $html .= html_writer::end_tag('div');
+            }
+            if (isset($param['dbtime'])) {
+                $html .= html_writer::start_tag('div', array('class' => 'span' . $thespanmax));
+                $html .= html_writer::tag('var', $param['dbtime'], array('id' => 'dbtime'));
+                $html .= html_writer::span(get_string('dbtime', 'theme_essentialbe'));
+                $html .= html_writer::end_tag('div');
+            }
+        }
+        $html .= html_writer::end_tag('div');
+    }
+    $html .= html_writer::end_tag('div');
+    $html .= html_writer::end_tag('div');
+
+    return $html;
+}
+
+function theme_essentialbe_hex2rgba($hex, $opacity) {
+    $hex = str_replace("#", "", $hex);
+
+    if (strlen($hex) == 3) {
+        $r = hexdec(substr($hex, 0, 1) . substr($hex, 0, 1));
+        $g = hexdec(substr($hex, 1, 1) . substr($hex, 1, 1));
+        $b = hexdec(substr($hex, 2, 1) . substr($hex, 2, 1));
+    } else {
+        $r = hexdec(substr($hex, 0, 2));
+        $g = hexdec(substr($hex, 2, 2));
+        $b = hexdec(substr($hex, 4, 2));
+    }
+    return "rgba($r, $g, $b, $opacity)";
+}
+
+/**
+ * Adds any custom CSS to the CSS before it is cached.
+ *
+ * @param string $css The original CSS.
+ * @param string $customcss The custom CSS to add.
+ * @return string The CSS which now contains our custom CSS.
+ */
+function theme_essentialbe_set_customcss($css, $customcss) {
+    $tag = '[[setting:customcss]]';
+    $replacement = $customcss;
+    $css = str_replace($tag, $replacement, $css);
+    return $css;
+}
+
 function theme_essentialbe_process_css($css, $theme) {
-    global $PAGE;
-    $outputus = $PAGE->get_renderer('theme_essentialbe', 'core');
-    \theme_essentialbe\toolbox::set_core_renderer($outputus);
+    // Set the theme width
+    $pagewidth = theme_essentialbe_get_setting('pagewidth');
+    $css = theme_essentialbe_set_pagewidth($css, $pagewidth);
 
-    // Set the theme width.
-    $pagewidth = \theme_essentialbe\toolbox::get_setting('pagewidth');
-    $css = \theme_essentialbe\toolbox::set_pagewidth($css, $pagewidth);
+    // Set the theme font
+    $headingfont = theme_essentialbe_get_setting('fontnameheading');
+    $bodyfont = theme_essentialbe_get_setting('fontnamebody');
 
-    // Set the theme font.
-    $css = \theme_essentialbe\toolbox::set_font($css, 'heading', \theme_essentialbe\toolbox::get_setting('fontnameheading'));
-    $css = \theme_essentialbe\toolbox::set_font($css, 'body', \theme_essentialbe\toolbox::get_setting('fontnamebody'));
+    $css = theme_essentialbe_set_headingfont($css, $headingfont);
+    $css = theme_essentialbe_set_bodyfont($css, $bodyfont);
+    $css = theme_essentialbe_set_fontfiles($css, 'heading', $headingfont, $theme);
+    $css = theme_essentialbe_set_fontfiles($css, 'body', $bodyfont, $theme);
 
     // Set the theme colour.
-    $themecolor = \theme_essentialbe\toolbox::get_setting('themecolor');
-    $css = \theme_essentialbe\toolbox::set_color($css, $themecolor, '[[setting:themecolor]]', '#30add1');
-
-    // Input focus colour.
-    $css = \theme_essentialbe\toolbox::set_color($css, $themecolor, '[[setting:inputfocusbordercolor]]', '#30add1', '0.8');
-    $css = \theme_essentialbe\toolbox::set_color($css, $themecolor, '[[setting:inputfocusshadowcolor]]', '#30add1', '0.6');
+    $themecolor = theme_essentialbe_get_setting('themecolor');
+    $css = theme_essentialbe_set_color($css, $themecolor, '[[setting:themecolor]]', '#30ADD1');
 
     // Set the theme text colour.
-    $themetextcolor = \theme_essentialbe\toolbox::get_setting('themetextcolor');
-    $css = \theme_essentialbe\toolbox::set_color($css, $themetextcolor, '[[setting:themetextcolor]]', '#047797');
+    $themetextcolor = theme_essentialbe_get_setting('themetextcolor');
+    $css = theme_essentialbe_set_color($css, $themetextcolor, '[[setting:themetextcolor]]', '#047797');
 
     // Set the theme url colour.
-    $themeurlcolor = \theme_essentialbe\toolbox::get_setting('themeurlcolor');
-    $css = \theme_essentialbe\toolbox::set_color($css, $themeurlcolor, '[[setting:themeurlcolor]]', '#FF5034');
+    $themeurlcolor = theme_essentialbe_get_setting('themeurlcolor');
+    $css = theme_essentialbe_set_color($css, $themeurlcolor, '[[setting:themeurlcolor]]', '#FF5034');
 
     // Set the theme hover colour.
-    $themehovercolor = \theme_essentialbe\toolbox::get_setting('themehovercolor');
-    $css = \theme_essentialbe\toolbox::set_color($css, $themehovercolor, '[[setting:themehovercolor]]', '#F32100');
-
-    // Set the theme header text colour.
-    $themetextcolor = \theme_essentialbe\toolbox::get_setting('headertextcolor');
-    $css = \theme_essentialbe\toolbox::set_color($css, $themetextcolor, '[[setting:headertextcolor]]', '#217a94');
+    $themehovercolor = theme_essentialbe_get_setting('themehovercolor');
+    $css = theme_essentialbe_set_color($css, $themehovercolor, '[[setting:themehovercolor]]', '#F32100');
 
     // Set the theme icon colour.
-    $themeiconcolor = \theme_essentialbe\toolbox::get_setting('themeiconcolor');
-    $css = \theme_essentialbe\toolbox::set_color($css, $themeiconcolor, '[[setting:themeiconcolor]]', '#30add1');
-
-    // Set the theme default button text colour.
-    $themedefaultbuttontextcolour = \theme_essentialbe\toolbox::get_setting('themedefaultbuttontextcolour');
-    $css = \theme_essentialbe\toolbox::set_color($css, $themedefaultbuttontextcolour,
-        '[[setting:themedefaultbuttontextcolour]]', '#ffffff');
-
-    // Set the theme default button text hover colour.
-    $themedefaultbuttontexthovercolour = \theme_essentialbe\toolbox::get_setting('themedefaultbuttontexthovercolour');
-    $css = \theme_essentialbe\toolbox::set_color($css, $themedefaultbuttontexthovercolour,
-        '[[setting:themedefaultbuttontexthovercolour]]', '#ffffff');
-
-    // Set the theme default button background colour.
-    $themedefaultbuttonbackgroundcolour = \theme_essentialbe\toolbox::get_setting('themedefaultbuttonbackgroundcolour');
-    $css = \theme_essentialbe\toolbox::set_color($css, $themedefaultbuttonbackgroundcolour,
-        '[[setting:themedefaultbuttonbackgroundcolour]]', '#30add1');
-    $css = \theme_essentialbe\toolbox::set_color($css, $themedefaultbuttonbackgroundcolour,
-        '[[setting:themedefaultbuttonbackgroundcolourimage]]', '#30add1');
-    $css = \theme_essentialbe\toolbox::set_color($css,
-        \theme_essentialbe\toolbox::hexadjust($themedefaultbuttonbackgroundcolour, 10),
-        '[[setting:themedefaultbuttonbackgroundcolourrgba]]', '#30add1', '0.25');
-
-    // Set the theme default button background hover colour.
-    $themedefaultbuttonbackgroundhovercolour = \theme_essentialbe\toolbox::get_setting('themedefaultbuttonbackgroundhovercolour');
-    $css = \theme_essentialbe\toolbox::set_color($css, $themedefaultbuttonbackgroundhovercolour,
-        '[[setting:themedefaultbuttonbackgroundhovercolour]]', '#3ad4ff');
-    $css = \theme_essentialbe\toolbox::set_color($css, $themedefaultbuttonbackgroundhovercolour,
-        '[[setting:themedefaultbuttonbackgroundhovercolourimage]]', '#3ad4ff');
-    $css = \theme_essentialbe\toolbox::set_color($css,
-        \theme_essentialbe\toolbox::hexadjust($themedefaultbuttonbackgroundhovercolour, 10),
-        '[[setting:themedefaultbuttonbackgroundhovercolourrgba]]', '#3ad4ff', '0.25');
+    $themeiconcolor = theme_essentialbe_get_setting('themeiconcolor');
+    $css = theme_essentialbe_set_color($css, $themeiconcolor, '[[setting:themeiconcolor]]', '#30ADD1');
 
     // Set the theme navigation colour.
-    $themenavcolor = \theme_essentialbe\toolbox::get_setting('themenavcolor');
-    $css = \theme_essentialbe\toolbox::set_color($css, $themenavcolor, '[[setting:themenavcolor]]', '#ffffff');
-
-    // Set the theme stripe text colour.
-    $themestripetextcolour = \theme_essentialbe\toolbox::get_setting('themestripetextcolour');
-    $css = \theme_essentialbe\toolbox::set_color($css, $themestripetextcolour, '[[setting:themestripetextcolour]]', '#ffffff');
-
-    // Set the theme stripe background colour.
-    $themestripebackgroundcolour = \theme_essentialbe\toolbox::get_setting('themestripebackgroundcolour');
-    $css = \theme_essentialbe\toolbox::set_color($css, $themestripebackgroundcolour, '[[setting:themestripebackgroundcolour]]', '#ff9a34');
-
-    $themestripeurlcolour = \theme_essentialbe\toolbox::get_setting('themestripeurlcolour');
-    $css = \theme_essentialbe\toolbox::set_color($css, $themestripeurlcolour, '[[setting:themestripeurlcolour]]', '#25849F');
-
-    // Enrolled and not accessed course background colour.
-    $mycoursesorderenrolbackcolour = \theme_essentialbe\toolbox::get_setting('mycoursesorderenrolbackcolour');
-    $css = \theme_essentialbe\toolbox::set_color($css, $mycoursesorderenrolbackcolour,
-        '[[setting:mycoursesorderenrolbackcolour]]', '#a3ebff');
+    $themenavcolor = theme_essentialbe_get_setting('themenavcolor');
+    $css = theme_essentialbe_set_color($css, $themenavcolor, '[[setting:themenavcolor]]', '#ffffff');
 
     // Set the footer colour.
-    $footercolor = \theme_essentialbe\toolbox::get_setting('footercolor');
-    $css = \theme_essentialbe\toolbox::set_color($css, $footercolor, '[[setting:footercolor]]', '#30add1', '0.95');
+    $footercolor = theme_essentialbe_hex2rgba(theme_essentialbe_get_setting('footercolor'), '0.95');
+    $css = theme_essentialbe_set_color($css, $footercolor, '[[setting:footercolor]]', '#555555');
 
-    // Set the footer text colour.
-    $footertextcolor = \theme_essentialbe\toolbox::get_setting('footertextcolor');
-    $css = \theme_essentialbe\toolbox::set_color($css, $footertextcolor, '[[setting:footertextcolor]]', '#ffffff');
+    // Set the footer text color.
+    $footertextcolor = theme_essentialbe_get_setting('footertextcolor');
+    $css = theme_essentialbe_set_color($css, $footertextcolor, '[[setting:footertextcolor]]', '#bbbbbb');
 
-    // Set the footer block background colour.
-    $footerheadingcolor = \theme_essentialbe\toolbox::get_setting('footerblockbackgroundcolour');
-    $css = \theme_essentialbe\toolbox::set_color($css, $footerheadingcolor, '[[setting:footerblockbackgroundcolour]]',
-                    '#cccccc');
-
-    // Set the footer block heading colour.
-    $footerheadingcolor = \theme_essentialbe\toolbox::get_setting('footerheadingcolor');
-    $css = \theme_essentialbe\toolbox::set_color($css, $footerheadingcolor, '[[setting:footerheadingcolor]]', '#cccccc');
-
-    // Set the footer text colour.
-    $footertextcolor = \theme_essentialbe\toolbox::get_setting('footerblocktextcolour');
-    $css = \theme_essentialbe\toolbox::set_color($css, $footertextcolor, '[[setting:footerblocktextcolour]]', '#000000');
-
-    // Set the footer block URL colour.
-    $footerurlcolor = \theme_essentialbe\toolbox::get_setting('footerblockurlcolour');
-    $css = \theme_essentialbe\toolbox::set_color($css, $footerurlcolor, '[[setting:footerblockurlcolour]]', '#000000');
-
-    // Set the footer block hover colour.
-    $footerhovercolor = \theme_essentialbe\toolbox::get_setting('footerblockhovercolour');
-    $css = \theme_essentialbe\toolbox::set_color($css, $footerhovercolor, '[[setting:footerblockhovercolour]]', '#555555');
+    // Set the footer heading colour.
+    $footerheadingcolor = theme_essentialbe_get_setting('footerheadingcolor');
+    $css = theme_essentialbe_set_color($css, $footerheadingcolor, '[[setting:footerheadingcolor]]', '#cccccc');
 
     // Set the footer separator colour.
-    $footersepcolor = \theme_essentialbe\toolbox::get_setting('footersepcolor');
-    $css = \theme_essentialbe\toolbox::set_color($css, $footersepcolor, '[[setting:footersepcolor]]', '#313131');
+    $footersepcolor = theme_essentialbe_get_setting('footersepcolor');
+    $css = theme_essentialbe_set_color($css, $footersepcolor, '[[setting:footersepcolor]]', '#313131');
 
-    // Set the footer URL colour.
-    $footerurlcolor = \theme_essentialbe\toolbox::get_setting('footerurlcolor');
-    $css = \theme_essentialbe\toolbox::set_color($css, $footerurlcolor, '[[setting:footerurlcolor]]', '#cccccc');
+    // Set the footer URL color.
+    $footerurlcolor = theme_essentialbe_get_setting('footerurlcolor');
+    $css = theme_essentialbe_set_color($css, $footerurlcolor, '[[setting:footerurlcolor]]', '#217a94');
 
     // Set the footer hover colour.
-    $footerhovercolor = \theme_essentialbe\toolbox::get_setting('footerhovercolor');
-    $css = \theme_essentialbe\toolbox::set_color($css, $footerhovercolor, '[[setting:footerhovercolor]]', '#bbbbbb');
+    $footerhovercolor = theme_essentialbe_get_setting('footerhovercolor');
+    $css = theme_essentialbe_set_color($css, $footerhovercolor, '[[setting:footerhovercolor]]', '#30add1');
+
+    // Set the slide background colour.
+    $slidebgcolor = theme_essentialbe_hex2rgba(theme_essentialbe_get_setting('themecolor'), '.75');
+    $css = theme_essentialbe_set_color($css, $slidebgcolor, '[[setting:carouselcolor]]', '#30add1');
+
+    // Set the slide active pip colour.
+    $slidebgcolor = theme_essentialbe_hex2rgba(theme_essentialbe_get_setting('themecolor'), '.25');
+    $css = theme_essentialbe_set_color($css, $slidebgcolor, '[[setting:carouselactivecolor]]', '#30add1');
 
     // Set the slide header colour.
-    $slideshowcolor = \theme_essentialbe\toolbox::get_setting('slideshowcolor');
-    $css = \theme_essentialbe\toolbox::set_color($css, $slideshowcolor, '[[setting:slideshowcolor]]', '#30add1');
+    $slideshowcolor = theme_essentialbe_get_setting('slideshowcolor');
+    $css = theme_essentialbe_set_color($css, $slideshowcolor, '[[setting:slideshowcolor]]', '#30add1');
 
     // Set the slide header colour.
-    $slideheadercolor = \theme_essentialbe\toolbox::get_setting('slideheadercolor');
-    $css = \theme_essentialbe\toolbox::set_color($css, $slideheadercolor, '[[setting:slideheadercolor]]', '#30add1');
+    $slideheadercolor = theme_essentialbe_get_setting('slideheadercolor');
+    $css = theme_essentialbe_set_color($css, $slideheadercolor, '[[setting:slideheadercolor]]', '#30add1');
 
-    // Set the slide caption text colour.
-    $slidecaptiontextcolor = \theme_essentialbe\toolbox::get_setting('slidecaptiontextcolor');
-    $css = \theme_essentialbe\toolbox::set_color($css, $slidecaptiontextcolor, '[[setting:slidecaptiontextcolor]]',
-                    '#ffffff');
-
-    // Set the slide caption background colour.
-    $slidecaptionbackgroundcolor = \theme_essentialbe\toolbox::get_setting('slidecaptionbackgroundcolor');
-    $css = \theme_essentialbe\toolbox::set_color($css, $slidecaptionbackgroundcolor,
-                    '[[setting:slidecaptionbackgroundcolor]]', '#30add1');
+    // Set the slide text colour.
+    $slidecolor = theme_essentialbe_get_setting('slidecolor');
+    $css = theme_essentialbe_set_color($css, $slidecolor, '[[setting:slidecolor]]', '#ffffff');
 
     // Set the slide button colour.
-    $slidebuttoncolor = \theme_essentialbe\toolbox::get_setting('slidebuttoncolor');
-    $css = \theme_essentialbe\toolbox::set_color($css, $slidebuttoncolor, '[[setting:slidebuttoncolor]]', '#30add1');
+    $slidebuttoncolor = theme_essentialbe_get_setting('slidebuttoncolor');
+    $css = theme_essentialbe_set_color($css, $slidebuttoncolor, '[[setting:slidebuttoncolor]]', '#30add1');
 
     // Set the slide button hover colour.
-    $slidebuttonhcolor = \theme_essentialbe\toolbox::get_setting('slidebuttonhovercolor');
-    $css = \theme_essentialbe\toolbox::set_color($css, $slidebuttonhcolor, '[[setting:slidebuttonhovercolor]]', '#217a94');
+    $slidebuttonhcolor = theme_essentialbe_get_setting('slidebuttonhovercolor');
+    $css = theme_essentialbe_set_color($css, $slidebuttonhcolor, '[[setting:slidebuttonhovercolor]]', '#217a94');
 
-    if ((\theme_essentialbe\toolbox::get_setting('enablealternativethemecolors1')) ||
-            (\theme_essentialbe\toolbox::get_setting('enablealternativethemecolors2')) ||
-            (\theme_essentialbe\toolbox::get_setting('enablealternativethemecolors3')) ||
-            (\theme_essentialbe\toolbox::get_setting('enablealternativethemecolors4'))
+    if ((get_config('theme_essentialbe', 'enablealternativethemecolors1')) ||
+            (get_config('theme_essentialbe', 'enablealternativethemecolors2')) ||
+            (get_config('theme_essentialbe', 'enablealternativethemecolors3'))
     ) {
         // Set theme alternative colours.
-        $defaultcolors = array('#a430d1', '#d15430', '#5dd130', '#006b94');
-        $defaulthovercolors = array('#9929c4', '#c44c29', '#53c429', '#4090af');
-        $defaultstripetextcolors = array('#bdfdb7', '#c3fdd0', '#9f5bfb', '#ff1ebd');
-        $defaultstripebackgroundcolors = array('#c1009f', '#bc2800', '#b4b2fd', '#0336b4');
-        $defaultstripeurlcolors = array('#bef500', '#30af67', '#ffe9a6', '#ffab00');
+        $defaultcolors = array('#a430d1', '#d15430', '#5dd130');
+        $defaulthovercolors = array('#9929c4', '#c44c29', '#53c429');
 
-        foreach (range(1, 4) as $alternative) {
+        foreach (range(1, 3) as $alternative) {
             $default = $defaultcolors[$alternative - 1];
             $defaulthover = $defaulthovercolors[$alternative - 1];
-            $defaultstripetext = $defaultstripetextcolors[$alternative - 1];
-            $defaultstripebackground = $defaultstripebackgroundcolors[$alternative - 1];
-            $defaultstripeurl = $defaultstripeurlcolors[$alternative - 1];
-            $alternativethemecolour = \theme_essentialbe\toolbox::get_setting('alternativethemecolor'.$alternative);
-            $css = \theme_essentialbe\toolbox::set_alternativecolor($css, 'color'.$alternative,
-                $alternativethemecolour, $default);
-
-            $css = \theme_essentialbe\toolbox::set_alternativecolor($css, 'inputfocusbordercolor'.$alternative,
-                $alternativethemecolour, $default, '0.8');
-            $css = \theme_essentialbe\toolbox::set_alternativecolor($css, 'inputfocusshadowcolor'.$alternative,
-                $alternativethemecolour, $default, '0.6');
-
-            $css = \theme_essentialbe\toolbox::set_alternativecolor($css, 'textcolor'.$alternative,
-                \theme_essentialbe\toolbox::get_setting('alternativethemetextcolor'.$alternative), $default);
-
-            $css = \theme_essentialbe\toolbox::set_alternativecolor($css, 'urlcolor'.$alternative,
-                \theme_essentialbe\toolbox::get_setting('alternativethemeurlcolor'.$alternative), $default);
-
-            $css = \theme_essentialbe\toolbox::set_alternativecolor($css, 'defaultbuttontextcolour'.$alternative,
-                \theme_essentialbe\toolbox::get_setting('alternativethemedefaultbuttontextcolour'.$alternative),
-                '#ffffff');
-
-            $css = \theme_essentialbe\toolbox::set_alternativecolor($css, 'defaultbuttontexthovercolour'.$alternative,
-                \theme_essentialbe\toolbox::get_setting('alternativethemedefaultbuttontexthovercolour'.$alternative),
-                '#ffffff');
-
-            $alternativethemedefaultbuttonbackgroundcolour = \theme_essentialbe\toolbox::get_setting(
-                'alternativethemedefaultbuttonbackgroundcolour'.$alternative);
-            $css = \theme_essentialbe\toolbox::set_alternativecolor($css, 'defaultbuttonbackgroundcolour'.$alternative,
-                $alternativethemedefaultbuttonbackgroundcolour,
-                '#30add1');
-            $css = \theme_essentialbe\toolbox::set_alternativecolor($css, 'defaultbuttonbackgroundcolourimage'.$alternative,
-                $alternativethemedefaultbuttonbackgroundcolour,
-                '#30add1');
-            $css = \theme_essentialbe\toolbox::set_alternativecolor($css, 'defaultbuttonbackgroundcolourrgba'.$alternative,
-                \theme_essentialbe\toolbox::hexadjust($alternativethemedefaultbuttonbackgroundcolour, 10),
-                '#30add1', '0.25');
-
-            $alternativethemedefaultbuttonbackgroundhovercolour = \theme_essentialbe\toolbox::get_setting(
-                'alternativethemedefbuttonbackgroundhvrcolour'.$alternative);
-            $css = \theme_essentialbe\toolbox::set_alternativecolor($css, 'defaultbuttonbackgroundhovercolour'.$alternative,
-                $alternativethemedefaultbuttonbackgroundhovercolour,
-                '#3ad4ff');
-            $css = \theme_essentialbe\toolbox::set_alternativecolor($css, 'defaultbuttonbackgroundhovercolourimage'.$alternative,
-                $alternativethemedefaultbuttonbackgroundhovercolour,
-                '#3ad4ff');
-            $css = \theme_essentialbe\toolbox::set_alternativecolor($css, 'defaultbuttonbackgroundhovercolourrgba'.$alternative,
-                \theme_essentialbe\toolbox::hexadjust($alternativethemedefaultbuttonbackgroundhovercolour, 10),
-                '#3ad4ff', '0.25');
-
-            $css = \theme_essentialbe\toolbox::set_alternativecolor($css, 'iconcolor' . $alternative,
-                \theme_essentialbe\toolbox::get_setting('alternativethemeiconcolor' . $alternative), $default);
-
-            $css = \theme_essentialbe\toolbox::set_alternativecolor($css, 'navcolor' . $alternative,
-                \theme_essentialbe\toolbox::get_setting('alternativethemenavcolor' . $alternative), $default);
-
-            $css = \theme_essentialbe\toolbox::set_alternativecolor($css, 'hovercolor' . $alternative,
-                \theme_essentialbe\toolbox::get_setting('alternativethemehovercolor' . $alternative), $defaulthover);
-
-            $css = \theme_essentialbe\toolbox::set_alternativecolor($css, 'stripetextcolour' . $alternative,
-                \theme_essentialbe\toolbox::get_setting('alternativethemestripetextcolour' . $alternative), $defaultstripetext);
-
-            $css = \theme_essentialbe\toolbox::set_alternativecolor($css, 'stripebackgroundcolour' . $alternative,
-                \theme_essentialbe\toolbox::get_setting('alternativethemestripebackgroundcolour' . $alternative), $defaultstripebackground);
-
-            $css = \theme_essentialbe\toolbox::set_alternativecolor($css, 'stripeurlcolour' . $alternative,
-                \theme_essentialbe\toolbox::get_setting('alternativethemestripeurlcolour' . $alternative), $defaultstripeurl);
-
-            $alternativethememycoursesorderenrolbackcolour = \theme_essentialbe\toolbox::get_setting(
-                'alternativethememycoursesorderenrolbackcolour'.$alternative);
-            $css = \theme_essentialbe\toolbox::set_alternativecolor($css, 'mycoursesorderenrolbackcolour'.$alternative,
-                $alternativethememycoursesorderenrolbackcolour, '#a3ebff');
-
-            $css = \theme_essentialbe\toolbox::set_alternativecolor($css, 'footercolor' . $alternative,
-                \theme_essentialbe\toolbox::get_setting('alternativethemefootercolor' . $alternative), '#30add1');
-
-            $css = \theme_essentialbe\toolbox::set_alternativecolor($css, 'footertextcolor' . $alternative,
-                \theme_essentialbe\toolbox::get_setting('alternativethemefootertextcolor' . $alternative), '#30add1');
-
-            $css = \theme_essentialbe\toolbox::set_alternativecolor($css, 'footerblockbackgroundcolour' . $alternative,
-                \theme_essentialbe\toolbox::get_setting('alternativethemefooterblockbackgroundcolour' . $alternative), '#cccccc');
-
-            $css = \theme_essentialbe\toolbox::set_alternativecolor($css, 'footerblocktextcolour' . $alternative,
-                \theme_essentialbe\toolbox::get_setting('alternativethemefooterblocktextcolour' . $alternative), '#000000');
-
-            $css = \theme_essentialbe\toolbox::set_alternativecolor($css, 'footerblockurlcolour' . $alternative,
-                \theme_essentialbe\toolbox::get_setting('alternativethemefooterblockurlcolour' . $alternative), '#000000');
-
-            $css = \theme_essentialbe\toolbox::set_alternativecolor($css, 'footerblockhovercolour' . $alternative,
-                \theme_essentialbe\toolbox::get_setting('alternativethemefooterblockhovercolour' . $alternative), '#555555');
-
-            $css = \theme_essentialbe\toolbox::set_alternativecolor($css, 'footerheadingcolor' . $alternative,
-                \theme_essentialbe\toolbox::get_setting('alternativethemefooterheadingcolor' . $alternative), '#cccccc');
-
-            $css = \theme_essentialbe\toolbox::set_alternativecolor($css, 'footersepcolor' . $alternative,
-                \theme_essentialbe\toolbox::get_setting('alternativethemefootersepcolor' . $alternative), '#313131');
-
-            $css = \theme_essentialbe\toolbox::set_alternativecolor($css, 'footerurlcolor' . $alternative,
-                \theme_essentialbe\toolbox::get_setting('alternativethemefooterurlcolor' . $alternative), '#cccccc');
-
-            $css = \theme_essentialbe\toolbox::set_alternativecolor($css, 'footerhovercolor' . $alternative,
-                \theme_essentialbe\toolbox::get_setting('alternativethemefooterhovercolor' . $alternative), '#bbbbbb');
-
-            $css = \theme_essentialbe\toolbox::set_alternativecolor($css, 'slidecaptiontextcolor' . $alternative,
-                \theme_essentialbe\toolbox::get_setting('alternativethemeslidecaptiontextcolor' . $alternative), $default);
-
-            $css = \theme_essentialbe\toolbox::set_alternativecolor($css, 'slidecaptionbackgroundcolor' . $alternative,
-                \theme_essentialbe\toolbox::get_setting('alternativethemeslidecaptionbackgroundcolor' . $alternative), $default);
-
-            $css = \theme_essentialbe\toolbox::set_alternativecolor($css, 'slidebuttoncolor' . $alternative,
-                \theme_essentialbe\toolbox::get_setting('alternativethemeslidebuttoncolor' . $alternative), $default);
-
-            $css = \theme_essentialbe\toolbox::set_alternativecolor($css, 'slidebuttonhovercolor' . $alternative,
-                \theme_essentialbe\toolbox::get_setting('alternativethemeslidebuttonhovercolor' . $alternative), $defaulthover);
+            $css = theme_essentialbe_set_alternativecolor($css, 'color' . $alternative,
+                    theme_essentialbe_get_setting('alternativethemehovercolor' . $alternative), $default);
+            $css = theme_essentialbe_set_alternativecolor($css, 'textcolor' . $alternative,
+                    theme_essentialbe_get_setting('alternativethemetextcolor' . $alternative), $default);
+            $css = theme_essentialbe_set_alternativecolor($css, 'urlcolor' . $alternative,
+                    theme_essentialbe_get_setting('alternativethemeurlcolor' . $alternative), $default);
+            $css = theme_essentialbe_set_alternativecolor($css, 'hovercolor' . $alternative,
+                    theme_essentialbe_get_setting('alternativethemehovercolor' . $alternative), $defaulthover);
         }
     }
 
+    // Set custom CSS.
+    $customcss = theme_essentialbe_get_setting('customcss');
+    $css = theme_essentialbe_set_customcss($css, $customcss);
+
     // Set the background image for the logo.
-    $logo = \theme_essentialbe\toolbox::setting_file_url('logo', 'logo');
-    $css = \theme_essentialbe\toolbox::set_logo($css, $logo);
-
-    // Set the logo width and height.
-    $logowidth = \theme_essentialbe\toolbox::get_setting('logowidth');
-    $logoheight = \theme_essentialbe\toolbox::get_setting('logoheight');
-    $css = \theme_essentialbe\toolbox::set_logodimensions($css, $logowidth, $logoheight);
-
-    // Set the background image for the header.
-    $headerbackground = \theme_essentialbe\toolbox::setting_file_url('headerbackground', 'headerbackground');
-    $css = \theme_essentialbe\toolbox::set_headerbackground($css, $headerbackground);
+    $logo = $theme->setting_file_url('logo', 'logo');
+    $css = theme_essentialbe_set_logo($css, $logo);
 
     // Set the background image for the page.
-    $pagebackground = \theme_essentialbe\toolbox::setting_file_url('pagebackground', 'pagebackground');
-    $css = \theme_essentialbe\toolbox::set_pagebackground($css, $pagebackground);
+    $pagebackground = $theme->setting_file_url('pagebackground', 'pagebackground');
+    $css = theme_essentialbe_set_pagebackground($css, $pagebackground);
 
     // Set the background style for the page.
-    $pagebgstyle = \theme_essentialbe\toolbox::get_setting('pagebackgroundstyle');
-    $css = \theme_essentialbe\toolbox::set_pagebackgroundstyle($css, $pagebgstyle);
+    $pagebgstyle = theme_essentialbe_get_setting('pagebackgroundstyle');
+    $css = theme_essentialbe_set_pagebackgroundstyle($css, $pagebgstyle);
 
-    // Set the background image for the login page.
-    $loginbackground = \theme_essentialbe\toolbox::setting_file_url('loginbackground', 'loginbackground');
-    $css = \theme_essentialbe\toolbox::set_loginbackground($css, $loginbackground);
+    // Set Marketing Image Height.
+    $marketingheight = theme_essentialbe_get_setting('marketingheight');
+    $css = theme_essentialbe_set_marketingheight($css, $marketingheight);
 
-    // Set the background style for the login page.
-    $loginbgstyle = \theme_essentialbe\toolbox::get_setting('loginbackgroundstyle');
-    $loginbgopacity = \theme_essentialbe\toolbox::get_setting('loginbackgroundopacity');
-    $css = \theme_essentialbe\toolbox::set_loginbackgroundstyle($css, $loginbgstyle, $loginbgopacity);
-
-    // Set marketing height.
-    $marketingheight = \theme_essentialbe\toolbox::get_setting('marketingheight');
-    $marketingimageheight = \theme_essentialbe\toolbox::get_setting('marketingimageheight');
-    $css = \theme_essentialbe\toolbox::set_marketingheight($css, $marketingheight, $marketingimageheight);
-
-    // Set marketing images.
+    // Set Marketing Images.
     $setting = 'marketing1image';
-    $marketingimage = \theme_essentialbe\toolbox::setting_file_url($setting, $setting);
-    $css = \theme_essentialbe\toolbox::set_marketingimage($css, $marketingimage, $setting);
+    $marketingimage = $theme->setting_file_url($setting, $setting);
+    $css = theme_essentialbe_set_marketingimage($css, $marketingimage, $setting);
 
     $setting = 'marketing2image';
-    $marketingimage = \theme_essentialbe\toolbox::setting_file_url($setting, $setting);
-    $css = \theme_essentialbe\toolbox::set_marketingimage($css, $marketingimage, $setting);
+    $marketingimage = $theme->setting_file_url($setting, $setting);
+    $css = theme_essentialbe_set_marketingimage($css, $marketingimage, $setting);
 
     $setting = 'marketing3image';
-    $marketingimage = \theme_essentialbe\toolbox::setting_file_url($setting, $setting);
-    $css = \theme_essentialbe\toolbox::set_marketingimage($css, $marketingimage, $setting);
+    $marketingimage = $theme->setting_file_url($setting, $setting);
+    $css = theme_essentialbe_set_marketingimage($css, $marketingimage, $setting);
 
-    // Category course title images.
-    $css = \theme_essentialbe\toolbox::set_categorycoursetitleimages($css);
+    $setting = 'marketing4image';
+    $marketingimage = $theme->setting_file_url($setting, $setting);
+    $css = theme_essentialbe_set_marketingimage($css, $marketingimage, $setting);
 
-    // Set custom CSS.
-    $customcss = \theme_essentialbe\toolbox::get_setting('customcss');
-    $css = \theme_essentialbe\toolbox::set_customcss($css, $customcss);
+    $setting = 'marketing5image';
+    $marketingimage = $theme->setting_file_url($setting, $setting);
+    $css = theme_essentialbe_set_marketingimage($css, $marketingimage, $setting);
 
-    // Finally return processed CSS.
+    $setting = 'marketing6image';
+    $marketingimage = $theme->setting_file_url($setting, $setting);
+    $css = theme_essentialbe_set_marketingimage($css, $marketingimage, $setting);
+
+    // Set FontAwesome font loading path
+    $css = theme_essentialbe_set_fontwww($css);
+
+    // Finally return processed CSS
     return $css;
+}
+
+/**
+ * Adds the JavaScript for the colour switcher to the page.
+ *
+ * The colour switcher is a YUI moodle module that is located in
+ *     theme/udemspl/yui/udemspl/udemspl.js
+ *
+ * @param moodle_page $page
+ */
+function theme_essentialbe_initialise_colourswitcher(moodle_page $page) {
+    user_preference_allow_ajax_update('theme_essentialbe_colours', PARAM_ALPHANUM);
+    $page->requires->yui_module(
+            'moodle-theme_essentialbe-coloursswitcher', 'M.theme_essentialbe.initColoursSwitcher',
+            array(array('div' => '.dropdown-menu'))
+    );
+}
+
+/**
+ * Gets the theme colours the user has selected if enabled or the default if they have never changed
+ *
+ * @param string $default The default theme colors to use
+ * @return string The theme colours the user has selected
+ */
+function theme_essentialbe_get_colours($default = 'default') {
+    $preference = get_user_preferences('theme_essentialbe_colours', $default);
+    foreach (range(1, 3) as $alternativethemenumber) {
+        if ($preference == 'alternative' . $alternativethemenumber && theme_essentialbe_get_setting('enablealternativethemecolors' . $alternativethemenumber)) {
+            return $preference;
+        }
+    }
+    return $default;
+}
+
+/**
+ * Checks if the user is switching colours with a refresh
+ *
+ * If they are this updates the users preference in the database
+ */
+function theme_essentialbe_check_colours_switch() {
+    $colours = optional_param('essentialbecolours', null, PARAM_ALPHANUM);
+    if (in_array($colours, array('default', 'alternative1', 'alternative2', 'alternative3'))) {
+        set_user_preference('theme_essentialbe_colours', $colours);
+    }
+}
+
+function theme_essentialbe_set_headingfont($css, $headingfont) {
+    $tag = '[[setting:headingfont]]';
+    $replacement = $headingfont;
+    $css = str_replace($tag, $replacement, $css);
+    return $css;
+}
+
+function theme_essentialbe_set_bodyfont($css, $bodyfont) {
+    $tag = '[[setting:bodyfont]]';
+    $replacement = $bodyfont;
+    $css = str_replace($tag, $replacement, $css);
+    return $css;
+}
+
+function theme_essentialbe_set_fontfiles($css, $type, $fontname, $theme) {
+    $tag = '[[setting:fontfiles' . $type . ']]';
+    $replacement = '';
+    if (theme_essentialbe_get_setting('fontselect') === '3') {
+        $fontfiles = array();
+        $fontfileeot = $theme->setting_file_url('fontfileeot' . $type, 'fontfileeot' . $type);
+        if (!empty($fontfileeot)) {
+            $fontfiles[] = "url('" . $fontfileeot . "?#iefix') format('embedded-opentype')";
+        }
+        $fontfilewoff = $theme->setting_file_url('fontfilewoff' . $type, 'fontfilewoff' . $type);
+        if (!empty($fontfilewoff)) {
+            $fontfiles[] = "url('" . $fontfilewoff . "') format('woff')";
+        }
+        $fontfilewofftwo = $theme->setting_file_url('fontfilewofftwo' . $type, 'fontfilewofftwo' . $type);
+        if (!empty($fontfilewofftwo)) {
+            $fontfiles[] = "url('" . $fontfilewofftwo . "') format('woff2')";
+        }
+        $fontfileotf = $theme->setting_file_url('fontfileotf' . $type, 'fontfileotf' . $type);
+        if (!empty($fontfileotf)) {
+            $fontfiles[] = "url('" . $fontfileotf . "') format('opentype')";
+        }
+        $fontfilettf = $theme->setting_file_url('fontfilettf' . $type, 'fontfilettf' . $type);
+        if (!empty($fontfilettf)) {
+            $fontfiles[] = "url('" . $fontfilettf . "') format('truetype')";
+        }
+        $fontfilesvg = $theme->setting_file_url('fontfilesvg' . $type, 'fontfilesvg' . $type);
+        if (!empty($fontfilesvg)) {
+            $fontfiles[] = "url('" . $fontfilesvg . "') format('svg')";
+        }
+
+        $replacement = '@font-face {' . PHP_EOL . 'font-family: "' . $fontname . '";' . PHP_EOL;
+        $replacement .=!empty($fontfileeot) ? "src: url('" . $fontfileeot . "');" . PHP_EOL : '';
+        if (!empty($fontfiles)) {
+            $replacement .= "src: ";
+            $replacement .= implode("," . PHP_EOL . " ", $fontfiles);
+            $replacement .= ";";
+        }
+        $replacement .= '' . PHP_EOL . "}";
+    }
+
+    $css = str_replace($tag, $replacement, $css);
+    return $css;
+}
+
+function theme_essentialbe_set_color($css, $themecolor, $tag, $default) {
+    if (!($themecolor)) {
+        $replacement = $default;
+    } else {
+        $replacement = $themecolor;
+    }
+    $css = str_replace($tag, $replacement, $css);
+    return $css;
+}
+
+function theme_essentialbe_set_alternativecolor($css, $type, $customcolor, $defaultcolor) {
+    $tag = '[[setting:alternativetheme' . $type . ']]';
+    if (!($customcolor)) {
+        $replacement = $defaultcolor;
+    } else {
+        $replacement = $customcolor;
+    }
+    $css = str_replace($tag, $replacement, $css);
+    return $css;
+}
+
+function theme_essentialbe_set_pagebackground($css, $pagebackground) {
+    $tag = '[[setting:pagebackground]]';
+    if (!($pagebackground)) {
+        $replacement = 'none';
+    } else {
+        $replacement = 'url(\'' . $pagebackground . '\')';
+    }
+    $css = str_replace($tag, $replacement, $css);
+    return $css;
+}
+
+function theme_essentialbe_set_pagebackgroundstyle($css, $style) {
+    $tagattach = '[[setting:backgroundattach]]';
+    $tagrepeat = '[[setting:backgroundrepeat]]';
+    $tagsize = '[[setting:backgroundsize]]';
+    $replacementattach = 'fixed';
+    $replacementrepeat = 'no-repeat';
+    $replacementsize = 'cover';
+    if ($style === 'tiled') {
+        $replacementrepeat = 'repeat';
+        $replacementsize = 'initial';
+    } else if ($style === 'stretch') {
+        $replacementattach = 'scroll';
+    }
+
+    $css = str_replace($tagattach, $replacementattach, $css);
+    $css = str_replace($tagrepeat, $replacementrepeat, $css);
+    $css = str_replace($tagsize, $replacementsize, $css);
+    return $css;
+}
+
+function theme_essentialbe_set_marketingheight($css, $marketingheight) {
+    $tag = '[[setting:marketingheight]]';
+    $replacement = $marketingheight;
+    if (!($replacement)) {
+        $replacement = 100;
+    }
+    $css = str_replace($tag, $replacement . 'px', $css);
+    return $css;
+}
+
+function theme_essentialbe_set_marketingimage($css, $marketingimage, $setting) {
+    $tag = '[[setting:' . $setting . ']]';
+    if (!($marketingimage)) {
+        $replacement = 'none';
+    } else {
+        $replacement = 'url(\'' . $marketingimage . '\')';
+    }
+    $css = str_replace($tag, $replacement, $css);
+    return $css;
+}
+
+function theme_essentialbe_showslider($setting) {
+    global $CFG;
+    $noslides = theme_essentialbe_get_setting($setting);
+    if ($noslides && (intval($CFG->version) >= 2013111800)) {
+        $devicetype = core_useragent::get_device_type(); // In moodlelib.php.
+        if (($devicetype == "mobile") && theme_essentialbe_get_setting('hideonphone')) {
+            $noslides = false;
+        } else if (($devicetype == "tablet") && theme_essentialbe_get_setting('hideontablet')) {
+            $noslides = false;
+        }
+    }
+    return $noslides;
+}
+
+function theme_essentialbe_get_nav_links($course, $sections, $sectionno) {
+    // FIXME: This is really evil and should by using the navigation API.
+    $course = course_get_format($course)->get_course();
+    $left = 'left';
+    $right = 'right';
+    if (right_to_left()) {
+        $temp = $left;
+        $left = $right;
+        $right = $temp;
+    }
+    $previousarrow = '<i class="fa fa-chevron-circle-' . $left . '"></i>';
+    $nextarrow = '<i class="fa fa-chevron-circle-' . $right . '"></i>';
+    $canviewhidden = has_capability('moodle/course:viewhiddensections', context_course::instance($course->id))
+            or ! $course->hiddensections;
+
+    $links = array('previous' => '', 'next' => '');
+    $back = $sectionno - 1;
+    while ($back > 0 and empty($links['previous'])) {
+        if ($canviewhidden || $sections[$back]->uservisible) {
+            $params = array('id' => 'previous_section');
+            if (!$sections[$back]->visible) {
+                $params = array('class' => 'dimmed_text');
+            }
+            $previouslink = html_writer::start_tag('div', array('class' => 'nav_icon'));
+            $previouslink .= $previousarrow;
+            $previouslink .= html_writer::end_tag('div');
+            $previouslink .= html_writer::start_tag('span', array('class' => 'text'));
+            $previouslink .= html_writer::start_tag('span', array('class' => 'nav_guide'));
+            $previouslink .= get_string('previoussection', 'theme_essentialbe');
+            $previouslink .= html_writer::end_tag('span');
+            $previouslink .= html_writer::empty_tag('br');
+            $previouslink .= get_section_name($course, $sections[$back]);
+            $previouslink .= html_writer::end_tag('span');
+            $links['previous'] = html_writer::link(course_get_url($course, $back), $previouslink, $params);
+        }
+        $back--;
+    }
+
+    $forward = $sectionno + 1;
+    while ($forward <= $course->numsections and empty($links['next'])) {
+        if ($canviewhidden || $sections[$forward]->uservisible) {
+            $params = array('id' => 'next_section');
+            if (!$sections[$forward]->visible) {
+                $params = array('class' => 'dimmed_text');
+            }
+            $nextlink = html_writer::start_tag('div', array('class' => 'nav_icon'));
+            $nextlink .= $nextarrow;
+            $nextlink .= html_writer::end_tag('div');
+            $nextlink .= html_writer::start_tag('span', array('class' => 'text'));
+            $nextlink .= html_writer::start_tag('span', array('class' => 'nav_guide'));
+            $nextlink .= get_string('nextsection', 'theme_essentialbe');
+            $nextlink .= html_writer::end_tag('span');
+            $nextlink .= html_writer::empty_tag('br');
+            $nextlink .= get_section_name($course, $sections[$forward]);
+            $nextlink .= html_writer::end_tag('span');
+            $links['next'] = html_writer::link(course_get_url($course, $forward), $nextlink, $params);
+        }
+        $forward++;
+    }
+
+    return $links;
+}
+
+function theme_essentialbe_print_single_section_page(&$that, &$courserenderer, $course, $sections, $mods, $modnames, $modnamesused,
+        $displaysection) {
+    global $PAGE;
+
+    $modinfo = get_fast_modinfo($course);
+    $course = course_get_format($course)->get_course();
+
+    // Can we view the section in question?
+    if (!($sectioninfo = $modinfo->get_section_info($displaysection))) {
+        // This section doesn't exist
+        print_error('unknowncoursesection', 'error', null, $course->fullname);
+        return false;
+    }
+
+    if (!$sectioninfo->uservisible) {
+        if (!$course->hiddensections) {
+            echo $that->start_section_list();
+            echo $that->section_hidden($displaysection);
+            echo $that->end_section_list();
+        }
+        // Can't view this section.
+        return false;
+    }
+
+    // Copy activity clipboard..
+    echo $that->course_activity_clipboard($course, $displaysection);
+    $thissection = $modinfo->get_section_info(0);
+    if ($thissection->summary or ! empty($modinfo->sections[0]) or $PAGE->user_is_editing()) {
+        echo $that->start_section_list();
+        echo $that->section_header($thissection, $course, true, $displaysection);
+        echo $courserenderer->course_section_cm_list($course, $thissection, $displaysection);
+        echo $courserenderer->course_section_add_cm_control($course, 0, $displaysection);
+        echo $that->section_footer();
+        echo $that->end_section_list();
+    }
+
+    // Start single-section div
+    echo html_writer::start_tag('div', array('class' => 'single-section'));
+
+    // The requested section page.
+    $thissection = $modinfo->get_section_info($displaysection);
+
+    // Title with section navigation links.
+    $sectionnavlinks = $that->get_nav_links($course, $modinfo->get_section_info_all(), $displaysection);
+
+    // Construct navigation links
+    $sectionnav = html_writer::start_tag('nav', array('class' => 'section-navigation'));
+    $sectionnav .= $sectionnavlinks['previous'];
+    $sectionnav .= $sectionnavlinks['next'];
+    $sectionnav .= html_writer::empty_tag('br', array('style' => 'clear:both'));
+    $sectionnav .= html_writer::end_tag('nav');
+    $sectionnav .= html_writer::tag('div', '', array('class' => 'bor'));
+
+    // Output Section Navigation
+    echo $sectionnav;
+
+    // Define the Section Title
+    $sectiontitle = '';
+    $sectiontitle .= html_writer::start_tag('div', array('class' => 'section-title'));
+    // Title attributes
+    $titleattr = 'title';
+    if (!$thissection->visible) {
+        $titleattr .= ' dimmed_text';
+    }
+    $sectiontitle .= html_writer::start_tag('h3', array('class' => $titleattr));
+    $sectiontitle .= get_section_name($course, $displaysection);
+    $sectiontitle .= html_writer::end_tag('h3');
+    $sectiontitle .= html_writer::end_tag('div');
+
+    // Output the Section Title.
+    echo $sectiontitle;
+
+    // Now the list of sections..
+    echo $that->start_section_list();
+
+    echo $that->section_header($thissection, $course, true, $displaysection);
+
+    // Show completion help icon.
+    $completioninfo = new completion_info($course);
+    echo $completioninfo->display_help_icon();
+
+    echo $courserenderer->course_section_cm_list($course, $thissection, $displaysection);
+    echo $courserenderer->course_section_add_cm_control($course, $displaysection, $displaysection);
+    echo $that->section_footer();
+    echo $that->end_section_list();
+
+    // Close single-section div.
+    echo html_writer::end_tag('div');
+}
+
+function theme_essentialbe_render_slide($i, $captionoptions) {
+    global $PAGE, $OUTPUT;
+
+    $slideurl = theme_essentialbe_get_setting('slide' . $i . 'url');
+    $slideurltarget = theme_essentialbe_get_setting('slide' . $i . 'target');
+    $slidetitle = theme_essentialbe_get_setting('slide' . $i, true);
+    $slidecaption = theme_essentialbe_get_setting('slide' . $i . 'caption', true);
+    $slideextraclass = ($i === 1) ? ' active' : '';
+    $slideimagealt = strip_tags(theme_essentialbe_get_setting('slide' . $i, true));
+    $slideimage = $OUTPUT->pix_url('default_slide', 'theme');
+
+    // Get slide image or fallback to default
+    if (theme_essentialbe_get_setting('slide' . $i . 'image')) {
+        $slideimage = $PAGE->theme->setting_file_url('slide' . $i . 'image', 'slide' . $i . 'image');
+    }
+
+    if ($captionoptions == 0) {
+        $slideextraclass .= ' side-caption';
+    }
+    if ($slideurl) {
+        $slide = '<a href="' . $slideurl . '" target="' . $slideurltarget . '" class="item' . $slideextraclass . '">';
+    } else {
+        $slide = '<div class="item' . $slideextraclass . '">';
+    }
+
+    if ($captionoptions == 0) {
+        $slide .= '<div class="container-fluid">';
+        $slide .= '<div class="row-fluid">';
+        
+        if ($slidetitle || $slidecaption) {
+            $slide .= '<div class="span5 the-side-caption">';
+            $slide .= '<div class="the-side-caption-content">';
+            $slide .= '<h4>' . $slidetitle . '</h4>';
+            $slide .= '<p>' . $slidecaption . '</p>';
+            $slide .= '</div>';
+            $slide .= '</div>';
+            $slide .= '<div class="span7">';
+        } else {
+            $slide .= '<div class="span10 offset1 nocaption">';
+        }
+        $slide .= '<div class="carousel-image-container">';
+        $slide .= '<img src="' . $slideimage . '" alt="' . $slideimagealt . '" class="carousel-image"/>';
+        $slide .= '</div>';
+        $slide .= '</div>';
+        
+        $slide .= '</div>';
+        $slide .= '</div>';
+    } else {
+        $nocaption = (!($slidetitle || $slidecaption)) ? ' nocaption' : '';
+        $slide .= '<div class="carousel-image-container'.$nocaption.'">';
+        $slide .= '<img src="' . $slideimage . '" alt="' . $slideimagealt . '" class="carousel-image"/>';
+        $slide .= '</div>';
+
+        // Output title and caption if either is present
+        if ($slidetitle || $slidecaption) {
+            $slide .= '<div class="carousel-caption">';
+            $slide .= '<div class="carousel-caption-inner">';
+            $slide .= '<h4>' . $slidetitle . '</h4>';
+            $slide .= '<p>' . $slidecaption . '</p>';
+            $slide .= '</div>';
+            $slide .= '</div>';
+        }
+    }
+    $slide .= ($slideurl) ? '</a>' : '</div>';
+
+
+    return $slide;
+}
+
+function theme_essentialbe_render_slide_controls($left) {
+    $faleft = 'left';
+    $faright = 'right';
+    if (!$left) {
+        $temp = $faleft;
+        $faleft = $faright;
+        $faright = $temp;
+    }
+    $prev = '<a class="left carousel-control" href="#essentialbeCarousel" data-slide="prev"><i class="fa fa-chevron-circle-' . $faleft . '"></i></a>';
+    $next = '<a class="right carousel-control" href="#essentialbeCarousel" data-slide="next"><i class="fa fa-chevron-circle-' . $faright . '"></i></a>';
+
+    if ($left) {
+        return $prev . $next;
+    } else {
+        return $next . $prev;
+    }
+}
+
+/**
+ * States if the browser is not IE9 or less.
+ */
+function theme_essentialbe_not_lte_ie9() {
+    $properties = core_useragent::check_ie_properties();; // In /lib/classes/useragent.php.
+    if (!is_array($properties)) {
+        return true;
+    }
+    // We have properties, it is a version of IE, so is it greater than 9?
+    return ($properties['version'] > 9.0);
+}
+
+function theme_essentialbe_page_init(moodle_page $page) {
+    global $CFG;
+    $page->requires->jquery();
+    if (intval($CFG->version) >= 2013111800) {
+        if (core_useragent::check_ie_version() && !core_useragent::check_ie_version('9.0')) {
+            $page->requires->jquery_plugin('html5shiv', 'theme_essentialbe');
+        }
+    } else if (check_browser_version('MSIE') && !check_browser_version('MSIE', '9.0')) {
+        $page->requires->jquery_plugin('html5shiv', 'theme_essentialbe');
+    }
+    $page->requires->jquery_plugin('bootstrap', 'theme_essentialbe');
+    $page->requires->jquery_plugin('breadcrumb', 'theme_essentialbe');
+    $page->requires->jquery_plugin('fitvids', 'theme_essentialbe');
 }

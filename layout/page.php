@@ -1,57 +1,72 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
-//
-// Moodle is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// Moodle is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-
 /**
- * Version details
+ * Page Theme
  *
- * @package    theme_essentialbe
- * @copyright  2014 Birmingham City University <michael.grant@groupeigs.ac.uk>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see http://opensource.org/licenses/gpl-3.0.html.
+ *
+ * @license http://opensource.org/licenses/gpl-3.0.html GNU Public License
+ * @package theme_page
+ * @reauthor Valery Fremaux
+ * @author Mark Nielsen
  */
 
+require_once $CFG->dirroot.'/course/format/page/renderers.php';
 
-require_once(\theme_essentialbe\toolbox::get_tile_file('additionaljs'));
-require_once(\theme_essentialbe\toolbox::get_tile_file('header'));
+/**
+ * Page Layout File
+ *
+ * @author Valery Fremaux
+ * @package theme_page
+ */
+
+/// SPECIAL PAGE LAYOUT INITIALISATION
+
+/**
+ * page local library
+ * @see format_page_default_width_styles
+ */
+ 
+?>
+<!-- STANDARD THEME HEADER PART 
+The following part should be removed and replaced by the header section of the actual theme
+-->
+
+<?php
+require_once(dirname(__FILE__) . '/includes/header.php'); 
 ?>
 
 <div id="page" class="container-fluid">
-    <?php require_once(\theme_essentialbe\toolbox::get_tile_file('pagetopheader')); ?>
-    <!-- Start Main Regions -->
-    <div id="page-content" class="row-fluid">
-<?php
-echo $OUTPUT->essentialbe_blocks('page-top', 'row-fluid', 'aside', 'pagetopblocksperrow');
-echo '<section id="region-main">';
-echo $OUTPUT->course_title();
-echo $OUTPUT->course_content_header();
-?>
-                <!-- EVERYTHING HERE IS DEFERRED TO format.php OF THE COURSE FORMAT -->
-                <div id="format-page-content">
-                <?php echo $OUTPUT->main_content() ?>
-                </div>
-<?php
-if (empty($PAGE->layout_options['nocoursefooter'])) {
-    echo $OUTPUT->course_content_footer();
-}
-echo '</section>';
-?>
+    <div id="page-navbar" class="clearfix row-fluid">
+        <div
+            class="breadcrumb-nav pull-<?php echo ($left) ? 'left' : 'right'; ?>"><?php echo $OUTPUT->navbar(); ?></div>
+        <nav
+            class="breadcrumb-button pull-<?php echo ($left) ? 'right' : 'left'; ?>"><?php echo $OUTPUT->page_heading_button(); ?></nav>
     </div>
-    <!-- End Main Regions -->
+    <section role="main-content">
+
+<!-- END OF HEADER -->
+
+<!-- page content -->
+    <div id="format_page_content" class="format_page_content clearfix">
+    	<!-- EVERYTHING HERE IS DEFERRED TO format.php OF THE COURSE FORMAT -->
+        <?php echo $OUTPUT->main_content() ?>
+    </div>
+
+<!-- STANDARD THEME FOOTER PART -->
+    </section>
 </div>
 
-<?php require_once(\theme_essentialbe\toolbox::get_tile_file('footer')); ?>
+<?php require_once(dirname(__FILE__) . '/includes/footer.php'); ?>
 </body>
 </html>
