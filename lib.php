@@ -110,7 +110,7 @@ function theme_essentialbe_serve_css($filename) {
 }
 
 function theme_essentialbe_page_init(moodle_page $page) {
-    $page->requires-jquery();
+    $page->requires->jquery();
 }
 
 function theme_essentialbe_send_unmodified($lastmodified, $etag) {
