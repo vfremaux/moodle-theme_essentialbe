@@ -112,7 +112,14 @@ class theme_essentialbe_core_renderer extends core_renderer {
 
         $this->page->set_state(moodle_page::STATE_DONE);
 
-        return $output . $footer;
+        $perfreport = '';
+        if (file_exists($CFG->dirroot.'/local/advancedperfs/perflib.php')) {
+            include_once($CFG->dirroot.'/local/advancedperfs/perflib.php');
+            $pm = performance_monitor::instance();
+            $perfreport = $pm->print_report();
+        }
+
+        return $output.$footer.$perfreport;
     }
 
     /**
@@ -240,37 +247,50 @@ class theme_essentialbe_core_renderer extends core_renderer {
         if (preg_match('/^([^!]*)!(.*)$/', $url, $matches)) {
             if ($matches[1] === '') {
                 // Single ! marks for loggedin only.
-                if (!isloggedin() || isguestuser()) {
+                // if (!isloggedin() || isguestuser()) {
+                if (!isloggedin()) {
                     return false;
                 } else {
                     return str_replace('&amp;', '&', preg_replace('/^!/', '', $url));
                 }
+            } elseif ($matches[1] === '@') {
+                // @ marks for non anonymous status
+                if (!isloggedin() || isguestuser()) {
+                    return false;
+                } else {
+                    return str_replace('&amp;', '&', preg_replace('/^@!/', '', $url));
+                }
+            } elseif ($matches[1] === '0@') {
+                // 0@ marks for anonymous status
+                if (!isloggedin() || isguestuser()) {
+                    return str_replace('&amp;', '&', preg_replace('/^0@!/', '', $url));
+                } else {
+                    return false;
+                }
+            } elseif ($matches[1] == '0') {
+                // Single 0! marks for logged out only
+                if (!isloggedin()) {
+                    return str_replace('&amp;', '&', preg_replace('/^0!/', '', $url));
+                } else {
+                    return false;
+                }
             } else {
-                if ($matches[1] == '0') {
-                    // Single 0! marks for logged out only
-                    if (!isloggedin() || isguestuser()) {
-                        return str_replace('&amp;', '&', preg_replace('/^0!/', '', $url));
+                $capability = $matches[1];
+                $targeturl = $matches[2];
+                if (preg_match('/(.*)\^$/', $capability, $matches)) {
+                    // Exclusive capability check : doanything wont pass 
+                    $capability = $matches[1];
+                    if (has_capability($capability, $coursecontext, $USER->id, false)) {
+                        return str_replace('&amp;', '&', $targeturl);
                     } else {
                         return false;
                     }
                 } else {
-                    $capability = $matches[1];
-                    $targeturl = $matches[2];
-                    if (preg_match('/(.*)\^$/', $capability, $matches)) {
-                        // Exclusive capability check : doanything wont pass 
-                        $capability = $matches[1];
-                        if (has_capability($capability, $coursecontext, $USER->id, false)) {
-                            return str_replace('&amp;', '&', $targeturl);
-                        } else {
-                            return false;
-                        }
+                    // Normal capability check
+                    if (has_capability($capability, $coursecontext)) {
+                        return str_replace('&amp;', '&', $targeturl);
                     } else {
-                        // Normal capability check
-                        if (has_capability($capability, $coursecontext)) {
-                            return str_replace('&amp;', '&', $targeturl);
-                        } else {
-                            return false;
-                        }
+                        return false;
                     }
                 }
             }
@@ -296,21 +316,6 @@ class theme_essentialbe_core_renderer extends core_renderer {
             $addlangmenu = false;
         }
 
-        /*
-        if ($addlangmenu) {
-            $strlang = get_string('language');
-            $currentlang = current_language();
-            if (isset($langs[$currentlang])) {
-                $currentlang = $langs[$currentlang];
-            } else {
-                $currentlang = $strlang;
-            }
-            $this->language = $langmenu->add('<i class="fa fa-flag"></i>' . $currentlang, new moodle_url('#'), $strlang, 100);
-            foreach ($langs as $langtype => $langname) {
-                $this->language->add('<i class="fa fa-language"></i>' . $langname, new moodle_url($this->page->url, array('lang' => $langtype)), $langname);
-            }
-        }
-        */
         $str = '';
         if ($addlangmenu) {
             $str = '<div id="langmenu">';
@@ -328,8 +333,6 @@ class theme_essentialbe_core_renderer extends core_renderer {
         }
 
         return $str;
-
-        // return $this->render_custom_menu($langmenu);
     }
 
     /**
@@ -863,39 +866,54 @@ class theme_essentialbe_core_renderer extends core_renderer {
      * @param integer $context
      * @return string $preferences
      */
-    private function theme_essentialbe_render_preferences($context)
-    {
+    private function theme_essentialbe_render_preferences($context) {
         global $USER, $CFG;
+
         $label = '<em><i class="fa fa-cog"></i>' . get_string('preferences') . '</em>';
         $preferences = html_writer::start_tag('li', array('class' => 'dropdown-submenu preferences'));
         $preferences .= html_writer::link(new moodle_url('#'), $label, array('class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'));
         $preferences .= html_writer::start_tag('ul', array('class' => 'dropdown-menu'));
-        // Check if user is allowed to edit profile
+
+        // Check if user is allowed to edit profile.
         if (has_capability('moodle/user:editownprofile', $context)) {
             $branchlabel = '<em><i class="fa fa-user"></i>' . get_string('editmyprofile') . '</em>';
             $branchurl = new moodle_url('/user/edit.php', array('id' => $USER->id));
             $preferences .= html_writer::tag('li', html_writer::link($branchurl, $branchlabel));
         }
+
         if (has_capability('moodle/user:changeownpassword', $context)) {
             $branchlabel = '<em><i class="fa fa-key"></i>' . get_string('changepassword') . '</em>';
             $branchurl = new moodle_url('/login/change_password.php');
             $preferences .= html_writer::tag('li', html_writer::link($branchurl, $branchlabel));
         }
+
         if (has_capability('moodle/user:editownmessageprofile', $context)) {
             $branchlabel = '<em><i class="fa fa-comments"></i>' . get_string('messagepreferences', 'theme_essentialbe') . '</em>';
             $branchurl = new moodle_url('/message/edit.php', array('id' => $USER->id));
             $preferences .= html_writer::tag('li', html_writer::link($branchurl, $branchlabel));
         }
+
         if ($CFG->enableblogs) {
             $branchlabel = '<em><i class="fa fa-rss-square"></i>' . get_string('blogpreferences', 'theme_essentialbe') . '</em>';
             $branchurl = new moodle_url('/blog/preferences.php');
             $preferences .= html_writer::tag('li', html_writer::link($branchurl, $branchlabel));
         }
+
         if ($CFG->enablebadges && has_capability('moodle/badges:manageownbadges', $context)) {
             $branchlabel = '<em><i class="fa fa-certificate"></i>' . get_string('badgepreferences', 'theme_essentialbe') . '</em>';
             $branchurl = new moodle_url('/badges/preferences.php');
             $preferences .= html_writer::tag('li', html_writer::link($branchurl, $branchlabel));
         }
+
+        if (is_dir($CFG->dirroot.'/local/userequipment')) {
+            $config = get_config('local_userequipment');
+            if ($config->enabled && local_has_capability_somewhere('local/userequipment:selfequip', false, false, true)) {
+                $branchlabel = '<em><i class="fa fa-plug"></i>' . get_string('equipme', 'local_userequipment') . '</em>';
+                $branchurl = new moodle_url('/local/userequipment/index.php');
+                $preferences .= html_writer::tag('li', html_writer::link($branchurl, $branchlabel));
+            }
+        }
+
         $preferences .= html_writer::end_tag('ul');
         $preferences .= html_writer::end_tag('li');
         return $preferences;
@@ -958,7 +976,7 @@ class theme_essentialbe_core_renderer extends core_renderer {
     public function render_pix_icon(pix_icon $icon)
     {
         if (self::replace_moodle_icon($icon->pix)) {
-            $newicon = self::replace_moodle_icon($icon->pix, @$icon->attributes['alt']) . parent::render_pix_icon($icon) . "</i>";
+            $newicon = self::replace_moodle_icon($icon->pix, $icon->attributes['alt']) . parent::render_pix_icon($icon) . "</i>";
             return $newicon;
         } else {
             return parent::render_pix_icon($icon);
@@ -972,6 +990,7 @@ class theme_essentialbe_core_renderer extends core_renderer {
             'book' => 'book',
             'chapter' => 'file',
             'docs' => 'question-circle',
+            'chooseview' => 'copy',
             'generate' => 'gift',
             'i/marker' => 'lightbulb-o',
             'i/dragdrop' => 'arrows',

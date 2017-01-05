@@ -143,6 +143,10 @@ function theme_essentialbe_get_csswww() {
     return $url;
 }
 
+function theme_essentialbe_page_init(moodle_page $page) {
+    $page->requires->jquery();
+}
+
 /**
  * Serves any files associated with the theme settings.
  *

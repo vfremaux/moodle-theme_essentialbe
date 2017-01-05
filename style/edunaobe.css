@@ -36,21 +36,30 @@
 
 /* other custommenu */
 #custom_menu .nav > li > a {
-     text-align:center;
-     font-size: 14px;
+     -moz-border-radius: 6px;
      background-color: #fff;
-     border-radius:6px;
-     -moz-border-radius:6px;
+     border: 1px solid #eee;
+     border-radius: 6px;
+     font-size: 14px;
      margin: 5px 10px 5px 10px;
+     text-align:center;
+     width: 120px;
+
 }
 
 #custom_menu_courses .nav > li > a {
-     text-align:center;
-     font-size: 14px;
+     -moz-border-radius: 6px;
      background-color: #fff;
-     border-radius:6px;
-     -moz-border-radius:6px;
+     border: 1px solid #eee;
+     border-radius: 6px;
+     font-size: 14px;
      margin: 5px 5px 5px 0px;
+     text-align: center;
+     width: 120px;
+}
+
+#custom_menu_courses .nav > li > a:hover {
+    color : initial;
 }
 
 /* subheader */
@@ -62,7 +71,7 @@
 }
 
 .admin #page-header {
-   margin-top:36px;
+   margin-top: 40px;
 }
 
 /* logo height */
@@ -152,4 +161,389 @@
     position: absolute;
     top: 0;
     width: 100%;
+}
+
+/******** mod_assign-grader ********/
+
+#page-mod-assign-grader {
+    font-size : 14px;
+    line-height : 20px;
+    position : static;
+}
+
+#page-mod-assign-grader .uneditable-input,
+#page-mod-assign-grader input,
+#page-mod-assign-grader textarea {
+    width: 206px;
+}
+
+#page-mod-assign-grader input[type=button],
+#page-mod-assign-grader input[type=checkbox],
+#page-mod-assign-grader input[type=file],
+#page-mod-assign-grader input[type=image],
+#page-mod-assign-grader input[type=radio],
+#page-mod-assign-grader input[type=reset],
+#page-mod-assign-grader input[type=submit] {
+    width: auto;
+}
+
+.path-mod-assign [data-region=grade-panel] #id_gradeheader {
+    display: table-cell;
+    min-width: 0;
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+
+#page-mod-assign-grader .small {
+    font-size : 85%;
+}
+
+#page-mod-assign-grader #page {
+    padding-top: 0;
+}
+
+#page-mod-assign-grader #page #page-content {
+    margin-top: 0;
+}
+
+#page-mod-assign-grader #page #page-content div[role=main] {
+    border-radius: 0;
+    padding-bottom: 20px;
+    border: 1px solid #e3e3e3;
+    background-color: #fff;
+    padding: 2px 10px;
+    margin-bottom: 20px;
+}
+
+#page-mod-assign-grader #maincontent {
+    display: block;
+    height: 1px;
+    overflow: hidden;
+}
+
+.path-mod-assign [data-region=grading-navigation-panel] {
+    height: 100px !important;
+    position: relative !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    margin: 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.path-mod-assign [data-region=grading-navigation] {
+    padding: 0 !important;
+}
+
+.path-mod-assign [data-region="review-panel"],
+.path-mod-assign [data-region="grade-panel"] {
+    top : 100px !important;
+}
+
+#page-mod-assign-grader .fa-filter:before,
+#page-mod-assign-grader .fa-gear:before,
+#page-mod-assign-grader .fa-cog:before {
+    content : '' !important;
+}
+
+#page-mod-assign-grader .comment-delete {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: .3em;
+}
+
+#page-mod-assign-grader .comment-list {
+    font-size: 11px;
+    overflow: auto;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#page-mod-assign-grader .comment-list li {
+    margin: 2px 2px 5px;
+    list-style: none;
+    clear: both;
+    padding: .3em;
+    position: relative;
+}
+
+#page-mod-assign-grader .form-autocomplete-selection {
+    margin: .2em;
+    min-height: 21px;
+}
+
+#page-mod-assign-grader .accesshide {
+    position: absolute;
+    left: -10000px;
+    font-weight: 400;
+    font-size: 1em;
+}
+
+#page-mod-assign-grader input[type="text"] {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border linear .2s,box-shadow linear .2s;
+    -moz-transition: border linear .2s,box-shadow linear .2s;
+    -o-transition: border linear .2s,box-shadow linear .2s;
+    transition: border linear .2s,box-shadow linear .2s;
+    
+    display: inline-block;
+    height: 20px;
+    padding: 4px 6px;
+    font-size: 14px;
+    line-height: 20px;
+    color: #555;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    vertical-align: middle;
+}
+
+.path-mod-assign [data-region=user-selector] .alignment .form-autocomplete-downarrow {
+    top: 0;
+    color: #333;
+    position: relative;
+    left: -1.5em;
+    cursor: pointer;
+}
+
+.path-mod-assign [data-region=user-selector] .form-autocomplete-suggestions {
+    text-align: left;
+    position: absolute;
+    background-color: #fff;
+    border: 2px solid #eee;
+    border-radius: 3px;
+    min-width: 206px;
+    max-height: 20em;
+    overflow: auto;
+    margin: -.2em 0 0;
+    margin-left: 48px;
+    padding: 0;
+    z-index: 1;
+}
+
+#page-mod-assign-grader .form-autocomplete-suggestions li[aria-selected=true] {
+    background-color: #e5e5e5;
+    color: #555;
+    list-style-type: none;
+    padding: .2em;
+    margin: 0;
+    cursor: pointer;
+}
+
+#page-mod-assign-grader .skiplinks {
+    display : none;
+}
+
+#page-mod-assign-grader .assignfeedback_editpdf_menu {
+    padding-left : 4px !important;
+}
+
+#page-mod-assign-grader .assignfeedback_editpdf_menu li button {
+    background-color : #FFF;
+}
+
+#page-mod-assign-grader .assignfeedback_editpdf_commentsearch {
+    padding: 0;
+    margin: 0;
+    background: 0 0;
+    border: none;
+    outline: #000 dotted 0;
+}
+
+#page-mod-assign-grader .moodle-dialogue-base .moodle-dialogue-wrap {
+    margin-top: -3px;
+    margin-left: -3px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 5px 5px 20px 0 #666;
+    -moz-box-shadow: 5px 5px 20px 0 #666;
+    box-shadow: 5px 5px 20px 0 #666;
+}
+
+#page-mod-assign-grader .moodle-dialogue-base .moodle-dialogue-wrap .moodle-dialogue-hd,
+#page-mod-assign-grader .moodle-dialogue-base .moodle-dialogue-wrap .moodle-dialogue-hd.yui3-widget-hd {
+    margin: 0;
+    padding: 5px;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    color: #333;
+    text-align: center;
+    text-shadow: 1px 1px 1px #fff;
+    -webkit-border-radius: 10px 10px 0 0;
+    -moz-border-radius: 10px 10px 0 0;
+    border-radius: 10px 10px 0 0;
+    border-bottom: 1px solid #bbb;
+    background: repeat-x #ebebeb;
+    background-image: -moz-linear-gradient(top,#fff,#ccc);
+    background-image: -webkit-gradient(linear,0 0,0 100%,from(#fff),to(#ccc));
+    background-image: -webkit-linear-gradient(top,#fff,#ccc);
+    background-image: -o-linear-gradient(top,#fff,#ccc);
+    background-image: linear-gradient(to bottom,#fff,#ccc);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffcccccc', GradientType=0);
+    filter: 0;
+}
+
+ #page-mod-assign-grader .moodle-dialogue-base .moodle-dialogue-wrap .moodle-dialogue-hd .yui3-widget-buttons {
+    padding: 5px;
+}
+
+#page-mod-assign-grader .moodle-dialogue-base .moodle-dialogue .moodle-dialogue-bd {
+    padding: 1em;
+    line-height: 2em;
+    color: #555;
+    font-size: 12px;
+}
+
+#page-mod-assign-grader pre {
+    display: block;
+    font-size: 13px;
+    line-height: 20px;
+    word-break: break-all;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    border: 1px solid rgba(0,0,0,.15);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+ 
+#page-mod-assign-grader #fitem_id_grade {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+    padding-top: 5px;
+}
+
+#page-mod-assign-grader #page-content [data-region=grade-panel] .mform:not(.unresponsive) #fitem_id_grade.fitem .fitemtitle {
+    display: inline-block;
+    width: auto;
+    border-bottom: none;
+    box-shadow: none;
+}
+
+#page-mod-assign-grader #page-content [data-region=grade-panel] .mform:not(.unresponsive) #fitem_id_grade.fitem .felement {
+    width: auto;
+    float: right;
+}
+
+#page-mod-assign-grader #fitem_id_assignfeedbackcomments_editor {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+#page-mod-assign-grader .form-item,
+#page-mod-assign-grader .mform .fitem {
+    margin-bottom: 10px;
+}
+
+#page-mod-assign-grader .mform .fitem .fitemtitle div {
+    display: inline;
+}
+
+#page-mod-assign-grader .form-item:after,
+#page-mod-assign-grader .form-item:before,
+#page-mod-assign-grader .mform .fitem:after,
+#page-mod-assign-grader .mform .fitem:before {
+    display: table;
+    content: "";
+    line-height: 0;
+}
+
+#page-mod-assign-grader .form-item:after,
+#page-mod-assign-grader .mform .fitem:after {
+    clear: both;
+}
+
+#page-mod-assign-grader .form-item:after,
+#page-mod-assign-grader .form-item:before,
+#page-mod-assign-grader .mform .fitem:after,
+#page-mod-assign-grader .mform .fitem:before {
+    display: table;
+    content: "";
+    line-height: 0;
+}
+
+#page-mod-assign-grader a,
+#page-mod-assign-grader a:focus,
+#page-mod-assign-grader a:hover {
+    text-decoration: none;
+}
+
+#page-mod-assign-grader .moodle-dialogue-base .hidden,
+#page-mod-assign-grader .moodle-dialogue-base .moodle-dialogue-hidden {
+    display: none;
+}
+
+#page-mod-assign-grader .moodle-dialogue-base .closebutton {
+    width: 25px;
+    height: 15px;
+    float: right;
+    vertical-align: middle;
+    display: inline-block;
+    cursor: pointer;
+    padding: 0;
+    background-image: url(/moodle/albarelle-dev-adrien/theme/image.php/essential/theme/1476804917/sprite);
+    background-repeat: no-repeat;
+    border-style: none;
+}
+
+#page-mod-assign-grader .navigate-page-select {
+    min-width : 106px;
+}
+
+#page-mod-assign-grader .comment-area {
+    max-width : 520px;
+}
+
+#page-mod-assign-grader .comment-area textarea {
+    width : 100%;
+}
+
+
+/************* QUIZ EDIT *************/
+
+#page-mod-quiz-edit #region-main {
+    width : 100%;
+}
+
+#page-mod-quiz-edit .moodle-actionmenu[data-enhanced].show.nowrap-items .menu>li {
+    white-space: nowrap;
+}
+
+#page-mod-quiz-edit .moodle-actionmenu[data-enhanced].show .menu .iconsmall,
+#page-mod-quiz-edit .moodle-actionmenu[data-enhanced].show .menu .smallicon {
+    margin : 4px;
+}
+
+/********** BLOCK NAVIGATION **********/
+
+.block_navigation .block_tree .fa[aria-hidden=true],
+.block_settings .block_tree .fa[aria-hidden=true] {
+    display: inline-block;
+}
+
+.block_navigation.block .block_tree .tree_item.hasicon .item-content-wrap {
+    display: inline!important;
+}
+
+.dir-ltr .block_navigation .block_tree .depth_2>p.hasicon,
+.dir-ltr .block_settings .block_tree .depth_2>p.hasicon {
+    padding-left: 21px;
+}
+
+.block_navigation .block_tree p.hasicon,
+.block_settings .block_tree p.hasicon {
+    text-indent: 0;
 }

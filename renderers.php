@@ -25,18 +25,20 @@
  */
 global $CFG;
 
-require_once('renderers/core_renderer.php');
-require_once('renderers/core_admin_renderer.php');
+$renderers = glob($CFG->dirroot.'/theme/essentialbe/renderers/*_renderer.php');
 
-require_once('renderers/format_topics_renderer.php');
-require_once('renderers/format_weeks_renderer.php');
-require_once('renderers/format_topcoll_renderer.php');
-require_once('renderers/format_grid_renderer.php');
-require_once('renderers/format_noticebd_renderer.php');
-require_once('renderers/format_columns_renderer.php');
+foreach ($renderers as $r) {
 
-if (theme_essentialbe_get_setting('enablecategoryicon')) {
-    require_once('renderers/core_course_renderer.php');
+    $basename = basename($r);
+
+    if ($basename == 'core_course_renderer.php') {
+        if (theme_essentialbe_get_setting('enablecategoryicon')) {
+            require_once($r);
+        }
+    } else {
+        // Unconditionnaly
+        require_once($r);
+    }
 }
 
 if (intval($CFG->version) >= 2013111800) {

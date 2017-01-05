@@ -447,6 +447,7 @@ td.custombox-header-thumb.seealso:after {
 #page-region-post td.custombox-header-thumb.seealso{
     background-image: url("/theme/essentialbe/pix_plugins/mod/customlabel/bluespot.png") !important; 
     background-repeat: no-repeat;
+    background-size: 50%;
     height:73px !important;
     width:35px !important;
     min-width:35px !important;
@@ -620,7 +621,7 @@ td.custombox-header-thumb.remind:after {
 #region-pre td.custombox-header-thumb.remind,
 #region-post td.custombox-header-thumb.remind,
 #page-region-post td.custombox-header-thumb.remind{
-    background-image: url("/theme/essentialbe/pix_plugins/mod/customlabel/orangespot.png") !important; 
+    background-image: url("/theme/essentialbe/pix_plugins/mod/customlabel/orangespot.png") !important;
     background-size: 50%;
     background-repeat: no-repeat;
     height:73px !important;
@@ -879,8 +880,8 @@ td.custombox-header-thumb.keypoints:after {
 #region-pre td.custombox-header-thumb.keypoints,
 #region-post td.custombox-header-thumb.keypoints,
 #page-region-post td.custombox-header-thumb.keypoints{
-    background-image: url("/theme/essentialbe/pix_plugins/mod/customlabel/orangespot.png") !important; 
-    background-size:50%
+    background-image: url("/theme/essentialbe/pix_plugins/mod/customlabel/orangespot.png") !important;
+    background-size:50%;
     background-position: 20% 0%;
     background-repeat: no-repeat;
     height:73px !important;
@@ -973,6 +974,7 @@ td.custombox-header-thumb.contactpoint:after {
     background-image: url("/theme/essentialbe/pix_plugins/mod/customlabel/darkbluespot.png") !important; 
     background-position: 20% 0%;
     background-repeat: no-repeat;
+    background-size: 50%;
     height:73px !important;
     width:35px !important;
     min-width:35px !important;
@@ -1006,6 +1008,7 @@ td.custombox-header-thumb.contactpoint.phone:after {
     background-image: url("/theme/essentialbe/pix_plugins/mod/customlabel/darkbluespot.png") !important; 
     background-position: 20% 0%;
     background-repeat: no-repeat;
+    background-size: 50%;
     height:73px !important;
     width:35px !important;
     min-width:35px !important;
@@ -1039,6 +1042,7 @@ td.custombox-header-thumb.contactpoint.mail:after {
     background-image: url("/theme/essentialbe/pix_plugins/mod/customlabel/darkbluespot.png") !important; 
     background-position: 20% 0%;
     background-repeat: no-repeat;
+    background-size: 50%;
     height:73px !important;
     width:35px !important;
     min-width:35px !important;
@@ -1072,6 +1076,7 @@ td.custombox-header-thumb.contactpoint.onlinevocal:after {
     background-image: url("/theme/essentialbe/pix_plugins/mod/customlabel/darkbluespot.png") !important; 
     background-position: 20% 0%;
     background-repeat: no-repeat;
+    background-size: 50%;
     height:73px !important;
     width:35px !important;
     min-width:35px !important;
@@ -1105,6 +1110,7 @@ td.custombox-header-thumb.contactpoint.facetoface:after {
     background-image: url("/theme/essentialbe/pix_plugins/mod/customlabel/darkbluespot.png") !important; 
     background-position: 20% 0%;
     background-repeat: no-repeat;
+    background-size: 50%;
     height:73px !important;
     width:35px !important;
     min-width:35px !important;
@@ -1138,6 +1144,7 @@ td.custombox-header-thumb.contactpoint.meeting:after {
     background-image: url("/theme/essentialbe/pix_plugins/mod/customlabel/darkbluespot.png") !important; 
     background-position: 20% 0%;
     background-repeat: no-repeat;
+    background-size: 50%;
     height:73px !important;
     width:35px !important;
     min-width:35px !important;
@@ -1171,6 +1178,7 @@ td.custombox-header-thumb.contactpoint.chat:after {
     background-image: url("/theme/essentialbe/pix_plugins/mod/customlabel/darkbluespot.png") !important; 
     background-position: 20% 0%;
     background-repeat: no-repeat;
+    background-size: 50%;
     height:73px !important;
     width:35px !important;
     min-width:35px !important;

@@ -369,3 +369,16 @@ $string['youtubedesc'] = 'Entrez l\'URL de votre chaîne YouTube. (ex. http://ww
 $string['technical'] = 'Actions techniques';
 $string['adduser'] = 'Ajouter un utilisateur';
 $string['uploadusers'] = 'Importer des utilisateurs';
+
+// Custommenu labels
+$string['allcourses'] = 'Tous les cours';
+$string['messaging'] = 'Messagerie';
+$string['calendar'] = 'Calendrier';
+$string['admin'] = 'Administration';
+$string['profile'] = 'Profil';
+$string['myprofile'] = 'Voir mon profil';
+$string['editmyprofile'] = 'Modifier mon profil';
+$string['changemypassword'] = 'Changer mon mot de passe';
+$string['mymessagingprefs'] = 'Mes préférences de messagerie';
+$string['myfiles'] = 'Mes fichiers';
+$string['library'] = 'Librarie';

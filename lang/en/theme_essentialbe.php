@@ -586,3 +586,16 @@ $string['messagepreferences'] = 'Message preferences';
 $string['adduser'] = 'Add a user account';
 $string['uploadusers'] = 'Upload users';
 $string['technical'] = 'Technical';
+
+// Custommenu labels
+$string['allcourses'] = 'All courses';
+$string['messaging'] = 'Messaging';
+$string['calendar'] = 'Calendar';
+$string['admin'] = 'Administration';
+$string['profile'] = 'Profile';
+$string['myprofile'] = 'My profile';
+$string['editmyprofile'] = 'Editer mon profil';
+$string['changemypassword'] = 'Change my password';
+$string['mymessagingprefs'] = 'My messaging preferences';
+$string['myfiles'] = 'My files';
+$string['library'] = 'Library';

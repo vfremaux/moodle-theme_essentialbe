@@ -24,6 +24,10 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+if (function_exists('punchout')) {
+    punchout('content', 'footer');
+}
+
 if (empty($PAGE->layout_options['nofooter'])) {
     ?>
     <footer role="contentinfo" id="page-footer">
@@ -99,4 +103,9 @@ if (empty($PAGE->layout_options['nofooter'])) {
             ?>
         });
     </script>
-<?php echo $OUTPUT->standard_end_of_body_html() ?>
+<?php
+echo $OUTPUT->standard_end_of_body_html();
+
+if (function_exists('punchout')) {
+    punchout('footer', '');
+}
