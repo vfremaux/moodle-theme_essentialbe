@@ -143,7 +143,7 @@ function theme_essentialbe_get_csswww() {
 }
 
 function theme_essentialbe_page_init(moodle_page $page) {
-    $page->requires-jquery();
+    $page->requires->jquery();
 }
 
 /**
