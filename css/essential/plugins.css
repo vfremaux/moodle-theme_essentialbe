@@ -1,0 +1,7 @@
+/* @group Contributed Plugins */
+/* @group Collapsed Topics */
+body.format-topcoll .course-content ul.ctopics li.section.main {
+  padding-bottom: 20px;
+}
+/* @group End Collapsed Topics */
+/* @group End Contributed Plugins */

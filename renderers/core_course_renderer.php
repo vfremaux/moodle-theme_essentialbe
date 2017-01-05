@@ -26,8 +26,7 @@
 
 require_once($CFG->dirroot . "/course/renderer.php");
 
-class theme_essentialbe_core_course_renderer extends core_course_renderer
-{
+class theme_essentialbe_core_course_renderer extends core_course_renderer {
 
     /**
      * Returns HTML to display a course category as a part of a tree

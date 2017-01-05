@@ -24,6 +24,10 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+if (function_exists('punchout')) {
+    punchout('init', 'header');
+}
+
 require_once(dirname(__FILE__).'/pagesettings.php');
 require_once(dirname(__FILE__).'/../../lib.php');
 require_once($CFG->dirroot.'/local/technicalsignals/lib.php');
@@ -34,10 +38,12 @@ echo $OUTPUT->doctype() ?>
     <title><?php echo $OUTPUT->page_title(); ?></title>
     <link rel="shortcut icon" href="<?php echo $OUTPUT->favicon(); ?>"/>
     <?php echo '<link rel="stylesheet" href="'.theme_essentialbe_get_csswww().'">'; ?>
-    <?php echo $OUTPUT->standard_head_html() ?>
+    <?php echo $OUTPUT->standard_head_html(); ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Google web fonts -->
-    <?php require_once(dirname(__FILE__) . '/fonts.php'); ?>
+    <?php
+    require_once(dirname(__FILE__) . '/fonts.php');
+    ?>
     <!-- iOS Homescreen Icons -->
     <?php require_once(dirname(__FILE__) . '/iosicons.php'); ?>
     <!-- Start Analytics -->
@@ -47,8 +53,8 @@ echo $OUTPUT->doctype() ?>
 
 <body <?php echo $OUTPUT->body_attributes($bodyclasses); ?>>
 
-<?php echo $OUTPUT->standard_top_of_body_html();
-local_print_administrator_message();
+<?php
+echo $OUTPUT->standard_top_of_body_html();
 ?>
 
 <header role="banner">
@@ -125,6 +131,7 @@ local_print_administrator_message();
     </div>
     <nav role="navigation">
         <div id='essentialbenavbar' class="navbar<?php echo ($oldnavbar) ? ' oldnavbar' : ''; ?> moodle-has-zindex">
+        <?php local_print_administrator_message(); ?>
             <div class="container-fluid navbar-inner">
                 <div class="row-fluid">
                     <div class="custommenus pull-<?php echo ($left) ? 'left' : 'right'; ?>">
@@ -164,3 +171,8 @@ local_print_administrator_message();
         </div>
     </nav>
 </header>
+<?php
+if (function_exists('punchout')) {
+    punchout('header', 'content');
+}
+?>

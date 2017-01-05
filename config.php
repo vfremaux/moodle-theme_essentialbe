@@ -36,17 +36,8 @@ $THEME->parents = array();
 
 $THEME->sheets[] = 'moodle-rtl';
 $THEME->sheets[] = 'essentialbe-pix';
-$THEME->sheets[] = 'settings';
+$THEME->sheets[] = 'edunaobe';
 $THEME->sheets[] = 'fontawesome';
-
-if ((get_config('theme_essentialbe', 'enablealternativethemecolors1')) ||
-    (get_config('theme_essentialbe', 'enablealternativethemecolors2')) ||
-    (get_config('theme_essentialbe', 'enablealternativethemecolors3'))
-) {
-    $THEME->sheets[] = 'alternative';
-}
-
-$THEME->sheets[] = 'custom';
 
 $THEME->supportscssoptimisation = false;
 
@@ -58,7 +49,8 @@ if (floatval($CFG->version) >= 2013111803.02) { // 2.6.3+ (Build: 20140522) whic
 $THEME->editor_sheets = array('editor');
 
 $THEME->sheets[] = 'customlabels';
-$THEME->sheets[] = 'edunaobe';
+$THEME->sheets[] = 'settings';
+$THEME->sheets[] = 'custom';
 
 $THEME->plugins_exclude_sheets = array('mod' => array('quiz'));
 

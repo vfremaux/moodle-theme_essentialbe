@@ -1,0 +1,15 @@
+/* @group Core */
+.moodle-actionmenu[data-enhanced].show .menu {
+  background-color: #fff;
+}
+.moodle-actionmenu[data-enhanced].show .menu a {
+  color: [[setting:themeurlcolor]];
+}
+.moodle-actionmenu[data-enhanced].show .menu a:hover {
+  color: [[setting:themenavcolor]];
+  background-color: [[setting:themecolor]];
+}
+.moodle-actionmenu[data-enhanced].show .menu a:hover .fa:before {
+  color: [[setting:themenavcolor]];
+}
+/* @end */

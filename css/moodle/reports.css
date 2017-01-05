@@ -1,0 +1,5 @@
+/* reports.less */
+#page-report-participation-index .participationselectform div label {
+  display: inline;
+  margin: 0 5px;
+}

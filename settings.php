@@ -33,8 +33,18 @@ $systemcontext = context_system::instance();
 
 defined('MOODLE_INTERNAL') || die;
 
+if (is_dir($CFG->dirroot.'/local/adminsettings')) {
+    // Integration driven code 
+    require_once($CFG->dirroot.'/local/adminsettings/lib.php');
+    list($hasconfig, $hassiteconfig, $capability) = local_adminsettings_access();
+} else {
+    // Standard Moodle code
+    $capability = 'moodle/site:config';
+    $hasconfig = $hassiteconfig = has_capability($capability, context_system::instance());
+}
+
 $canconfigure = false;
-if (is_siteadmin()) {
+if ($hassiteconfig) {
     $ADMIN->add('themes', new admin_category('theme_essentialbe', 'Essential Pro Edunao'));
     $canconfigure = true;
 } elseif (has_capability('theme/essentialbe:configure', $systemcontext))  {
@@ -288,77 +298,6 @@ if ($canconfigure) {
     $setting->set_updatedcallback('theme_reset_all_caches');
     $temp->add($setting);
 
-    // This is the descriptor for the user theme colors.
-    $name = 'theme_essentialbe/alternativethemecolorsinfo';
-    $heading = get_string('alternativethemecolors', 'theme_essentialbe');
-    $information = get_string('alternativethemecolorsdesc', 'theme_essentialbe');
-    $setting = new admin_setting_heading($name, $heading, $information);
-    $temp->add($setting);
-
-    $defaultalternativethemecolors = array('#a430d1', '#d15430', '#5dd130');
-    $defaultalternativethemehovercolors = array('#9929c4', '#c44c29', '#53c429');
-
-    foreach (range(1, 3) as $alternativethemenumber) {
-
-        // Enables the user to select an alternative colours choice.
-        $name = 'theme_essentialbe/enablealternativethemecolors' . $alternativethemenumber;
-        $title = get_string('enablealternativethemecolors', 'theme_essentialbe', $alternativethemenumber);
-        $description = get_string('enablealternativethemecolorsdesc', 'theme_essentialbe', $alternativethemenumber);
-        $default = false;
-        $setting = new admin_setting_configcheckbox($name, $title, $description, $default, true, false);
-        $setting->set_updatedcallback('theme_reset_all_caches');
-        $temp->add($setting);
-
-        // User theme colour name.
-        $name = 'theme_essentialbe/alternativethemename' . $alternativethemenumber;
-        $title = get_string('alternativethemename', 'theme_essentialbe', $alternativethemenumber);
-        $description = get_string('alternativethemenamedesc', 'theme_essentialbe', $alternativethemenumber);
-        $default = get_string('alternativecolors', 'theme_essentialbe', $alternativethemenumber);
-        $setting = new admin_setting_configtext($name, $title, $description, $default);
-        $setting->set_updatedcallback('theme_reset_all_caches');
-        $temp->add($setting);
-
-        // User theme colour setting.
-        $name = 'theme_essentialbe/alternativethemecolor' . $alternativethemenumber;
-        $title = get_string('alternativethemecolor', 'theme_essentialbe', $alternativethemenumber);
-        $description = get_string('alternativethemecolordesc', 'theme_essentialbe', $alternativethemenumber);
-        $default = $defaultalternativethemecolors[$alternativethemenumber - 1];
-        $previewconfig = null;
-        $setting = new admin_setting_configcolourpicker($name, $title, $description, $default, $previewconfig);
-        $setting->set_updatedcallback('theme_reset_all_caches');
-        $temp->add($setting);
-
-        // Alternative theme text colour setting.
-        $name = 'theme_essentialbe/alternativethemetextcolor' . $alternativethemenumber;
-        $title = get_string('alternativethemetextcolor', 'theme_essentialbe', $alternativethemenumber);
-        $description = get_string('alternativethemetextcolordesc', 'theme_essentialbe', $alternativethemenumber);
-        $default = $defaultalternativethemecolors[$alternativethemenumber - 1];
-        $previewconfig = null;
-        $setting = new admin_setting_configcolourpicker($name, $title, $description, $default, $previewconfig);
-        $setting->set_updatedcallback('theme_reset_all_caches');
-        $temp->add($setting);
-
-        // Alternative theme link colour setting.
-        $name = 'theme_essentialbe/alternativethemeurlcolor' . $alternativethemenumber;
-        $title = get_string('alternativethemehovercolor', 'theme_essentialbe', $alternativethemenumber);
-        $description = get_string('alternativethemehovercolordesc', 'theme_essentialbe', $alternativethemenumber);
-        $default = $defaultalternativethemecolors[$alternativethemenumber - 1];
-        $previewconfig = null;
-        $setting = new admin_setting_configcolourpicker($name, $title, $description, $default, $previewconfig);
-        $setting->set_updatedcallback('theme_reset_all_caches');
-        $temp->add($setting);
-
-        // User theme hover colour setting.
-        $name = 'theme_essentialbe/alternativethemehovercolor' . $alternativethemenumber;
-        $title = get_string('alternativethemehovercolor', 'theme_essentialbe', $alternativethemenumber);
-        $description = get_string('alternativethemehovercolordesc', 'theme_essentialbe', $alternativethemenumber);
-        $default = $defaultalternativethemehovercolors[$alternativethemenumber - 1];
-        $previewconfig = null;
-        $setting = new admin_setting_configcolourpicker($name, $title, $description, $default, $previewconfig);
-        $setting->set_updatedcallback('theme_reset_all_caches');
-        $temp->add($setting);
-    }
-
     $ADMIN->add('theme_essentialbe', $temp);
 
     /* Header Settings */
@@ -380,10 +319,36 @@ if ($canconfigure) {
     $setting->set_updatedcallback('theme_reset_all_caches');
     $temp->add($setting);
 
+    // Favicon file setting.
     $name = 'theme_essentialbe/favicon';
     $title = get_string('favicon', 'theme_essentialbe');
     $description = get_string('favicondesc', 'theme_essentialbe');
-    $setting = new admin_setting_configstoredfile($name, $title, $description, 'logo');
+    $setting = new admin_setting_configstoredfile($name, $title, $description, 'favicon');
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $temp->add($setting);
+
+    // Header background file setting.
+    $name = 'theme_essentialbe/headerbackgroundurl';
+    $title = get_string('headerbackgroundurl', 'theme_essentialbe');
+    $description = get_string('headerbackgroundurldesc', 'theme_essentialbe');
+    $setting = new admin_setting_configstoredfile($name, $title, $description, 'headerbackgroundurl');
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $temp->add($setting);
+
+    // header image size setting.
+    $name = 'theme_essentialbe/headerbgsize';
+    $title = get_string('headerbgsize', 'theme_essentialbe');
+    $description = get_string('headerbgsizedesc', 'theme_essentialbe');
+    $sizeopts = array('cover' => get_string('cover', 'theme_essentialbe'), 'auto' => get_string('default', 'theme_essentialbe'));
+    $setting = new admin_setting_configselect($name, $title, $description, 'headerbgsize', $sizeopts);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $temp->add($setting);
+
+    // header height setting.
+    $name = 'theme_essentialbe/headerheight';
+    $title = get_string('headerheight', 'theme_essentialbe');
+    $description = get_string('headerheightdesc', 'theme_essentialbe');
+    $setting = new admin_setting_configtext($name, $title, $description, 80, PARAM_INT);
     $setting->set_updatedcallback('theme_reset_all_caches');
     $temp->add($setting);
 

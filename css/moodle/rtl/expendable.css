@@ -1,0 +1,30 @@
+.dir-rtl table#explaincaps td,
+.dir-rtl table#defineroletable td,
+.dir-rtl table.grading-report td,
+.dir-rtl table#listdirectories td,
+.dir-rtl table.rolecaps td,
+.dir-rtl table.userenrolment td,
+.dir-rtl table#form td,
+.dir-rtl form#movecourses table td,
+.dir-rtl .forumheaderlist td,
+.dir-rtl table.flexible td,
+.dir-rtl .generaltable td,
+.dir-rtl .generaltable thead:first-child tr:first-child td,
+.dir-rtl table#explaincaps th,
+.dir-rtl table#defineroletable th,
+.dir-rtl table.grading-report th,
+.dir-rtl table#listdirectories th,
+.dir-rtl table.rolecaps th,
+.dir-rtl table.userenrolment th,
+.dir-rtl table#form th,
+.dir-rtl form#movecourses table th,
+.dir-rtl .forumheaderlist th,
+.dir-rtl table.flexible th,
+.dir-rtl .generaltable th,
+.dir-rtl .generaltable thead:first-child tr:first-child th {
+  text-align: right;
+}
+#page-admin-course-index.dir-rtl .editcourse td,
+#page-admin-course-index.dir-rtl .editcourse th {
+  text-align: right;
+}

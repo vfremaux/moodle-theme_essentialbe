@@ -1,0 +1,28 @@
+/* @group Carousel */
+#essentialbeCarousel.carousel .carousel-inner .carousel-caption {
+  background-color: [[setting:carouselcolor]];
+}
+#essentialbeCarousel.carousel .carousel-inner .carousel-caption .carousel-caption-inner {
+  max-width: [[setting:pagewidth]];
+}
+#essentialbeCarousel.carousel .carousel-inner .carousel-caption h4,
+#essentialbeCarousel.carousel .carousel-inner .carousel-caption p {
+  color: [[setting:slidecolor]];
+}
+#essentialbeCarousel.carousel .carousel-control {
+  color: [[setting:slidebuttoncolor]];
+}
+#essentialbeCarousel.carousel .carousel-control:hover,
+#essentialbeCarousel.carousel .carousel-control:focus {
+  color: [[setting:slidebuttonhovercolor]];
+}
+#essentialbeCarousel.carousel .carousel-indicators {
+  box-shadow: 0px 0px 8px [[setting:carouselcolor]];
+}
+#essentialbeCarousel.carousel .carousel-indicators li {
+  background-color: [[setting:carouselcolor]];
+}
+#essentialbeCarousel.carousel .carousel-indicators .active {
+  background-color: [[setting:carouselactivecolor]];
+}
+/* @end */

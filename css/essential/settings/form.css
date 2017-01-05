@@ -1,0 +1,43 @@
+/* @group Forms */
+select,
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+.uneditable-input,
+.form-item .form-description,
+.form-defaultinfo,
+.form-label .form-shortname {
+  color: [[setting:themetextcolor]];
+}
+#page form .form-buttons #fgroup_id_buttonar,
+#page form table#form td.submit #fgroup_id_buttonar,
+#page form .form-buttons #fgroup_id_buttonar,
+#page form .path-admin .buttons #fgroup_id_buttonar,
+#page form #fitem_id_submitbutton #fgroup_id_buttonar,
+#page form .fp-content-center form + div #fgroup_id_buttonar,
+#page form div.backup-section + form #fgroup_id_buttonar,
+#page form #fgroup_id_buttonar #fgroup_id_buttonar,
+#page form fieldset:last-of-type.hidden #fgroup_id_buttonar {
+  background-color: [[setting:themecolor]];
+}
+#page form #fitem_id_submitbutton {
+  background-color: [[setting:themecolor]];
+}
+body.path-admin-setting #page form .form-buttons,
+#page-admin-search #page form .form-buttons {
+  background-color: [[setting:themecolor]];
+  border-top: 1px solid [[setting:themeiconcolor]];
+}
+/* @end */

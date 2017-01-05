@@ -32,7 +32,7 @@ $string['pluginname'] = 'Essential Pro Edition';
 $string['choosereadme'] = '
 <div class="clearfix">
 <div class="well">
-<h2>Essential pro Edition</h2>
+<h2>Essential Pro Edition</h2>
 <p><img class="img-polaroid" src="essentialbe/pix/screenshot.jpg" /></p>
 </div>
 <div class="well">
@@ -73,21 +73,6 @@ $string['allclasses'] = 'Toutes les classes';
 $string['allcourses'] = 'Tous les cours';
 $string['allmodules'] = 'Tous les modules';
 $string['allunits'] = 'Toutes les unités';
-$string['alternativecolors'] = 'Couleurs alternatives {$a}';
-$string['alternativethemecolor'] = 'Couleur alternative de thème {$a}';
-$string['alternativethemecolordesc'] = 'Quelle devraient-être les couleurs alternatives du thème {$a} ? Si activées et choisies par l\'utilisateur, elles remplaceront les couleurs par défaut du thème.';
-$string['alternativethemecolorname'] = 'Nom de la variante du jeu de couleurs {$a}';
-$string['alternativethemecolornamedesc'] = 'Fournissez un nom reconnaissable pour ce jeu alternatif de couleurs de thème';
-$string['alternativethemecolors'] = 'Couleurs alternatives du thème';
-$string['alternativethemecolorsdesc'] = 'Défini les couleurs alternatives du thème que l\'utilisateur pourrait choisir.';
-$string['alternativethemehovercolor'] = 'Couleur alternative au survol du thème {$a}';
-$string['alternativethemehovercolordesc'] = 'Quelle devrait-être la couleur alternative au survol du thème {$a} ? Si activée et choisie par l\'utilisateur, elle remplacera la couleur au survol par défaut du thème.';
-$string['alternativethemename'] = 'Nom de la combinaison de couleurs';
-$string['alternativethemenamedesc'] = 'Donnez un nom à vos couleurs alternatives de thème';
-$string['alternativethemetextcolor'] = 'Couleur de texte alternatif {$a}';
-$string['alternativethemetextcolordesc'] = 'Définissez la couleur de votre texte alternatif {$a}';
-$string['alternativethemeurlcolor'] = 'Couleur de lien alternatif {$a}';
-$string['alternativethemeurlcolordesc'] = 'Définissez la couleur de votre lien alternatif {$a}';
 $string['alwaysdisplay'] = 'Toujours afficher';
 $string['analyticscleanurl'] = 'URLs propres';
 $string['analyticsdesc'] = 'Ici vous pouvez activer Google Analytics pour votre site Moodle. Vous aurez besoin de créer un compte gratuit sur le site Google Analytics ( <a href="http://analytics.google.com" target="_blank">http://analytics.google.com</a> )';
@@ -145,6 +130,9 @@ $string['enablecustomcategoryicondesc'] = 'Si ce réglage est activé, vous verr
 $string['extperfinfoheading'] = 'Information de performance étendue';
 $string['facebook'] = 'URL Facebook';
 $string['facebookdesc'] = 'Entrez l\'URL de votre page Facebook. (ex. http://www.facebook.com/mycollege)';
+$string['favicon'] = 'Favicon';
+$string['favicondesc'] = 'Déposez votre favicon personnalisé ici.
+                       <br>L\'image doit être de 16px x 16px high et avoir été enregistrée au format .ico. Des sites en ligne vous permettent de faire cette conversion';
 $string['few'] = 'Un peu';
 $string['fixedwidthnarrow'] = 'Largeur fixe - Rapproché';
 $string['fixedwidthnormal'] = 'Largeur fixe - Normal';
@@ -225,9 +213,6 @@ $string['loggedinas'] = 'Connecté en tant que';
 $string['loggedinfrom'] = 'Connecté depuis';
 $string['logo'] = 'Logo';
 $string['logodesc'] = 'Déposez votre logo personnalisé ici si vous voulez l\'ajouter à l\'en-tête. <br> Si vous déposez un logo, il remplacera l\'icône standard et le nom qui a été affiché par défaut.';
-$string['favicon'] = 'Favicon';
-$string['favicondesc'] = 'Déposez votre favicon personnalisé ici.
-                       <br>L\'image doit être de 16px x 16px high et avoir été enregistrée au format .ico. Des sites en ligne vous permettent de faire cette conversion';
 $string['marketing1'] = 'Annonce marketing Une - Titre';
 $string['marketing2'] = 'Annonce marketing Deux - Titre';
 $string['marketing3'] = 'Annonce marketing Trois - Titre';
@@ -294,7 +279,7 @@ $string['perf_max'] = 'Détaillé';
 $string['perf_min'] = 'Minimal';
 $string['pinterest'] = 'URL Pinterest';
 $string['pinterestdesc'] = 'Entrez l\'URL de votre page Pinterest. (ex. http://pinterest.com/mycollege)';
-$string['pluginname'] = 'Essential';
+$string['pluginname'] = 'Essential Pro';
 $string['previoussection'] = 'Section précédente';
 $string['profilebarcustomtitle'] = 'Titre du bloc personnalisé de la barre de profil';
 $string['profilebarcustomtitledesc'] = 'Titre du bloc personnalisé de la barre de profil';
@@ -384,3 +369,16 @@ $string['youtubedesc'] = 'Entrez l\'URL de votre chaîne YouTube. (ex. http://ww
 $string['technical'] = 'Actions techniques';
 $string['adduser'] = 'Ajouter un utilisateur';
 $string['uploadusers'] = 'Importer des utilisateurs';
+
+// Custommenu labels
+$string['allcourses'] = 'Tous les cours';
+$string['messaging'] = 'Messagerie';
+$string['calendar'] = 'Calendrier';
+$string['admin'] = 'Administration';
+$string['profile'] = 'Profil';
+$string['myprofile'] = 'Voir mon profil';
+$string['editmyprofile'] = 'Modifier mon profil';
+$string['changemypassword'] = 'Changer mon mot de passe';
+$string['mymessagingprefs'] = 'Mes préférences de messagerie';
+$string['myfiles'] = 'Mes fichiers';
+$string['library'] = 'Librarie';

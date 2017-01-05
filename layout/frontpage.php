@@ -164,7 +164,8 @@ if ($enable1alert || $enable2alert || $enable3alert) {
 
         <!-- End Main Regions -->
 
-        <?php if (is_siteadmin()) { ?>
+        <?php // if (is_siteadmin()) { ?>
+        <?php if (has_capability('moodle/site:config', context_system::instance())) { ?>
             <div class="hidden-blocks">
                 <div class="row-fluid">
                     <h4><?php echo get_string('visibleadminonly', 'theme_essentialbe') ?></h4>

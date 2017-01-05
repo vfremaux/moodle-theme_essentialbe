@@ -1,0 +1,198 @@
+/* @group Header */
+#page-header {
+  height: 75px;
+  margin-top: 40px;
+  border-bottom: 1px solid #DDD;
+}
+#page-header .row-fluid [class*="span"] {
+  padding-right: 5px;
+}
+#page-header .btn-icon {
+  display: none;
+  float: right;
+  padding: 7px 10px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-image: none;
+  background-color: #ededed;
+}
+#page-header .btn-icon .icon-bar {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background-color: #f5f5f5;
+}
+#page-header .btn-icon:hover {
+  background-color: #e5e5e5;
+}
+#page-header .btn-icon .icon-bar + .icon-bar {
+  margin-top: 3px;
+}
+#page-header .icon-collapse {
+  overflow: visible;
+}
+#page-header h2.main,
+#page-header #pageheading {
+  font-size: 1.4em;
+  line-height: 35px;
+  color: #777;
+  border-bottom: 1px solid #e1e1e1;
+}
+#page-header a.logo {
+  display: block;
+  float: left;
+  height: 65px;
+  margin: 5px;
+  width: 100%;
+  background-size: contain;
+  background-position: left center;
+  background-repeat: no-repeat;
+}
+#page-header h1#title {
+  white-space: nowrap;
+  font-size: 3em;
+  top: 10px;
+  position: relative;
+}
+#page-header h1#smalltitle {
+  white-space: nowrap;
+  font-size: 2em;
+  top: 10px;
+  line-height: 20px;
+  position: relative;
+}
+#page-header h2#subtitle {
+  white-space: nowrap;
+  font-size: 1em;
+  position: relative;
+  line-height: 25px;
+}
+#page-header a.textlogo {
+  text-decoration: none;
+}
+#page-header #headerlogo {
+  float: left;
+  font-size: 4.5em;
+  padding-right: 10px;
+  position: relative;
+  top: 10px;
+  margin-right: 10px;
+  color: [[setting:themeiconcolor]];
+}
+#page-header.oldnavbar,
+.pagelayout-maintenance #page-header,
+#page-admin-upgradesettings #page-header,
+.pagelayout-redirect #page-header {
+  margin-top: 0px;
+}
+.pagewidthnarrow.custommenuitems header .navbar-inner {
+  height: 80px;
+  max-height: 80px;
+}
+.pagewidthnarrow.custommenuitems #page-header {
+  margin-top: 80px;
+}
+.pagewidthnarrow.custommenuitems #page-header.oldnavbar {
+  margin-top: 0px;
+}
+/* @end */
+/* @group Social Buttons */
+#socialnetworks,
+#mobileapps {
+  height: 75px;
+  margin-right: 10px;
+}
+.socials {
+  margin: 0px;
+}
+.socials p {
+  font-weight: normal;
+  font-size: 1.1em;
+}
+button.socialicon {
+  background-color: #bbbbbb;
+  border-radius: 5px;
+  border: 0px none;
+  font-size: 1.6em;
+  padding: 5px;
+  text-align: center;
+  background-image: none;
+  min-width: 29px;
+}
+button.facebook:hover,
+button.facebook:focus {
+  background-color: #4a6ea9;
+}
+button.skype:hover,
+button.skype:focus {
+  background-color: #00adf7;
+}
+button.instagram:hover,
+button.instagram:focus {
+  background-color: #a5674a;
+}
+button.ios:hover,
+button.ios:focus {
+  background-color: #000;
+}
+button.windows:hover,
+button.ios:focus {
+  background-color: #008A00;
+}
+button.winphone:hover,
+button.ios:focus {
+  background-color: #9B4F96;
+}
+button.android:hover,
+button.android:focus {
+  background-color: #98cd32;
+}
+button.vk:hover,
+button.vk:focus {
+  background-color: #4a6ea9;
+}
+button.twitter:hover,
+button.twitter:focus {
+  background-color: #00aced;
+}
+button.googleplus:hover,
+button.googleplus:focus {
+  background-color: #f42941;
+}
+button.flickr:hover,
+button.flickr:focus {
+  background-color: #ff3096;
+}
+button.instagram:hover,
+button a.instagram:focus {
+  background-color: #b99c6b;
+}
+button.youtube:hover,
+button.youtube:focus {
+  background-color: #f42941;
+}
+button.pinterest:hover,
+button.pinterest:focus {
+  background-color: #f42941;
+}
+button.linkedin:hover,
+button.linkedin:focus {
+  background-color: #4A9CC9;
+}
+ul.socials {
+  text-align: right;
+}
+ul.socials li {
+  text-align: right;
+  display: inline-block;
+}
+#socialheading {
+  text-align: right;
+  letter-spacing: .2em;
+  padding: 0px;
+  margin: 0px;
+  margin-top: 8px;
+}
+/* @end */
+/* @end */

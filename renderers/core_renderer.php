@@ -23,16 +23,14 @@
  * @copyright   2014 Gareth J Barnard, David Bezemer
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class theme_essentialbe_core_renderer extends core_renderer
-{
+class theme_essentialbe_core_renderer extends core_renderer {
     public $language = null;
 
     /**
      * This renders the breadcrumbs
      * @return string $breadcrumbs
      */
-    public function navbar()
-    {
+    public function navbar() {
         $breadcrumbstyle = theme_essentialbe_get_setting('breadcrumbstyle');
         if ($breadcrumbstyle) {
             if ($breadcrumbstyle == '4') {
@@ -59,8 +57,7 @@ class theme_essentialbe_core_renderer extends core_renderer
      * @param string $class
      * @return string $notification
      */
-    public function notification($message, $class = 'notifyproblem')
-    {
+    public function notification($message, $class = 'notifyproblem') {
         $message = clean_text($message);
         $type = '';
 
@@ -81,9 +78,8 @@ class theme_essentialbe_core_renderer extends core_renderer
      * Outputs the page's footer
      * @return string HTML fragment
      */
-    public function footer()
-    {
-        global $CFG;
+    public function footer() {
+        global $CFG, $DEBUGCAUSE;
 
         $output = $this->container_end_all(true);
 
@@ -105,9 +101,25 @@ class theme_essentialbe_core_renderer extends core_renderer
 
         $footer = str_replace($this->unique_end_html_token, $this->page->requires->get_end_code(), $footer);
 
+        if ($CFG->debug) {
+            if (empty($DEBUGCAUSE)) {
+                if ($CFG->debugdisplay) $DEBUGCAUSE = 'Standard Debug Mode';
+            }
+            if (!empty($DEBUGCAUSE)) {
+                $footer .= '<div class="debug-signal"><center>DEBUGGING : '.@$DEBUGCAUSE.'</center></div>';
+            }
+        }
+
         $this->page->set_state(moodle_page::STATE_DONE);
 
-        return $output . $footer;
+        $perfreport = '';
+        if (file_exists($CFG->dirroot.'/local/advancedperfs/perflib.php')) {
+            include_once($CFG->dirroot.'/local/advancedperfs/perflib.php');
+            $pm = performance_monitor::instance();
+            $perfreport = $pm->print_report();
+        }
+
+        return $output.$footer.$perfreport;
     }
 
     /**
@@ -147,7 +159,8 @@ class theme_essentialbe_core_renderer extends core_renderer
      * @return string $content
      */
     protected function render_custom_menu_item(custom_menu_item $menunode, $level = 0) {
-        global $USER, $COURSE;
+        global $USER, $COURSE, $CFG;
+
         static $submenucount = 0;
 
         if ($menunode->has_children()) {
@@ -180,11 +193,13 @@ class theme_essentialbe_core_renderer extends core_renderer
             // Url context variables replacement if needed in menu
             $url = str_replace('%25COURSEID%25', $COURSE->id, $url);
             $url = str_replace('%25USERID%25', $USER->id, $url);
+            $url = str_replace('%25WWWROOT%25', $CFG->wwwroot, $url);
             $url = str_replace('%COURSEID%', $COURSE->id, $url);
             $url = str_replace('%USERID%', $USER->id, $url);
+            $url = str_replace('%WWWROOT%', $CFG->wwwroot, $url);
 
             $content .= html_writer::start_tag('a', array('href' => $url, 'class' => 'dropdown-toggle', 'data-toggle' => 'dropdown', 'title' => $menunode->get_title()));
-            $content .= $menunode->get_text();
+            $content .= format_string($menunode->get_text());
             if ($level == 1) {
                 $content .= '<i class="fa fa-caret-right"></i>';
             }
@@ -209,10 +224,12 @@ class theme_essentialbe_core_renderer extends core_renderer
             // Url context variables replacement if needed in menu
             $url = str_replace('%25COURSEID%25', $COURSE->id, $url);
             $url = str_replace('%25USERID%25', $USER->id, $url);
+            $url = str_replace('%25WWWROOT%25', $CFG->wwwroot, $url);
             $url = str_replace('%COURSEID%', $COURSE->id, $url);
             $url = str_replace('%USERID%', $USER->id, $url);
+            $url = str_replace('%WWWROOT%', $CFG->wwwroot, $url);
 
-            $content .= html_writer::link($url, $menunode->get_text(), array('title' => $menunode->get_title()));
+            $content .= html_writer::link($url, format_string($menunode->get_text()), array('title' => format_string($menunode->get_title())));
         }
         return $content;
     }
@@ -222,28 +239,56 @@ class theme_essentialbe_core_renderer extends core_renderer
     *
     */
     function post_process_url_check_access($url) {
-        global $COURSE;
+        global $COURSE, $USER;
 
         $coursecontext = context_course::instance($COURSE->id);
 
         // allow protected menu items to only logged in
         if (preg_match('/^([^!]*)!(.*)$/', $url, $matches)) {
             if ($matches[1] === '') {
-                if (!isloggedin() || isguestuser()) {
+                // Single ! marks for loggedin only.
+                // if (!isloggedin() || isguestuser()) {
+                if (!isloggedin()) {
                     return false;
                 } else {
                     return str_replace('&amp;', '&', preg_replace('/^!/', '', $url));
                 }
+            } elseif ($matches[1] === '@') {
+                // @ marks for non anonymous status
+                if (!isloggedin() || isguestuser()) {
+                    return false;
+                } else {
+                    return str_replace('&amp;', '&', preg_replace('/^@!/', '', $url));
+                }
+            } elseif ($matches[1] === '0@') {
+                // 0@ marks for anonymous status
+                if (!isloggedin() || isguestuser()) {
+                    return str_replace('&amp;', '&', preg_replace('/^0@!/', '', $url));
+                } else {
+                    return false;
+                }
+            } elseif ($matches[1] == '0') {
+                // Single 0! marks for logged out only
+                if (!isloggedin()) {
+                    return str_replace('&amp;', '&', preg_replace('/^0!/', '', $url));
+                } else {
+                    return false;
+                }
             } else {
-                if ($matches[1] == '0') {
-                    if (!isloggedin() || isguestuser()) {
-                        return str_replace('&amp;', '&', preg_replace('/^0!/', '', $url));
+                $capability = $matches[1];
+                $targeturl = $matches[2];
+                if (preg_match('/(.*)\^$/', $capability, $matches)) {
+                    // Exclusive capability check : doanything wont pass 
+                    $capability = $matches[1];
+                    if (has_capability($capability, $coursecontext, $USER->id, false)) {
+                        return str_replace('&amp;', '&', $targeturl);
                     } else {
                         return false;
                     }
                 } else {
-                    if (has_capability($matches[1], $coursecontext)) {
-                        return str_replace('&amp;', '&', $matches[2]);
+                    // Normal capability check
+                    if (has_capability($capability, $coursecontext)) {
+                        return str_replace('&amp;', '&', $targeturl);
                     } else {
                         return false;
                     }
@@ -257,9 +302,9 @@ class theme_essentialbe_core_renderer extends core_renderer
      * Outputs the language menu
      * @return custom_menu object
      */
-    public function custom_menu_language()
-    {
-        global $CFG;
+    public function custom_menu_language() {
+        global $CFG, $OUTPUT;
+
         $langmenu = new custom_menu();
 
         $addlangmenu = true;
@@ -271,20 +316,23 @@ class theme_essentialbe_core_renderer extends core_renderer
             $addlangmenu = false;
         }
 
+        $str = '';
         if ($addlangmenu) {
-            $strlang = get_string('language');
+            $str = '<div id="langmenu">';
             $currentlang = current_language();
-            if (isset($langs[$currentlang])) {
-                $currentlang = $langs[$currentlang];
-            } else {
-                $currentlang = $strlang;
-            }
-            $this->language = $langmenu->add('<i class="fa fa-flag"></i>' . $currentlang, new moodle_url('#'), $strlang, 100);
             foreach ($langs as $langtype => $langname) {
-                $this->language->add('<i class="fa fa-language"></i>' . $langname, new moodle_url($this->page->url, array('lang' => $langtype)), $langname);
+                $url = new moodle_url($this->page->url, array('lang' => $langtype));
+                if ($langtype == $currentlang) {
+                    $imgtag = html_writer::tag('img', '', array('src' => $OUTPUT->pix_url('lang/32/'.$langtype, 'theme'), 'class' => 'langbutton current'));
+                } else {
+                    $imgtag = html_writer::tag('img', '', array('src' => $OUTPUT->pix_url('lang/32/'.$langtype, 'theme'), 'class' => 'langbutton available'));
+                }
+                $str .= ' '.html_writer::tag('a', $imgtag, array('href' => $url, 'title' => $langname));
             }
+            $str .= ' </div>';
         }
-        return $this->render_custom_menu($langmenu);
+
+        return $str;
     }
 
     /**
@@ -307,7 +355,7 @@ class theme_essentialbe_core_renderer extends core_renderer
                 $branchtitle = get_string('mycourses', 'theme_essentialbe');
             }
             $branchlabel = '<i class="fa fa-briefcase"></i>' . $branchtitle;
-            $branchurl = new moodle_url('');
+            $branchurl = new moodle_url('/my/index.php');
             $branchsort = 200;
 
             $branch = $coursemenu->add($branchlabel, $branchurl, $branchtitle, $branchsort);
@@ -383,9 +431,16 @@ class theme_essentialbe_core_renderer extends core_renderer
      * Outputs the messages menu
      * @return custom_menu object
      */
-    public function custom_menu_messages()
-    {
-        global $CFG;
+    public function custom_menu_messages() {
+        global $CFG, $PAGE;
+
+        if (is_dir($CFG->dirroot.'/blocks/jmail')) {
+            if (@$CFG->preferedmailer == 'block_jmail') {
+                $jmailrenderer = $PAGE->get_renderer('block_jmail');
+                return $jmailrenderer->custom_menu_message($this);
+            }
+        }
+
         $messagemenu = new custom_menu();
 
         if (!isloggedin() || isguestuser() || empty($CFG->messaging)) {
@@ -598,8 +653,8 @@ class theme_essentialbe_core_renderer extends core_renderer
      * Outputs the messages menu
      * @return custom_menu object
      */
-    public function custom_menu_user()
-    {
+    public function custom_menu_user() {
+
         // die if executed during install
         if (during_initial_install()) {
             return false;
@@ -811,39 +866,54 @@ class theme_essentialbe_core_renderer extends core_renderer
      * @param integer $context
      * @return string $preferences
      */
-    private function theme_essentialbe_render_preferences($context)
-    {
+    private function theme_essentialbe_render_preferences($context) {
         global $USER, $CFG;
+
         $label = '<em><i class="fa fa-cog"></i>' . get_string('preferences') . '</em>';
         $preferences = html_writer::start_tag('li', array('class' => 'dropdown-submenu preferences'));
         $preferences .= html_writer::link(new moodle_url('#'), $label, array('class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'));
         $preferences .= html_writer::start_tag('ul', array('class' => 'dropdown-menu'));
-        // Check if user is allowed to edit profile
+
+        // Check if user is allowed to edit profile.
         if (has_capability('moodle/user:editownprofile', $context)) {
             $branchlabel = '<em><i class="fa fa-user"></i>' . get_string('editmyprofile') . '</em>';
             $branchurl = new moodle_url('/user/edit.php', array('id' => $USER->id));
             $preferences .= html_writer::tag('li', html_writer::link($branchurl, $branchlabel));
         }
+
         if (has_capability('moodle/user:changeownpassword', $context)) {
             $branchlabel = '<em><i class="fa fa-key"></i>' . get_string('changepassword') . '</em>';
             $branchurl = new moodle_url('/login/change_password.php');
             $preferences .= html_writer::tag('li', html_writer::link($branchurl, $branchlabel));
         }
+
         if (has_capability('moodle/user:editownmessageprofile', $context)) {
             $branchlabel = '<em><i class="fa fa-comments"></i>' . get_string('messagepreferences', 'theme_essentialbe') . '</em>';
             $branchurl = new moodle_url('/message/edit.php', array('id' => $USER->id));
             $preferences .= html_writer::tag('li', html_writer::link($branchurl, $branchlabel));
         }
+
         if ($CFG->enableblogs) {
             $branchlabel = '<em><i class="fa fa-rss-square"></i>' . get_string('blogpreferences', 'theme_essentialbe') . '</em>';
             $branchurl = new moodle_url('/blog/preferences.php');
             $preferences .= html_writer::tag('li', html_writer::link($branchurl, $branchlabel));
         }
+
         if ($CFG->enablebadges && has_capability('moodle/badges:manageownbadges', $context)) {
             $branchlabel = '<em><i class="fa fa-certificate"></i>' . get_string('badgepreferences', 'theme_essentialbe') . '</em>';
             $branchurl = new moodle_url('/badges/preferences.php');
             $preferences .= html_writer::tag('li', html_writer::link($branchurl, $branchlabel));
         }
+
+        if (is_dir($CFG->dirroot.'/local/userequipment')) {
+            $config = get_config('local_userequipment');
+            if ($config->enabled && local_has_capability_somewhere('local/userequipment:selfequip', false, false, true)) {
+                $branchlabel = '<em><i class="fa fa-plug"></i>' . get_string('equipme', 'local_userequipment') . '</em>';
+                $branchurl = new moodle_url('/local/userequipment/index.php');
+                $preferences .= html_writer::tag('li', html_writer::link($branchurl, $branchlabel));
+            }
+        }
+
         $preferences .= html_writer::end_tag('ul');
         $preferences .= html_writer::end_tag('li');
         return $preferences;
@@ -920,6 +990,7 @@ class theme_essentialbe_core_renderer extends core_renderer
             'book' => 'book',
             'chapter' => 'file',
             'docs' => 'question-circle',
+            'chooseview' => 'copy',
             'generate' => 'gift',
             'i/marker' => 'lightbulb-o',
             'i/dragdrop' => 'arrows',
@@ -1176,7 +1247,110 @@ class theme_essentialbe_core_renderer extends core_renderer
     }
 
     public function favicon() {
-        return $this->page->theme->setting_file_url('favicon', 'favicon');
+        $theme = theme_config::load('essentialbe');
+
+        if (!empty($theme->settings->favicon)) {
+            return $theme->setting_file_url('favicon', 'favicon');
+        } else {
+            return $this->pix_url('favicon', 'theme');
+        }
+    }
+
+    /**
+     * Prints a nice side block with an optional header.
+     *
+     * The content is described
+     * by a {@link core_renderer::block_contents} object.
+     *
+     * <div id="inst{$instanceid}" class="block_{$blockname} block">
+     *      <div class="header"></div>
+     *      <div class="content">
+     *          ...CONTENT...
+     *          <div class="footer">
+     *          </div>
+     *      </div>
+     *      <div class="annotation">
+     *      </div>
+     * </div>
+     *
+     * @param block_contents $bc HTML for the content
+     * @param string $region the region the block is appearing in.
+     * @return string the HTML to be output.
+     */
+    public function block(block_contents $bc, $region) {
+        global $CFG, $DB;
+        static $forcedhidden = array();
+
+        if (is_null($forcedhidden) && !empty($CFG->allowuserblockhiding)) {
+            // Do not force hidden if user cannot reopen theme !
+            $forcedhidden = explode(',', @$CFG->blocksforcedhidden);
+        }
+
+        $bc = clone($bc); // Avoid messing up the object passed in.
+        if (empty($bc->blockinstanceid) || !strip_tags($bc->title)) {
+            $bc->collapsible = block_contents::NOT_HIDEABLE;
+        }
+
+        if (!empty($bc->blockinstanceid)) {
+            $bc->attributes['data-instanceid'] = $bc->blockinstanceid;
+        }
+
+        $skiptitle = strip_tags($bc->title);
+
+        if ($bc->blockinstanceid && !empty($skiptitle)) {
+            $bc->attributes['aria-labelledby'] = 'instance-'.$bc->blockinstanceid.'-header';
+        } else if (!empty($bc->arialabel)) {
+            $bc->attributes['aria-label'] = $bc->arialabel;
+        }
+
+        if ($bc->dockable) {
+            $bc->attributes['data-dockable'] = 1;
+        }
+
+        $blockname = $DB->get_field('block_instances', 'blockname', array('id' => $bc->blockinstanceid));
+
+        if ($bc->collapsible == block_contents::HIDDEN || in_array($blockname, $forcedhidden)) {
+            $bc->add_class('hidden');
+        }
+        if (!empty($bc->controls)) {
+            $bc->add_class('block_with_controls');
+        }
+
+        if (empty($skiptitle)) {
+            $output = '';
+            $skipdest = '';
+        } else {
+            $output = html_writer::tag('a', get_string('skipa', 'access', $skiptitle), array('href' => '#sb-' . $bc->skipid, 'class' => 'skip-block'));
+            $skipdest = html_writer::tag('span', '', array('id' => 'sb-' . $bc->skipid, 'class' => 'skip-block-to'));
+        }
+
+        $output .= html_writer::start_tag('div', $bc->attributes);
+
+        $output .= $this->block_header($bc);
+        $output .= $this->block_content($bc);
+
+        $output .= html_writer::end_tag('div');
+
+        $output .= $this->block_annotation($bc);
+
+        $output .= $skipdest;
+
+        $this->init_block_hider_js($bc);
+        return $output;
+    }
+
+    function standard_end_of_body_html() {
+        global $CFG;
+
+        $str = '';
+
+        // use_stats notification plug / VF Consulting 2015-12-19
+        if (file_exists($CFG->dirroot.'/blocks/use_stats/lib.php')) {
+            include_once $CFG->dirroot.'/blocks/use_stats/lib.php';
+            $str .= block_use_stats_setup_theme_notification();
+        }
+        $str .= parent::standard_end_of_body_html();
+        return $str;
     }
 }
 

@@ -23,8 +23,10 @@
  * @copyright   2014 Gareth J Barnard, David Bezemer
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+defined('MOODLE_INTERNAL') || die();
 
-require_once(dirname(__FILE__) . '/includes/header.php'); ?>
+require_once($CFG->dirroot.'/theme/essentialbe/layout/includes/header.php');
+?>
 
 <div id="page" class="container-fluid">
     <div id="page-navbar" class="clearfix row-fluid">
