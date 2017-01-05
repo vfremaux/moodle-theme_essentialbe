@@ -15,33 +15,34 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Essential is a clean and customizable theme.
+ * This is built using the bootstrapbase template to allow for new theme's using
+ * Moodle's new Bootstrap theme engine
  *
  * @package     theme_essentialbe
- * @copyright   2016 Gareth J Barnard
- * @copyright   2014 Gareth J Barnard, David Bezemer
  * @copyright   2013 Julian Ridden
+ * @copyright   2014 Gareth J Barnard, David Bezemer
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(\theme_essentialbe\toolbox::get_tile_file('additionaljs'));
-require_once(\theme_essentialbe\toolbox::get_tile_file('header'));
-?>
+require_once(dirname(__FILE__) . '/includes/header.php'); ?>
 
 <div id="page" class="container-fluid">
-    <!-- Start Main Regions -->
-    <div id="page-content" class="row-fluid">
-        <section id="region-main" class="span12">
-            <?php
-            echo $OUTPUT->course_content_header();
-            echo $OUTPUT->main_content();
-            echo $OUTPUT->course_content_footer();
-            ?>
-        </section>
-    </div>
-    <!-- End Main Regions -->
+    <section role="main-content">
+        <!-- Start Main Regions -->
+        <div id="page-content" class="row-fluid">
+            <section id="region-main" class="span12">
+                <?php
+                echo $OUTPUT->course_content_header();
+                echo $OUTPUT->main_content();
+                echo $OUTPUT->course_content_footer();
+                ?>
+            </section>
+        </div>
+        <!-- End Main Regions -->
+    </section>
 </div>
 
-<?php require_once(\theme_essentialbe\toolbox::get_tile_file('footer')); ?>
+<?php require_once(dirname(__FILE__) . '/includes/footer.php'); ?>
+
 </body>
 </html>

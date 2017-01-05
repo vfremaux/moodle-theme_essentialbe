@@ -15,41 +15,42 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Essential is a clean and customizable theme.
+ * This is built using the bootstrapbase template to allow for new theme's using
+ * Moodle's new Bootstrap theme engine
  *
  * @package     theme_essentialbe
- * @copyright   2016 Gareth J Barnard
- * @copyright   2014 Gareth J Barnard, David Bezemer
  * @copyright   2013 Julian Ridden
+ * @copyright   2014 Gareth J Barnard, David Bezemer
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(\theme_essentialbe\toolbox::get_tile_file('pagesettings'));
-echo $OUTPUT->doctype();
-?>
+require_once(dirname(__FILE__) . '/../lib.php');
+
+echo $OUTPUT->doctype() ?>
 <html <?php echo $OUTPUT->htmlattributes(); ?>>
 
 <head>
     <title><?php echo $OUTPUT->page_title(); ?></title>
     <link rel="shortcut icon" href="<?php echo $OUTPUT->favicon(); ?>"/>
-    <?php
-    echo $OUTPUT->standard_head_html();
-    ?>
+    <?php echo '<link rel="stylesheet" href="'.theme_essentialbe_get_csswww().'">'; ?>
+    <?php echo $OUTPUT->standard_head_html() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Google web fonts -->
-    <?php require_once(\theme_essentialbe\toolbox::get_tile_file('fonts')); ?>
-    <!-- Start Analytics -->
-    <?php require_once(\theme_essentialbe\toolbox::get_tile_file('analytics')); ?>
-    <!-- End Analytics -->
 </head>
 
 <body <?php echo $OUTPUT->body_attributes(); ?>>
-<?php echo $OUTPUT->standard_top_of_body_html(); ?>
-<div id="page">
-    <div id="page-content" class="clearfix">
-        <?php echo $OUTPUT->main_content(); ?>
+
+<?php echo $OUTPUT->standard_top_of_body_html() ?>
+<section role="main-content">
+    <div id="page" class="container-fluid maintenance">
+
+        <div id="page-content" class="row-fluid text-center">
+            <section id="region-main" class="span12">
+                <?php echo $OUTPUT->main_content(); ?>
+            </section>
+        </div>
+
     </div>
-</div>
-<?php echo $OUTPUT->standard_end_of_body_html(); ?>
+</section>
+<?php echo $OUTPUT->standard_end_of_body_html() ?>
 </body>
 </html>

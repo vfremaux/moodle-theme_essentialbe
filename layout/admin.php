@@ -15,41 +15,73 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Essential is a clean and customizable theme.
+ * This is built using the bootstrapbase template to allow for new theme's using
+ * Moodle's new Bootstrap theme engine
  *
  * @package     theme_essentialbe
- * @copyright   2016 Gareth J Barnard
- * @copyright   2014 Gareth J Barnard, David Bezemer
  * @copyright   2013 Julian Ridden
+ * @copyright   2014 Gareth J Barnard, David Bezemer
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(\theme_essentialbe\toolbox::get_tile_file('additionaljs'));
-require_once(\theme_essentialbe\toolbox::get_tile_file('header'));
+require_once(dirname(__FILE__) . '/includes/header.php');
 
-$pagebottomregion = \theme_essentialbe\toolbox::has_page_bottom_region();
+$footerregion = essentialbe_has_footer_region(); // In pagesettings.php.
+
 ?>
 
 <div id="page" class="container-fluid">
-    <?php require_once(\theme_essentialbe\toolbox::get_tile_file('pagetopheader')); ?>
-    <?php echo $OUTPUT->version_alert(); ?>
-    <!-- Start Main Regions -->
-    <div id="page-content" class="row-fluid">
-        <div id="<?php echo $regionbsid ?>" class="span12">
-            <div class="row-fluid">
-                <?php require_once(\theme_essentialbe\toolbox::get_tile_file('twocolumncontent')); ?>
-            </div>
-            <?php
-            if ($pagebottomregion) {
-                echo $OUTPUT->essentialbe_blocks('side-pre', 'row-fluid', 'aside', 'pagebottomblocksperrow');
-            }
-?>
-        </div>
+    <div id="page-navbar" class="clearfix row-fluid">
+        <div
+            class="breadcrumb-nav pull-<?php echo ($left) ? 'left' : 'right'; ?>"><?php echo $OUTPUT->navbar(); ?></div>
+        <nav
+            class="breadcrumb-button pull-<?php echo ($left) ? 'right' : 'left'; ?>"><?php echo $OUTPUT->page_heading_button(); ?></nav>
     </div>
-    <!-- End Main Regions -->
+    <section role="main-content">
+        <!-- Start Main Regions -->
+        <div id="page-content" class="row-fluid">
+            <div id="<?php echo $regionbsid ?>" class="span12">
+                <div class="row-fluid">
+                    <?php if ($footerregion) { ?>
+                        <section id="region-main" class="span12">
+                    <?php } else if (($hasboringlayout && $left) || (!$left)) { ?>
+                        <section id="region-main" class="span9 pull-right">
+                    <?php } else { ?>
+                        <section id="region-main" class="span9 desktop-first-column">
+                    <?php }
+                            if ($COURSE->id > 1) {
+                                echo $OUTPUT->heading(format_string($COURSE->fullname), 1, 'coursetitle');
+                                echo '<div class="bor"></div>';
+                            }
+                            echo $OUTPUT->course_content_header();
+                            echo $OUTPUT->main_content();
+                            if (empty($PAGE->layout_options['nocoursefooter'])) {
+                                echo $OUTPUT->course_content_footer();
+                            }
+                            ?>
+                        </section>
+                    <?php 
+                    if (!$footerregion) {
+                        if (($hasboringlayout && $left) || (!$left)) {
+                            echo $OUTPUT->blocks('side-pre', 'span3 desktop-first-column');
+                        } else {
+                            echo $OUTPUT->blocks('side-pre', 'span3 pull-right');
+                        }
+                    }
+                    ?>
+                </div>
+                <?php 
+                if ($footerregion) {
+                    echo $OUTPUT->essentialbe_blocks('side-pre', 'row-fluid', 'aside', 4);
+                }
+                ?>
+            </div>
+        </div>
+        <!-- End Main Regions -->
+    </section>
 </div>
 
-<?php require_once(\theme_essentialbe\toolbox::get_tile_file('footer')); ?>
+<?php require_once(dirname(__FILE__) . '/includes/footer.php'); ?>
 
 </body>
 </html>

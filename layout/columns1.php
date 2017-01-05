@@ -15,36 +15,44 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Essential is a clean and customizable theme.
+ * This is built using the bootstrapbase template to allow for new theme's using
+ * Moodle's new Bootstrap theme engine
  *
  * @package     theme_essentialbe
- * @copyright   2016 Gareth J Barnard
- * @copyright   2014 Gareth J Barnard, David Bezemer
  * @copyright   2013 Julian Ridden
+ * @copyright   2014 Gareth J Barnard, David Bezemer
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(\theme_essentialbe\toolbox::get_tile_file('additionaljs'));
-require_once(\theme_essentialbe\toolbox::get_tile_file('header'));
-?>
+require_once(dirname(__FILE__) . '/includes/header.php'); ?>
 
 <div id="page" class="container-fluid">
-    <?php require_once(\theme_essentialbe\toolbox::get_tile_file('pagetopheader')); ?>
-    <!-- Start Main Regions -->
-    <div id="page-content" class="row-fluid">
-        <section id="region-main" class="span12">
-            <?php echo $OUTPUT->course_title(); ?>
-            <?php echo $OUTPUT->course_content_header(); ?>
-            <?php echo $OUTPUT->main_content(); ?>
-            <?php if (empty($PAGE->layout_options['nocoursefooter'])) {
-                echo $OUTPUT->course_content_footer();
-}
-            ?>
-        </section>
+    <div id="page-navbar" class="clearfix row-fluid">
+        <div
+            class="breadcrumb-nav pull-<?php echo ($left) ? 'left' : 'right'; ?>"><?php echo $OUTPUT->navbar(); ?></div>
+        <nav
+            class="breadcrumb-button pull-<?php echo ($left) ? 'right' : 'left'; ?>"><?php echo $OUTPUT->page_heading_button(); ?></nav>
     </div>
-    <!-- End Main Regions -->
+    <section role="main-content">
+        <!-- Start Main Regions -->
+        <div id="page-content" class="row-fluid">
+            <section id="region-main" class="span12">
+                <?php if ($COURSE->id > 1) {
+                    echo $OUTPUT->heading(format_string($COURSE->fullname), 1, 'coursetitle');
+                    echo '<div class="bor"></div>';
+                } ?>
+                <?php echo $OUTPUT->course_content_header(); ?>
+                <?php echo $OUTPUT->main_content(); ?>
+                <?php if (empty($PAGE->layout_options['nocoursefooter'])) {
+                    echo $OUTPUT->course_content_footer();
+                }?>
+            </section>
+        </div>
+        <!-- End Main Regions -->
+
+    </section>
 </div>
 
-<?php require_once(\theme_essentialbe\toolbox::get_tile_file('footer')); ?>
+<?php require_once(dirname(__FILE__) . '/includes/footer.php'); ?>
 </body>
 </html>

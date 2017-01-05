@@ -15,27 +15,23 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Essential is a clean and customizable theme.
+ * This is built using the bootstrapbase template to allow for new theme's using
+ * Moodle's new Bootstrap theme engine
  *
  * @package     theme_essentialbe
- * @copyright   2016 Gareth J Barnard
- * @copyright   2015 Gareth J Barnard
- * @copyright   2014 Gareth J Barnard, David Bezemer
  * @copyright   2013 Julian Ridden
- * @copyright   2016 changed for Edunao
+ * @copyright   2014 Gareth J Barnard, David Bezemer
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die;
 
-$plugin->version = 2016061716; // YYYYMMDDVV.
-$plugin->maturity = MATURITY_STABLE; // This version's maturity level.
-$plugin->release = '3.1.1.4 (Build: 2016061713)';
-$plugin->requires  = 2016052300.00; // 3.1 (Build: 20160523).
+$plugin->version = 2015033000; // YYYYMMDDVV.
+$plugin->maturity = MATURITY_STABLE; // this version's maturity level.
+$plugin->release = '2.9 (Build: 2014111002)';
+$plugin->requires = 2015050500;
 $plugin->component = 'theme_essentialbe';
-$plugin->dependencies = array(
-    'theme_bootstrapbase'  => 2016052300
-);
+$plugin->dependencies = array();
 
 // Non moodle attributes.
-$plugin->codeincrement = '3.1.0001';
+$plugin->codeincrement = '2.9.0000';
