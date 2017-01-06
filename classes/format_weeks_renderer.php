@@ -28,5 +28,5 @@
 require_once($CFG->dirroot . "/course/format/weeks/renderer.php");
 
 class theme_essential_format_weeks_renderer extends format_weeks_renderer {
-    use \theme_essential\format_renderer_toolbox;
+    use \theme_essentialbe\format_renderer_toolbox;
 }
