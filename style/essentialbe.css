@@ -4869,8 +4869,10 @@ ul.socials li{text-align:right;display:inline-block}
 .message .contactselector .singleselect{width:100%}
 #page-header{margin-top:40px}
 #page-header.oldnavbar{margin-top:0;margin-bottom:40px}
+/*
 #essentialbenavbar{position:fixed;top:0;left:0;width:100%;z-index:200}
 #essentialbenavbar .navbar{position:fixed}
+*/
 @media (min-width:980px){.pagewidthnarrow #page-header{margin-top:80px}
 .pagewidthnarrow #page-header.oldnavbar{margin-top:0;margin-bottom:80px}
 }

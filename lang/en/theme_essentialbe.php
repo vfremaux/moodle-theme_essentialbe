@@ -32,7 +32,7 @@ $string['choosereadme'] = '
 <div class="clearfix">
 <div class="well">
 <h2>Essential Business Edition</h2>
-<p><img class="img-polaroid" src="essential/pix/screenshot.jpg" alt="Essential screen shot"/></p>
+<p><img class="img-polaroid" src="essentialbe/pix/screenshot.jpg" alt="Essential screen shot"/></p>
 </div>
 <div class="well">
 <h3>About Essential Business Edition</h3>
