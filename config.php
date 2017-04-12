@@ -191,7 +191,7 @@ $THEME->layouts = array(
     'format_page' => array(
         'file' => 'page.php',
         'regions' => array('side-pre', 'main', 'side-post'),
-        'defaultregion' => 'side-post', // avoid putting in main, or standard course will fail showing the new block menu 
+        'defaultregion' => 'side-post', // Avoid putting in main, or standard course will fail showing the new block menu.
         'options' => array('langmenu' => true)
     ),
 
@@ -205,3 +205,9 @@ $THEME->layouts = array(
 
 $THEME->rendererfactory = 'theme_overridden_renderer_factory';
 $THEME->csspostprocess = 'theme_essentialbe_process_css';
+
+// Tabbed quickform addition for generalizing the Jquery.
+global $PAGE;
+if (!$PAGE->state) {
+    $PAGE->requires->jquery();
+}
