@@ -27,6 +27,8 @@
 
 namespace theme_essentialbe\output;
 
+require_once($CFG->dirroot.'/theme/essentialbe/Mobile_Detect.php');
+
 use block_contents;
 use block_move_target;
 use coding_exception;
@@ -191,7 +193,14 @@ class core_renderer extends \core_renderer {
         $info = '<!-- Essential theme version: '.$this->page->theme->settings->version.
             ', developed, enhanced and maintained by Gareth J Barnard: about.me/gjbarnard -->';
 
-        return $output . $footer . $info;
+        $perfreport = '';
+        if (file_exists($CFG->dirroot.'/local/advancedperfs/perflib.php')) {
+            include_once($CFG->dirroot.'/local/advancedperfs/perflib.php');
+            $pm = \performance_monitor::instance();
+            $perfreport = $pm->print_report();
+        }
+
+        return $output . $footer . $info . $perfreport;
     }
 
     /**
@@ -622,6 +631,25 @@ class core_renderer extends \core_renderer {
                     // Single 0! marks for logged out only
                     if (!isloggedin() || isguestuser()) {
                         return str_replace('&amp;', '&', preg_replace('/^0!/', '', $url));
+                    } else {
+                        return false;
+                    }
+                } else if ($matches[1] == 'm') {
+                    // Single m! marks for mobile only.
+                    if ($mobile->isMobile()) {
+                        $xs = true;
+                        return str_replace('&amp;', '&', preg_replace('/^m!/', '', $url));
+                    } else {
+                        return false;
+                    }
+                } else if ($matches[1] == 'xs') {
+                    // Single xs! marks for xtrasmall screens (no conditions, just css markup.
+                    $xs = true;
+                    return str_replace('&amp;', '&', preg_replace('/^xs!/', '', $url));
+                } else if ($matches[1] == '0m') {
+                    // Single m! marks for mobile only logged out.
+                    if ((!isloggedin() || isguestuser()) && $mobile->isMobile()) {
+                        return str_replace('&amp;', '&', preg_replace('/^0m!/', '', $url));
                     } else {
                         return false;
                     }
